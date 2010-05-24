@@ -1,0 +1,26 @@
+
+<ul class="artists-list">
+  <li>Show Tattoos From: </li>
+  <li><%= link_to 'All Artists', shop_tattoos_path(@shop), :class => 'do-artist-tattoos active' %></li>
+  <% for artist in @shop.artists %>
+    <li><%= link_to "#{artist.name}", artist_tattoos_path(artist), { :class => 'do-artist-tattoos', :rel => artist.id } %></li>
+  <% end %>
+</ul>    	
+
+<div class="gallery-scroller">
+  <%= render :partial => @shop.tattoos %>
+</div>
+<div class="gallery-full">
+  LOADING...
+</div>
+
+<!-- get rid of this -->
+<script type="text/javascript">
+  // initialize shop profile
+  $(document).ready(function(){
+    $('a.do-shop').click();  
+  });
+</script>
+
+
+

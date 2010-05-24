@@ -1,0 +1,31 @@
+
+<h2>New Tattoo<h2>
+
+<% form_for @tattoo, {:url => shop_tattoos_path(params[:shop_id]) , :html => { :multipart => true } } do |f| %>
+  <%= f.error_messages %>
+  
+  <p>
+  <%= f.file_field :data %>
+  </p>
+
+  <p>
+    <%= f.label :title, "title" %><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+  Artist: <%= f.select(:artist_id, @shop.artists.collect {|a| [ a.name, a.id ] } ) %>
+  </p>
+  
+  <p>
+    <%= f.label :desc %><br />
+    <%= f.text_area :desc %>
+  </p>
+  
+
+  
+  <p>
+    <%= f.submit "Save" %>
+  </p>
+  
+<% end %>

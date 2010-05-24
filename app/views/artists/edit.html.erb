@@ -1,0 +1,28 @@
+<h1>Editing artist</h1>
+
+<% for asset in @artist.assets %>
+  <%= image_tag asset.url(:thumb), :style => 'float:right; clear:right;' %>
+<% end %>
+
+<% form_for @artist, :html => { :multipart => true } do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+  <%= f.file_field :data %>
+  </p>
+  
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :bio %><br />
+    <%= f.text_area :bio %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', artist_path(@artist) %> |
+<%= link_to 'Back', artists_path() %>

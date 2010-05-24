@@ -1,0 +1,25 @@
+
+TODO:
+pitch core concept to tattoo shops.
+verify their interest.
+get sample data from tattoo shop and create beta portfolio.
+work with tattoo shop to iterate.
+
+
+Requirements:
+
+must look nice.
+Must be easy to browse around, consumer standpoint.
+  basic uploading, adding metadata and tagging.
+  basic queries to bring up different categories to BROWSE.
+  
+Upload/Managing interface
+  should be easy to mass upload.
+  add meta desciptions fast and easily.
+  quick and painless!
+  doesnt have ot be pretty, just has to work.
+  
+  
+Later: 
+  add portability. run it as jsonp, iframe, widget, etc.
+ 

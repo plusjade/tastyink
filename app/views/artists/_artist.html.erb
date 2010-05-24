@@ -1,0 +1,11 @@
+
+
+<div class="artist-each">
+  <h2><%=h artist.name %></h2>
+  <%= image_tag artist.assets.first.url(:thumb) %>
+  <p>
+    <b>Bio:</b>
+    <br/><%=h artist.bio %>
+  </p>
+  <%= link_to "View #{artist.name}'s Profile", artist, :class => 'do-artist' %>
+</div>

@@ -1,0 +1,30 @@
+
+
+<h2>Edit Tattoo<h2>
+
+<% for asset in @tattoo.assets %>
+  <%= image_tag asset.url(:thumb), :style => 'float:right; clear:right;' %>
+<% end %>
+  
+<% form_for @tattoo, :html => { :multipart => true } do |f| %>
+  <%= f.error_messages %>
+  
+  <p>
+  <%= f.file_field :data %>
+  </p>
+
+  <p>
+    <%= f.label :title, "title" %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :desc %><br />
+    <%= f.text_area :desc %>
+  </p>
+  
+    
+  <p>
+    <%= f.submit "Save" %>
+  </p>
+  
+<% end %>

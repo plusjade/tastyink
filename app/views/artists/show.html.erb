@@ -1,0 +1,35 @@
+
+
+<h2><%= @artist.name %>'s Gallery</h2>
+
+<ul class="gallery-collections">
+  <!--<li><a href="">Shop Profile</a></li> -->
+  <li><%= link_to 'Artist Profile', @artist, :class => 'do-artist' %></li>
+</ul>
+  
+<div class="gallery-scroller">
+  <%= render :partial => @artist.tattoos %>
+</div>
+<div class="gallery-full">
+  <div class="gallery-body">
+    <b>LOADING...</b>
+  </div>
+  <div class="gallery-images">
+     <b>LOADING...</b>
+  </div>
+</div>
+
+<!--
+<div class="artist-show">
+  <%= render :partial => @artist %>
+</div>
+-->
+
+<script type="text/javascript">
+  // initialize artist profile
+  $(document).ready(function(){
+    $('ul.gallery-collections a.do-artist').click();  
+  });
+</script>
+
+

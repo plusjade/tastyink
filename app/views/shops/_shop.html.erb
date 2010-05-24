@@ -1,0 +1,33 @@
+
+
+<div class="shop-each">
+  <div class="s-address" style="float:left;width:45%">
+    <%= link_to shop.name, shop %>
+    <p>
+      <%= shop.address %>
+      <br/><a href="">get directions</a>
+    </p>
+    
+    <p>
+      <b>Phone:</b>
+      <br/><%=h shop.phone %>
+    </p>
+  </div>
+  
+  <div>
+    <b>Hours:</b>
+    <br/><%= shop.hours %>
+  </div>
+  
+  
+  <p style="clear:both">
+    <%=h shop.desc %>
+  </p>
+</div>
+
+<div class="shop-map">
+  <img src="/images/map.jpg" />
+</div>
+
+<br style="clear:both"/>
+

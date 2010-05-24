@@ -1,0 +1,52 @@
+
+queries:
+shop queries:
+  get all tattoos done by [shop] in the last 7 days
+    (multi artists belong to single shop)
+  get all tattoos done by [shop] having [tag] and [tag] in last 7 days.
+
+[artist] queries:
+  get all tattoos done by [artist] in the last 7 days
+  get all tattoos done by artist having [tag], [tag], ... NOT [tag]
+  
+Categories:
+  artists/shops can specify "categories" 
+  which can have titles/desc, unique url??, and cover image
+  but are based on a specified queries using tags.  
+
+
+[shops] have many [artists]
+[artists] can belong to many [shops] but only one being "active"
+
+  [artists] have many ("create" many) [tattoos]
+    ([artists] may want to showcase his own tattoos, he'd use his [client] id
+
+    [*tattoos]
+      have many [images]
+      have many [tags]
+      belong to one [client]
+      timestamp
+      title
+      description/notes
+      [client] testimonial.
+      
+      
+do key value store for better quering using less joins
+
+Primary Data
+
+[Tattoos]
+  shop_id, artist_id, client_id, meta, date, counts
+
+[shops]
+  meta     
+      
+[artists]
+  shop_id
+      
+      
+      
+      
+      
+      
+      

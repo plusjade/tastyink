@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Online portfolio service for tattoo shops and artists</title>
+  <%= stylesheet_link_tag "global", "admin" %>
+  <%= javascript_include_tag "jquery-1.4.2.min", "addon", "jquery.json-2.1" %>   
+</head>
+<body>
+
+
+  <div id="wrapper">
+     
+  	<div id="header">
+    	<h1 style="font-weight:bold">
+        <%=h "#{@shop.name}: #{@shop.address}" if @shop %>
+    	</h1>
+    </div>
+
+
+    <div id="top-container"><%= yield :top_msg %></div>  
+        
+    <div id="content_out">
+      <div id="content">
+        <div style="text-align:right">
+          <% if @shop %>
+            <%= link_to 'Shop Home', shop_path(@shop) %>
+            | <%= link_to 'Add Artist', new_shop_artist_path(@shop) %>
+            | <%= link_to 'Add Tattoo', new_shop_tattoo_path(@shop) %>
+            | <%= link_to 'Edit Shop', edit_shop_path(@shop)  %>
+          <% end%>
+           | <a href="#" class="toggle-shop">hide</a>
+        </div>
+        
+        <%= yield %>
+      </div>
+    </div>
+   
+    <div id="footer">
+  		<p>&copy; 2010 Tastyink.com</p>
+    </div>
+    
+  </div> 
+  
+  
+<script type="text/javascript">
+
+</script>
+
+
+</body>
+</html>

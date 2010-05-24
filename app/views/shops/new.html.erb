@@ -1,0 +1,36 @@
+<h1>New shop</h1>
+
+
+<% form_for @shop, :html => { :multipart => true } do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+  <%= f.file_field :data %>
+  </p>
+  
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :address %><br />
+    <%= f.text_area :address %>
+  </p>
+  <p>
+    <%= f.label :desc %><br />
+    <%= f.text_area :desc %>
+  </p>
+  <p>
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </p>
+  <p>
+    <%= f.label :hours %><br />
+    <%= f.text_area :hours %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', shops_path %>

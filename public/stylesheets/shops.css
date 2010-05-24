@@ -1,0 +1,254 @@
+
+/*
+  singleton shops top view.
+*/ 
+.shop-show {
+  overflow:hidden;
+  margin-bottom:10px;
+}
+.shop-each {
+  float:left; width:45%;
+  padding:10px; margin-bottom:10px;
+  border:1px solid #ccc;
+  -webkit-border-radius:10px;
+}
+.shop-map {
+  float:right; width:45%; height:220px;
+  background:#eee; border:1px solid #ccc;
+  overflow:hidden;
+}
+
+
+/* main tab navigation 
+   -----------------------------
+*/
+ul.main-tabs {
+  list-style:none;
+  padding-bottom:10px;
+}
+ul.main-tabs li{ display:inline;}
+ul.main-tabs li a{
+  position:relative;
+  top:5px;
+  padding:10px 17px;
+  margin-right:5px;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -webkit-border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;
+  background:#eee;
+  border:1px solid #ddd;
+  border-bottom:0;
+  color: #666666;
+  font-size:13px;
+  text-decoration: none;
+  font-weight:bold;
+}
+ul.main-tabs li a:hover,
+ul.main-tabs li a.active{
+  padding:11px 17px;
+  background:#333;
+  border:0;
+  color:#fff; /* pink ff7676 */
+  text-decoration:none;
+  /* CSS 3 DROP SHADOW */
+  -moz-box-shadow: 1px -1px 4px #eee;
+  -webkit-box-shadow: 2px -2px 4px #eee;
+  box-shadow: 1px -1px 4px #eee;
+}
+/* main tab content divs
+*/
+.tab-content {
+  margin-bottom:10px;
+  overflow:hidden;
+  min-height:300px;
+}
+
+/* 
+  artists list 
+*/
+ul.artists-list {
+}
+ul.artists-list li {
+  display:inline;
+  margin-right:10px;
+}
+ul.artists-list li a {
+  padding:4px 8px;
+  -webkit-border-radius:5px;
+  background:#ccc;
+  text-decoration:none;
+  color:#333;
+}
+ul.artists-list li a:hover,
+ul.artists-list li a.active {
+  background:#111;
+  color:#fff;
+  
+}
+
+
+/*
+  Main image gallery view that tattoos get loaded into.
+*/
+.gallery-full {
+  overflow:hidden;
+  min-height:300px;
+}
+  .gallery-full div.gallery-contents {
+    overflow:hidden;
+  }
+    .gallery-full div.gallery-body {
+      float:left; width:30%;
+      margin-right:20px;
+    }
+  .gallery-full div.gallery-images {
+    float:left;
+  }
+  .gallery-full div.gallery-images img {
+  } 
+     
+  /* shop profile javascript injected html formatting 
+  */
+  .s-js-contents .gallery-body {
+    border:3px solid #222;
+  }  
+  .s-js-details {
+    padding:10px; background:#222;
+    color:#fff;
+  }
+  .s-js-details h2 {color:#fff }
+  .s-js-contents .gallery-images img {
+    border:2px solid #222;
+  }
+    
+  /* artist profile javascript injected html formatting 
+  */
+  .a-js-contents .gallery-body {
+    border:3px solid #99ccff;
+  }  
+  .a-js-details {
+    padding:10px; background:#C8E1FA;
+  }
+  .a-js-details img {
+    height:90px; width:90px; float:right; margin-left:7px;
+  }
+  .a-js-contents .gallery-images img {
+    border:3px solid #99ccff;
+  }  
+  
+    
+  /* tattoo profile javascript injected html formatting 
+  */
+  .t-js-contents .gallery-body {
+    border:3px solid #ffff99;
+  }  
+  .t-js-details {
+    padding:10px;
+  }
+  .t-js-artist-details {
+    margin-top:10px;
+    padding:10px;
+    background:#ffff99;
+  }
+  .t-js-artist-details img {
+    height:90px; width:90px; float:right; margin-left:7px;
+  }
+  
+
+/* basic small tattoo wrappe
+*/
+.tattoo-each {
+  margin:10px 5px; float:left; 
+}
+ 
+ 
+/*
+  tattoo gallery scroller
+*/
+.gallery-scroller {
+  margin:10px 0;
+  height:100px;
+  overflow:auto;
+  background:#111; /* blue : ddffff , border: 99ffff*/
+  border:2px solid #000;
+}
+  .gallery-scroller .tattoo-each img {
+    width:75px; height:75px; /* note this */
+    background:#fff;
+    border:1px solid #fff;
+  }
+  .gallery-scroller .tattoo-each a:hover img,
+  .gallery-scroller .tattoo-each a.active img {
+    border:1px solid orange;
+  }
+  
+
+
+/* artist stuff
+   -----------------------------
+*/
+.artist-wrap {
+  padding:10px;
+  margin:10px; 
+  border:1px dashed #333;
+}
+.artist-each {
+  padding:10px;
+  margin:10px;
+  background:#ffffcc;
+}
+#tab-artists .artist-each {
+  width:45%;
+  float:left; 
+  overflow:hidden;
+  background:#ddffff;
+  border:1px solid #99ffff;  
+}
+#tab-artists .artist-each img {
+  float:right; padding:10px; margin-left:10px; 
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+.artist-show .artist-each {
+  margin:auto;
+  width:90%; 
+  overflow:hidden;
+  background:#ddffff;
+  border:1px solid #99ffff;  
+}
+.artist-show .artist-each img {
+  float:right; padding:10px; margin-left:10px; 
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+
+
+/* tattoo stuff
+   tattoos get loaded into Main this image gallery view
+   -----------------------------
+*/
+.tattoo-main {
+  width:50%; float:left;
+  adding:10px; order-right:1px dashed green;
+}
+  .tattoo-main h2{
+    padding-bottom:2px;
+    margin-bottom:10px;
+    border-bottom:1px solid #777;
+  }
+  .tattoo-main img {
+    display:block;
+    padding:5px;
+    border:1px solid #ccc;
+    margin:5px auto;
+  }
+.tattoo-artist {
+  width:45%; float:right;
+  adding:10px; order-right:1px dashed green;
+  
+}
+
+

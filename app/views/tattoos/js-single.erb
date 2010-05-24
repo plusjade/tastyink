@@ -1,0 +1,34 @@
+
+<div class="gallery-contents t-js-contents">
+
+  <div class="gallery-body">
+
+    <div class="t-js-details">
+      <h2>' + t.title + '</h2>
+      <b>Added:</b> ' + t.created_at + '
+      <br/><b>Tags:</b> test, test, test
+      <br/><b>Notes:</b>
+      <div>
+        ' + t.desc + '
+      </div>
+    </div>
+    <div class="t-js-artist-details">
+      <h2>By: ' + a.name + '</h2>
+      <img src="/data/artist.png" />
+      
+      <b>Bio:</b>
+      <p>
+        ' + a.bio + '
+      </p>
+      <a href="/artists/' + a.id + '" class="do-artist">View ' + a.name + '&#146;s Profile</a>
+    </div>
+
+  </div>
+
+
+  <div class="gallery-images">
+    <img src="/system/datas/'+ t.assets[0].id +'/gallery/'+ t.assets[0].data_file_name +'" />
+  </div>
+
+</div>
+

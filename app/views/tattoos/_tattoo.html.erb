@@ -1,0 +1,8 @@
+
+
+<% return if tattoo.assets.first.nil? %>
+
+<div class="tattoo-each">
+  <%= link_to ( image_tag tattoo.assets.first.url(:thumb) ), tattoo %>
+</div>
+

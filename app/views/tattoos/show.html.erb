@@ -1,0 +1,44 @@
+
+
+<br style="clear:both"/>
+
+
+<div class="tattoo-main">
+  <h2><%= @tattoo.title %></h2>
+  <% for asset in @tattoo.assets %>
+    <%= image_tag asset.url(:gallery) %>
+  <% end %>
+
+  <p>
+    <%= link_to "View #{@shop.name}'s Portfolio" , @shop %> | 
+    <%= link_to "View #{@artist.name}'s Portfolio" , @artist %>
+  </p>
+     
+  <b>Description:</b>
+  <p>
+    <%= @tattoo.desc %>
+  </p>
+  
+  <p>
+    <b>Tags:</b> test, test, test
+  </p>
+  
+  <p>
+    <b>Added:</b> 21 March, 2010
+  </p>
+  
+</div>
+
+<div class="tattoo-artist">
+  <h2>By: <%= @artist.name %></h2>
+  
+  <img src="/data/artist.png" style="height:120px; width:120px;" />
+  
+  <br/><b>Bio:</b>
+  <p>
+    <%= @artist.bio %>
+  </p>
+  <%= link_to "#{@artist.name}'s Portfolio", @artist %>
+</div>
+
+<br style="clear:both"/>
