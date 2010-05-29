@@ -12,7 +12,7 @@ development:
   api_key: 941beb9c81aa073e6cc9b0fe7918956d
   secret_key: a0a22e98006a8eacbd071a7fd048f88d
   canvas_page_name: http://apps.facebook.com/tastyink/
-  callback_url: http://tastyink.com/facebook/
+  callback_url: http://tastyink.com
   pretty_errors: true
   set_asset_host_to_callback_url: true
   tunnel:
@@ -26,7 +26,7 @@ test:
   api_key: 941beb9c81aa073e6cc9b0fe7918956d
   secret_key: a0a22e98006a8eacbd071a7fd048f88d
   canvas_page_name: http://apps.facebook.com/tastyink/
-  callback_url: http://tastyink.com/facebook/
+  callback_url: http://tastyink.com
   set_asset_host_to_callback_url: true
   tunnel:
     public_host_username: 
@@ -39,7 +39,7 @@ production:
   api_key: 941beb9c81aa073e6cc9b0fe7918956d
   secret_key: a0a22e98006a8eacbd071a7fd048f88d
   canvas_page_name: http://apps.facebook.com/tastyink/
-  callback_url: http://tastyink.com/facebook/
+  callback_url: http://tastyink.com
   set_asset_host_to_callback_url: true   
   tunnel:
     public_host_username: 

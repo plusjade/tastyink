@@ -1,14 +1,56 @@
-<fb:header>My great application</fb:header>
 
-<fb:tabs>
-  <fb:tab-item href='<%= url_for :controller => 'welcome',
-:action => 'index' %>' title='Home' selected='true'/>
-  <fb:tab-item href='<%= url_for :controller => 'things',
-:action => 'index' %>' title='Your things' />
-</fb:tabs>
+<form method="POST" action="/facebook/test">
 
-<p>
-  Hi there <fb:name uid="loggedinuser" useyou="false" />!
-Welcome to
-  your first app.
+<input type="text" name="test" value="tee.hee">
+<input type="submit" name="submit" value="submit">
+
+</form>
+
+<p class="jadebot">
+  <a href="/facebook/test_json">Make Post Request</a>
 </p>
+
+<ul class="artists-list">
+  <li>Show Tattoos From: </li>
+  <li><%= link_to 'All Artists', shop_tattoos_path(@shop), :class => 'do-artist-tattoos active' %></li>
+  <% for artist in @shop.artists %>
+    <li><%= link_to "#{artist.name}", artist_tattoos_path(artist), { :class => 'do-artist-tattoos', :rel => artist.id } %></li>
+  <% end %>
+</ul>    	
+
+<div class="gallery-scroller">
+  <%= render :partial => @shop.tattoos %>
+</div>
+<div class="gallery-full">
+  LOADING...
+</div>
+
+
+
+<!-- give javascript functions something to hook onto -->
+<span class="hooks" style="display:none">
+  <%= link_to 'artists', artists_path , :class => 'do-artist' %>
+  <%= link_to 'Shop Profile', @shop, :class => 'do-shop' %>
+</span>
+<!-- end -->
+
+<!-- get rid of this -->
+<script type="text/javascript">
+  // initialize shop profile
+  $(document).ready(function(){
+    $('a.do-shop').click();
+    
+    
+    $('.jadebot a').click(function(){
+    
+      $.post(this.url, function(rsp){
+        console.log('check');
+        console.log(rsp);
+      });
+      return false;
+    });  
+  });
+</script>
+
+
+

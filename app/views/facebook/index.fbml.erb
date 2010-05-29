@@ -1,0 +1,29 @@
+
+
+<script type="text/javascript">
+<!--
+
+function General_Refresh(url,div){
+  document.getElementById(div).setInnerXHTML('<span id="caric"><center>Loading...</center></span>');	
+  var ajax = new Ajax();
+  ajax.responseType = Ajax.FBML;
+  ajax.ondone = function(data) {
+  console.log(data);
+  document.getElementById('caric').setStyle('display','none'); 
+  document.getElementById(div).setInnerFBML(data);
+  }
+  //If there are errors re-try
+  ajax.onerror = function() {
+    document.getElementById(div).setInnerFBML('error');
+  }
+ajax.post(url);
+}
+
+
+//-->
+</script> 
+
+<a onclick='General_Refresh("http://aplanofattack.com","mydiv");'>Load content</a>
+<div id="mydiv"></div>
+
+

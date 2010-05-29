@@ -1,0 +1,30 @@
+
+<form method="POST" action="/facebook">
+
+<input type="text" name="test" value="tee.hee">
+<input type="submit" name="submit" value="submit">
+
+</form>
+
+<p class="jadebot">
+  <a href="/facebook/test_json">Make Post Request</a>
+</p>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    
+    $('.jadebot a').click(function(){
+      var url = $(this).attr('href');
+      console.log(url);
+      $.post(url, function(rsp){
+        console.log('check');
+        console.log(rsp);
+      });
+      return false;
+    });  
+  });
+</script>
+
+
+

@@ -1,0 +1,20 @@
+
+<div class="gallery-contents a-js-contents">
+
+  <div class="gallery-body">
+
+    <div class="a-js-details">
+      <h2>Artist: ' + a.name + '</h2>
+      <b>Bio:</b>
+      <p>
+        ' + a.bio + '
+      </p>
+      <a href="/artists/' + a.id + '/tattoos" class="do-artist-tattoos" rel="'+ a.id +'">Load ' + a.name + '&#146;s Tattoos</a>
+    </div>
+  </div>
+
+  <div class="gallery-images">
+    <img src="/system/datas/'+ a.assets[0].id +'/gallery/'+ a.assets[0].data_file_name +'" />
+  </div>
+  
+</div>

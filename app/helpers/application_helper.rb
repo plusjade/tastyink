@@ -23,4 +23,30 @@ module ApplicationHelper
     html.gsub("\n",'')
   end
   
+  ## Facebook application templates
+  ## TODO: dry this up.
+  ## the main diff. as of now if just the URL to scope to fb controller.
+  
+  def fb_shop_template
+    html = render(:file => 'shops/fb-single')
+    html.gsub("\n",'')
+  end
+  
+
+  def fb_artist_template
+    html = render(:file => 'artists/fb-single')
+    html.gsub("\n",'')
+  end
+  
+
+  def fb_tattoo_template
+    html = render(:file => 'tattoos/fb-single')
+    html.gsub("\n",'')
+  end
+
+  def fb_tattoos_template
+    html = render(:file => 'tattoos/fb-gallery')
+    html.gsub("\n",'')
+  end
+  
 end

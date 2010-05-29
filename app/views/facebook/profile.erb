@@ -1,0 +1,92 @@
+<link href="http://tastyink.com/stylesheets/facebook.css" media="screen" rel="stylesheet" type="text/css" /> 
+
+<h1>Tattoos =D</h1>
+
+<ul>
+  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/shop/1","main", "shop");'>Shop Profile</a></li>
+  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/tattoos/1","scroller", "thumbs");'>Thumbs</a></li>
+  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/tattoo/15","main", "tattoo");'>One Tattoo</a></li>
+
+</ul>  	
+
+<div id="scroller" class="gallery-scroller" onclick="return false">
+
+<% for tattoo in @shop.tattoos %> 
+  <% next if tattoo.assets.first.nil? %>
+  <div class="tattoo-each"> 
+    <%= image_tag tattoo.assets.first.url(:thumb) %>
+  </div> 
+<% end %>
+ 
+</div>
+
+<div id="main" class="gallery-full">
+  LOADING...
+</div>
+
+
+
+<script type="text/javascript">
+<!--
+  appUrl = 'http://tastyink.com/facebook/';
+  assetUrl = 'http://tastyink.com/system/datas/';
+  function shopTemplate(s){return '<%= fb_shop_template %>'};
+  function artistTemplate(a){return '<%= fb_artist_template %>'};
+  function tattooTemplate(t, a){return '<%= fb_tattoo_template %>'};
+  function tattoosTemplate(t){return '<%= fb_tattoos_template %>'};
+
+  function tastyLoad(url,div,type){
+    document.getElementById(div).setInnerXHTML('<span id="caric"><center>Loading...</center></span>');	
+    var ajax = new Ajax();
+    ajax.responseType = Ajax.JSON;
+    //ajax.useLocalProxy = true;
+    
+    ajax.ondone = function(rsp) {
+      console.log(rsp);
+      document.getElementById('caric').setStyle('display','none'); 
+
+      switch(type){
+        case 'shop':
+          document.getElementById(div).setInnerXHTML(shopTemplate(rsp.shop));
+        break;
+        case 'thumbs':
+          document.getElementById(div).setInnerXHTML('<span>Loading...</span>');
+          var data = '';
+          for (var i = 0; i < rsp.length; i++){
+            if (rsp[i].tattoo.assets.length <= 0) continue;
+            data += tattoosTemplate(rsp[i].tattoo);
+          }
+          document.getElementById(div).setInnerXHTML('<span>'+ data +'</span>');  
+        break;
+        case 'tattoo':
+          console.log('is a tattoo');
+          document.getElementById(div).setInnerXHTML(tattooTemplate(rsp.tattoo, rsp.tattoo.artist));
+        break;
+      }
+      
+    }
+    ajax.onerror = function() {
+      document.getElementById(div).setInnerFBML('error');
+    }
+    ajax.post(url);
+  }
+
+
+// activate tattoo thumbnails
+var obj = document.getElementById('scroller');
+obj.addEventListener('click', function(e){
+  if('IMG' == e.target.getTagName()){
+    console.log(e.target);    
+    tastyLoad(appUrl + 'tattoo/' + e.target.getName(), "main", "tattoo");
+  }
+	e.stopPropagation();
+	e.preventDefault();
+	return false;
+}, false);
+
+
+
+//-->
+</script> 
+
+
