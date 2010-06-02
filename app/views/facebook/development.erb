@@ -1,0 +1,44 @@
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="/javascripts/addon.js?1273637444" type="text/javascript"></script> 
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('a.sample-thumbs').click();
+  });
+  $('body').click($.delegate({
+   // display shop profile
+    'a.toggle-details' : function(e){
+      $('div.gallery-body').toggle();
+      return false;
+    },
+    '#scroller img' : function(e){
+      console.log($(e.target).attr('name'));    
+      tastyLoad(appUrl + 'tattoo/' + $(e.target).attr('name'), "main", "tattoo");
+      return false;
+    }
+  }));
+  
+  function tastyLoad(url,div,type){
+    $div = $('#'+div);
+    $.post(url, function(rsp){
+      switch(type){
+        case 'shop':
+          $div.html(shopTemplate(rsp.shop));
+        break;
+        case 'thumbs':
+          var data = '';
+          for (var i = 0; i < rsp.length; i++){
+            if (rsp[i].tattoo.assets.length <= 0) continue;
+            data += tattoosTemplate(rsp[i].tattoo);
+          }
+          $div.html(data);
+        break;
+        case 'tattoo':
+          $div.html(tattooTemplate(rsp.tattoo, rsp.tattoo.artist));
+        break;
+      }
+    }, "json");
+    return false;
+  };
+</script>

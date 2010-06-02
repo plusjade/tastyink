@@ -1,20 +1,15 @@
 
 <div class="gallery-contents a-js-contents">
-
+  <a href="#" id="show" class="toggle-details show">[+] Details</a>
   <div class="gallery-body">
-
+    <a href="#" id="hide" class="toggle-details hide">[-]</a>
     <div class="a-js-details">
       <h2>Artist: ' + a.name + '</h2>
-      <b>Bio:</b>
-      <p>
-        ' + a.bio + '
-      </p>
-      <a href="/artists/' + a.id + '/tattoos" class="do-artist-tattoos" rel="'+ a.id +'">Load ' + a.name + '&#146;s Tattoos</a>
+      <p>' + a.bio + '</p>
     </div>
   </div>
 
   <div class="gallery-images">
-    <img src="/system/datas/'+ a.assets[0].id +'/gallery/'+ a.assets[0].data_file_name +'" />
+    <img src="' + assetUrl + a.assets[0].id +'/gallery/'+ a.assets[0].data_file_name +'" />
   </div>
-  
 </div>

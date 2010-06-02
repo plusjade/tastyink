@@ -1,8 +1,7 @@
-
 <div class="gallery-contents t-js-contents">
-
+  <a href="#" id="show" class="toggle-details show">[+] Details</a>
   <div class="gallery-body">
-
+    <a href="#" id="hide" class="toggle-details hide">[-]</a>
     <div class="t-js-details">
       <h2>' + t.title + '</h2>
       <b>Added:</b> ' + t.created_at + '
@@ -14,21 +13,15 @@
     </div>
     <div class="t-js-artist-details">
       <h2>By: ' + a.name + '</h2>
-      <img src="/data/artist.png" />
-      
-      <b>Bio:</b>
       <p>
         ' + a.bio + '
       </p>
-      <a href="' + appUrl + '/artist/' + a.id + '" class="do-artist">View ' + a.name + '&#146;s Profile</a>
+      <a href="#" id="do-artist" class="do-artist" name="' + a.id + '">View ' + a.name + '&#146;s Profile</a>
     </div>
-
   </div>
-
 
   <div class="gallery-images">
     <img src="' + assetUrl + t.assets[0].id +'/gallery/'+ t.assets[0].data_file_name +'" />
   </div>
-
 </div>
 

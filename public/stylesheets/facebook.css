@@ -4,14 +4,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 body{ background-color:#fff; color:#777777; font:12px 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, san-serif; line-height:23px; margin:0;padding:0;}
 p {margin-bottom:10px;}
 
-#fb-container {
-  width:740px;
-  margin:0 auto;
+#fb-wrapper{
+  width:750px;
+  margin: 10px auto 50px auto;
 }
-
-/* */
-
-
 
 /* 
   artists list 
@@ -30,14 +26,39 @@ ul.artists-list li a {
   color:#333;
 }
 ul.artists-list li a:hover,
-ul.artists-list li a.active {
+ul.artists-list li.active a {
   background:#111;
   color:#fff;
-  
 }
 
 
 /*
+  tattoo gallery scroller
+*/
+.gallery-scroller {
+  margin:10px 0;
+  height:95px;
+  overflow:auto;
+  background:#111; /* blue : ddffff , border: 99ffff*/
+  border:2px solid #000;
+}
+  .gallery-scroller .tattoo-each img {
+    width:75px; height:75px; /* note this */
+    background:#fff;
+    border:1px solid #fff;
+    cursor:cursor;
+    cursor:pointer;
+  }
+  .gallery-scroller .tattoo-each img:hover,
+  .gallery-scroller .tattoo-each img.active, {
+    border:1px solid orange !important;
+  }
+  
+  
+  
+
+/*
+  (global)
   Main image gallery view that tattoos get loaded into.
 */
 .gallery-full {
@@ -47,10 +68,41 @@ ul.artists-list li a.active {
   .gallery-full div.gallery-contents {
     overflow:hidden;
   }
+    a.toggle-details.show {
+      display:block;
+      position:absolute;
+      padding:1px 12px;
+      color:#fff;
+      font-weight:bold;
+      text-decoration:none;
+      background:orange;
+      -webkit-border-radius:8px;
+      -webkit-opacity:0.7;
+    }
+    a.toggle-details.show:hover {
+      -webkit-opacity:1;
+      background:#222;
+    }
+    a.toggle-details.hide{
+      float:right;
+      padding:5px;
+      font-weight:bold;
+      font-size:14px;
+      color:#000;
+      text-decoration:none;
+      position:relative;
+      top:-5px;
+    }
+    a.toggle-details.hide:hover{
+      float:right;
+      color:red;
+    }
     .gallery-full div.gallery-body {
-      float:left; width:30%;
-      margin-right:20px;
-      display:none;
+      width:250px;
+      position:absolute;
+      -webkit-border-radius:5px;
+      -webkit-box-shadow:2px 2px 4px #999;
+      -webkit-opacity:0.95;
     }
   .gallery-full div.gallery-images {
     margin:auto;
@@ -58,11 +110,14 @@ ul.artists-list li a.active {
   }
   .gallery-full div.gallery-images img {
   } 
+    
+    
      
   /* shop profile javascript injected html formatting 
   */
   .s-js-contents .gallery-body {
     border:3px solid #222;
+    -webkit-opacity:0.95;
   }  
   .s-js-details {
     padding:10px; background:#222;
@@ -92,15 +147,33 @@ ul.artists-list li a.active {
   /* tattoo profile javascript injected html formatting 
   */
   .t-js-contents .gallery-body {
-    border:3px solid #ffff99;
-  }  
+    border:1px solid #111;
+    background:#fff;
+    position:absolute;
+    -webkit-box-shadow:3px 3px 6px #555;
+  }
+  .t-js-contents ul {
+    margin-bottom:5px;
+    border-bottom:1px solid #999;
+    font-size:12px;
+    font-weight:bold;
+    color:#333;
+  }
+  .t-js-contents ul li {
+    display:inline;   
+  } 
+  .t-js-contents ul li a {
+    font-weight:normal;  
+  } 
+   
   .t-js-details {
     padding:10px;
   }
   .t-js-artist-details {
     margin-top:10px;
     padding:10px;
-    background:#ffff99;
+    background:#111;
+    color:#fff;
   }
   .t-js-artist-details img {
     height:90px; width:90px; float:right; margin-left:7px;
@@ -114,26 +187,7 @@ ul.artists-list li a.active {
 }
  
  
-/*
-  tattoo gallery scroller
-*/
-.gallery-scroller {
-  margin:10px 0;
-  height:95px;
-  overflow:auto;
-  background:#111; /* blue : ddffff , border: 99ffff*/
-  border:2px solid #000;
-}
-  .gallery-scroller .tattoo-each img {
-    width:75px; height:75px; /* note this */
-    background:#fff;
-    border:1px solid #fff;
-  }
-  .gallery-scroller .tattoo-each a:hover img,
-  .gallery-scroller .tattoo-each a.active img {
-    border:1px solid orange;
-  }
-  
+
 
 
 /* artist stuff

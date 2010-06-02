@@ -1,92 +1,406 @@
-<link href="http://tastyink.com/stylesheets/facebook.css" media="screen" rel="stylesheet" type="text/css" /> 
+<% url = 'http://tastyink.com' %>
 
-<h1>Tattoos =D</h1>
+<div id="fb-wrapper">
+  <ul id="artists-list" class="artists-list">
+    <li><span>Show Tattoos From:</span> </li>
+    <li class="active"><a href="#" onclick="tastyThumbs('shops', 1)">All Artists</a></li>
+    <% for artist in @shop.artists %>
+      <li><a href="#" name="<%=artist.id %>" onclick="tastyThumbs('artists', <%= artist.id %>)"><%= artist.name %></a></li>
+    <% end %>
+  </ul> 
 
-<ul>
-  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/shop/1","main", "shop");'>Shop Profile</a></li>
-  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/tattoos/1","scroller", "thumbs");'>Thumbs</a></li>
-  <li><a href="#" onclick='tastyLoad("http://tastyink.com/facebook/tattoo/15","main", "tattoo");'>One Tattoo</a></li>
-
-</ul>  	
-
-<div id="scroller" class="gallery-scroller" onclick="return false">
-
-<% for tattoo in @shop.tattoos %> 
+  <div id="scroller" class="gallery-scroller" onclick="return false">
+<% for tattoo in @shop.tattoos %>
   <% next if tattoo.assets.first.nil? %>
-  <div class="tattoo-each"> 
-    <%= image_tag tattoo.assets.first.url(:thumb) %>
-  </div> 
+    <%= image_tag tattoo.assets.first.url(:thumb), :name => tattoo.id %>
 <% end %>
- 
-</div>
+  </div>
 
-<div id="main" class="gallery-full">
-  LOADING...
+  <div id="main" class="gallery-full" onclick="return false">
+    <div class="gallery-contents s-js-contents"> 
+      <a href="#"  id="show" class="toggle-details show">View Details</a>
+      <div id="details" class="gallery-body">
+        <a href="#" id="hide" class="toggle-details hide">[-]</a>
+        <div class="s-js-details">
+          <h2><%= @shop.name %></h2>
+          <p><%= @shop.desc %></p>
+        </div>
+      </div>
+      <div class="gallery-images">
+        <%= image_tag @shop.assets.first.url(:gallery) unless @shop.assets.first.nil? %>
+      </div>
+    </div>
+  </div>
 </div>
-
 
 
 <script type="text/javascript">
 <!--
-  appUrl = 'http://tastyink.com/facebook/';
-  assetUrl = 'http://tastyink.com/system/datas/';
+  appUrl = '<%= url %>/facebook/';
+  assetUrl = '<%= url %>/system/datas/';
   function shopTemplate(s){return '<%= fb_shop_template %>'};
   function artistTemplate(a){return '<%= fb_artist_template %>'};
   function tattooTemplate(t, a){return '<%= fb_tattoo_template %>'};
   function tattoosTemplate(t){return '<%= fb_tattoos_template %>'};
-
-  function tastyLoad(url,div,type){
-    document.getElementById(div).setInnerXHTML('<span id="caric"><center>Loading...</center></span>');	
+ 
+  // populate thumbnail gallery
+  function tastyThumbs(resource, id){
     var ajax = new Ajax();
     ajax.responseType = Ajax.JSON;
-    //ajax.useLocalProxy = true;
-    
+    document.getElementById('scroller').setInnerXHTML('<div class="loading white">Loading...</div>');
     ajax.ondone = function(rsp) {
-      console.log(rsp);
-      document.getElementById('caric').setStyle('display','none'); 
-
-      switch(type){
-        case 'shop':
-          document.getElementById(div).setInnerXHTML(shopTemplate(rsp.shop));
-        break;
-        case 'thumbs':
-          document.getElementById(div).setInnerXHTML('<span>Loading...</span>');
-          var data = '';
-          for (var i = 0; i < rsp.length; i++){
-            if (rsp[i].tattoo.assets.length <= 0) continue;
-            data += tattoosTemplate(rsp[i].tattoo);
-          }
-          document.getElementById(div).setInnerXHTML('<span>'+ data +'</span>');  
-        break;
-        case 'tattoo':
-          console.log('is a tattoo');
-          document.getElementById(div).setInnerXHTML(tattooTemplate(rsp.tattoo, rsp.tattoo.artist));
-        break;
+      var data = '';
+      for (var i = 0; i < rsp.length; i++){
+        if (rsp[i].tattoo.assets.length <= 0) continue;
+        data += tattoosTemplate(rsp[i].tattoo);
       }
-      
+      document.getElementById('scroller').setInnerXHTML('<span>'+data+'</span>');  
+      tastyMain(resource, id);   
     }
     ajax.onerror = function() {
-      document.getElementById(div).setInnerFBML('error');
+      document.getElementById('scroller').setInnerFBML('error');
     }
-    ajax.post(url);
+    ajax.post(appUrl + resource + '/' + id + '/tattoos');
+    return false;
   }
-
-
-// activate tattoo thumbnails
-var obj = document.getElementById('scroller');
-obj.addEventListener('click', function(e){
-  if('IMG' == e.target.getTagName()){
-    console.log(e.target);    
-    tastyLoad(appUrl + 'tattoo/' + e.target.getName(), "main", "tattoo");
+  
+  // populate the main window
+  function tastyMain(type, id){
+    var ajax = new Ajax();
+    ajax.responseType = Ajax.JSON; //ajax.useLocalProxy = true;
+    document.getElementById('main').setInnerXHTML('<div class="loading">Loading...</div>');
+    ajax.ondone = function(rsp){
+      switch(type){
+        case 'shops':
+          document.getElementById('main').setInnerXHTML(shopTemplate(rsp.shop));
+        break;
+        case 'artists':
+          document.getElementById('main').setInnerXHTML(artistTemplate(rsp.artist));
+        break;        
+        case 'tattoos':
+          document.getElementById('main').setInnerXHTML(tattooTemplate(rsp.tattoo, rsp.tattoo.artist));
+        break;        
+      }
+    }
+    ajax.onerror = function(){
+      document.getElementById('main').setInnerFBML('error');
+    }
+    ajax.post(appUrl + type + '/' + id);
+    return false;
   }
-	e.stopPropagation();
-	e.preventDefault();
-	return false;
-}, false);
+ 
+  // add active state to artists list
+  document.getElementById('artists-list')
+    .addEventListener('click', function(e){
+      if( 'A' == e.target.getTagName() ){
+        var nodes = this.getChildNodes();
+        for (var i = 0; i < nodes.length; i++)
+          nodes[i].removeClassName('active');
+
+        e.target.getParentNode().addClassName('active');
+      }
+  }, false);
+     
+  // delegate tattoo thumbnails
+  document.getElementById('scroller')
+    .addEventListener('click', function(e){
+      if( 'IMG' == e.target.getTagName() ){  
+        tastyMain('tattoos', e.target.getName());
+        var nodes = this.getChildNodes();
+        for (var i = 0; i < nodes.length; i++)
+          nodes[i].removeClassName('active');
+
+        e.target.addClassName('active');
+      }
+	    e.stopPropagation();
+	    e.preventDefault();
+	    return false;
+  }, false);
 
 
-
+  // delegate main gallery clicks.
+  document.getElementById('main')
+    .addEventListener('click', function(e){
+      if( 'A' == e.target.getTagName() ){
+        switch (e.target.getId()){
+          case 'do-artist':
+            tastyMain('artists', e.target.getName());
+          break; 
+          case 'hide':
+            Animation(e.target.getParentNode())
+              .to('height', '0px').to('opacity', 0).hide().go();
+          break;
+          case 'show': 
+            Animation(e.target.getNextSibling())
+              .to('height', 'auto').from('0px').to('width', '250px').from('0px').to('opacity', 1).from(0).show().blind().go();   
+          break;
+        }
+      }
+	    e.stopPropagation();
+	    e.preventDefault();
+	    return false;
+  }, false);
+  
 //-->
 </script> 
 
+<style type="text/css">
+#fb-wrapper{
+  width:750px;
+  margin: 10px auto 50px auto;
+  color:#777777;
+  background-color:#fff;  
+  font:12px 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, san-serif;
+}
+p {margin:0; margin-bottom:10px;}
+
+
+/*
+  singleton shops top view.
+  ------------------------------------------------------------ */ 
+.shop-show {
+  overflow:hidden;
+  margin-bottom:10px;
+}
+.shop-each {
+  float:left; width:45%;
+  padding:10px; margin-bottom:10px;
+  border:1px solid #ccc;
+}
+.shop-map {
+  float:right; width:45%; height:220px;
+  background:#eee; border:1px solid #ccc;
+  overflow:hidden;
+}
+
+/* 
+  artists list 
+  ------------------------------------------------------------ */
+ul.artists-list {
+}
+ul.artists-list li {
+  display:inline;
+  margin-right:10px;
+}
+ul.artists-list li a {
+  padding:4px 8px;
+  background:#ccc;
+  text-decoration:none;
+  color:#333;
+}
+ul.artists-list li a:hover,
+ul.artists-list li.active a {
+  background:#111;
+  color:#fff;
+}
+
+/*
+  tattoo gallery scroller
+  ------------------------------------------------------------ */
+.gallery-scroller {
+  margin:10px 0;
+  height:100px;
+  overflow:auto;
+  background:#111;
+  border:2px solid #000;
+}
+  .gallery-scroller img {
+    display:inline-block;
+    width:75px; height:75px;
+    margin:10px 5px;
+    background:#fff;
+    border:1px solid #fff;
+    cursor:cursor;
+    cursor:pointer;
+  }
+  .gallery-scroller img:hover,
+  .gallery-scroller img.active {
+    border:1px solid orange !important;
+  }
+
+/*
+  (global) Main image gallery view that tattoos get loaded into.
+  ------------------------------------------------------------ */
+.gallery-full {
+  overflow:hidden;
+  min-height:300px;
+}
+  .gallery-full div.gallery-contents {
+    overflow:hidden;
+  }
+    .gallery-full div.gallery-body {
+      width:250px;
+      position:absolute;
+      background:#222;
+      line-height:24px !important;
+      color:#fff;;
+    }
+    .gallery-full div.gallery-body h2 {
+      color:#fff;
+    }
+  .gallery-full div.gallery-images {
+    margin:auto;
+    text-align:center;
+  }
+  .gallery-full div.gallery-images img {
+    border:1px solid #111;
+  } 
+  .gallery-full a {color:lightblue;}
+  .gallery-full a:hover {color:orange;}
+  
+  a.toggle-details.show {
+    display:block;
+    position:absolute;
+    padding:6px 12px;
+    color:#fff;
+    font-weight:bold;
+    text-decoration:none;
+    background:#111;
+  }
+  a.toggle-details.show:hover {
+    background:green;
+  }
+  a.toggle-details.hide{
+    float:right;
+    padding:5px;
+    font-weight:bold;
+    font-size:14px;
+    color:#fff;
+    text-decoration:none;
+    position:relative;
+    top:-5px;
+  }
+  a.toggle-details.hide:hover{
+    float:right;
+    color:red;
+  }
+         
+  /* javascript shop profile  injected html formatting 
+    ------------------------------------------------------------ */
+  .s-js-contents .gallery-body {
+    border:3px solid #222;
+  }  
+  .s-js-details {
+    padding:10px; background:#222;
+    color:#fff;
+  }
+  .s-js-details h2 {color:#fff }
+  .s-js-contents .gallery-images img {
+
+  }
+    
+  /* javascript artist profile injected html formatting 
+   ------------------------------------------------------------ */
+  .a-js-contents .gallery-body {
+    border:1px solid #111;
+  }  
+  .a-js-details {
+    padding:10px; 
+  }
+  .a-js-details img {
+    height:90px; width:90px; float:right; margin-left:7px;
+  }
+  .a-js-contents .gallery-images img {
+    border:2px solid #111;
+  }  
+  
+    
+  /* javascript tattoo profile injected html formatting 
+    ------------------------------------------------------------ */
+  .t-js-contents .gallery-body {
+    background:#fff;
+    border:1px solid #111;
+  }
+  .t-js-contents a.toggle-details.hide {color:#111;}
+  .t-js-contents a.toggle-details.hide:hover {color:red;}
+  .t-js-details {
+    padding:10px;
+    background:#fff;
+    color:#111;
+  }
+  .t-js-details h2 {
+    color:#111 !important;
+  }
+  .t-js-artist-details {
+    margin-top:10px;
+    padding:10px;
+    color:#fff;
+  }
+  .t-js-artist-details img {
+    height:90px; width:90px; float:right; margin-left:7px;
+  }
+  
+/* artist stuff
+  ------------------------------------------------------------ */
+.artist-wrap {
+  padding:10px;
+  margin:10px; 
+  border:1px dashed #333;
+}
+.artist-each {
+  padding:10px;
+  margin:10px;
+  background:#ffffcc;
+}
+#tab-artists .artist-each {
+  width:45%;
+  float:left; 
+  overflow:hidden;
+  background:#ddffff;
+  border:1px solid #99ffff;  
+}
+#tab-artists .artist-each img {
+  float:right; padding:10px; margin-left:10px; 
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+.artist-show .artist-each {
+  margin:auto;
+  width:90%; 
+  overflow:hidden;
+  background:#ddffff;
+  border:1px solid #99ffff;  
+}
+.artist-show .artist-each img {
+  float:right; padding:10px; margin-left:10px; 
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+
+
+/* tattoos get loaded into Main this image gallery view
+  ------------------------------------------------------------ */
+.tattoo-main {
+  width:50%; float:left;
+}
+  .tattoo-main h2{
+    padding-bottom:2px;
+    margin-bottom:10px;
+    border-bottom:1px solid #777;
+  }
+  .tattoo-main img {
+    display:block;
+    padding:5px;
+    border:1px solid #ccc;
+    margin:5px auto;
+  }
+.tattoo-artist {
+  width:45%; float:right;
+}
+
+/* ajax */
+
+.loading{
+  width:200px;
+  margin:auto; margin-top:30px;
+  padding-top:20px;
+  text-align:center;
+  color:#222;
+  background:url('http://tastyink.com/images/loading.gif') no-repeat top center;
+}
+.loading.white{color:#fff}
+
+</style>
 
