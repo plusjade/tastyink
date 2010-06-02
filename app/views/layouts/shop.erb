@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
   <div id="wrapper">
      
   	<div id="header">
@@ -53,13 +52,11 @@
     </div>
    
     <div id="footer">
-    
       <%= link_to 'Shop Home', shop_path(@shop) %>
       | <%= link_to 'Add Artist', new_shop_artist_path(@shop) %>
       | <%= link_to 'Add Tattoo', new_shop_tattoo_path(@shop) %>
       | <%= link_to 'Edit Shop', edit_shop_path(@shop)  %>
       | <a href="#" class="toggle-shop">hide</a>
-          
   		<p>&copy; 2010 Tastyink.com</p>
     </div>
     
@@ -72,9 +69,8 @@
   </span>
   <!-- end -->
   
-  
-<script type="text/javascript">
 
+<script type="text/javascript">
 // setup assets
   assetUrl = 'http://localhost:3000/system/datas/';
   function shopTemplate(s){return '<%= js_shop_template %>'};
@@ -82,10 +78,36 @@
   function tattooTemplate(t, a){return '<%= js_tattoo_template %>'};
   function tattoosTemplate(t){return '<%= js_tattoos_template %>'};
 
-// binds
-  $(document).bind('tstml.crop',function(e, data){
-
-  }); 
+// populate the main window
+  function tastyMain(type, url){
+    $('div.gallery-full').html('<div class="loading">Loading...</div>');
+    $.get(url +'.json', function(rsp){
+      switch(type){
+        case 'shops':
+          var data = shopTemplate(rsp.shop);
+          var assets = rsp.shop.assets;
+        break;
+        case 'artists':
+          var data = artistTemplate(rsp.artist);
+          var assets = rsp.artist.assets;
+        break;        
+        case 'tattoos':
+          var data = tattooTemplate(rsp.tattoo, rsp.tattoo.artist);
+          var assets = rsp.tattoo.assets;
+        break;        
+      }
+      $('div.gallery-full').html(data);
+      
+      // load thumb assets.
+      console.log(assets.length);
+      var tinys = '';
+      for (var i = 0; i < assets.length; i++){
+        tinys += '<img src="/system/datas/' + assets[i].id +'/thumb/'+ assets[i].data_file_name +'" >';
+      }
+      $('div.gallery-full span#assets').html(tinys);
+    });
+  }
+   
      
 // activate tab navigation
   $('ul.main-tabs li a').click(function(){
@@ -97,37 +119,26 @@
   });
   $('ul.main-tabs li a:first').click();
 
-// toggle the top shop info on all pages.
-  $('a.toggle-shop').click(function(){
-    $('.shop-show').toggle();
-    return false;
-  });
 
 // delegate gallery environment
   $('body').click($.delegate({
-  
+
+   // iterate through tattoo pics.
+    'span#assets img' : function(e){
+       var src = $(e.target).attr('src').replace('/thumb/','/gallery/');
+       $('div.gallery-images').html('<img src="' + src + '" >');
+       return false;
+    }, 
+      
    // display shop profile
     'a.do-shop' : function(e){
-      $('div.gallery-full').html('<b>LOADING...</b>');
-      $.get(e.target.href +'.json', function(rsp) {
-       // var img = new Image;
-        //var src = "http://localhost:3000/data/"+ rsp.shop.id +".jpg";
-        //img.src = src;
-        $('div.gallery-full').html(shopTemplate(rsp.shop));
-      });
+      tastyMain('shops', e.target.href);
       return false;    
     },
-
+ 
    // display artist profile
     'a.do-artist' : function(e){
-      $('div.gallery-body').html('<b>LOADING...</b>');
-      $.get(e.target.href +'.json', function(rsp) {
-        //var img = new Image;
-        //var src = "http://localhost:3000/system/datas/"+ rsp.artist.assets[0].id  + "/thumb/" + rsp.artist.assets[0].data_file_name;
-        //img.src = src;
-        
-        $('div.gallery-full').html(artistTemplate(rsp.artist));
-      });
+      tastyMain('artists', e.target.href);
       return false;    
     },
     
@@ -135,14 +146,7 @@
     'div.gallery-scroller a' : function(e){
       $('div.gallery-scroller a').removeClass('active');
       $(e.target).addClass('active');
-      
-      $('div.gallery-full').html('<b>LOADING...</b>');
-      $.get(e.target.href +'.json', function(rsp) {
-        var img = new Image;
-        var src = assetUrl + rsp.tattoo.assets[0].id +'/gallery/'+ rsp.tattoo.assets[0].data_file_name ;
-        img.src = src;
-        $('div.gallery-full').html(tattooTemplate(rsp.tattoo, rsp.tattoo.artist));
-      });
+      tastyMain('tattoos', e.target.href);
       return false;
     },
     // helper so tattoo thumb images can delegate.
@@ -151,36 +155,37 @@
         return false;
       },
     
+    
    // display artist tattoos gallery
     'a.do-artist-tattoos' : function(e){
+      $('div.gallery-scroller').html('<div class="loading white">Loading...</div>');
       $('ul.artists-list li a').removeClass('active');
       var rel = $(e.target).attr('rel');
       $('ul.artists-list li a[rel='+ rel +']').addClass('active');
       
-      $('div.gallery-scroller').html('<b>LOADING...</b>');
-      $.get(e.target.href +'.json', function(rsp) {
-        //var img = new Image;
-        //var src = assetUrl + rsp.artist.id +".jpg";
-        //img.src = src;
+      $.get(e.target.href +'.json', function(rsp){
         $('div.gallery-scroller').empty();
         $.each(rsp, function(){
           //NOTE: should filter out tattoos with no images server side.
           if (this.tattoo.assets.length <= 0) return;
-          $('div.gallery-scroller')
-            .append(tattoosTemplate(this.tattoo));
+          $('div.gallery-scroller').append(tattoosTemplate(this.tattoo));
         });
       });
-      
+       
       // load artist or shop profile
       if(rel)
-        $('span.hooks a.do-artist')
-          .attr('href', '<%= artists_path %>/' + rel)
-          .click();
+        $('span.hooks a.do-artist').attr('href', '<%= artists_path %>/' + rel).click();
       else
         $('span.hooks a.do-shop').click();
       return false;    
-    }
-      
+    },
+ 
+   // toggle details box
+    'a.toggle-details' : function(e){
+      $('div.gallery-body').toggle();
+      return false;
+    }  
+         
    }));
    
   // overload artist tab links to load gallery
