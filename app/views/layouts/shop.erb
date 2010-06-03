@@ -3,17 +3,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Online portfolio service for tattoo shops and artists.</title>
-  <%= stylesheet_link_tag "global", "shops" %>
-  <%= javascript_include_tag "jquery-1.4.2.min", "addon", "jquery.json-2.1" %>   
+  <%= stylesheet_link_tag "global", "shops", "skin" %>
+  <%= javascript_include_tag "jquery-1.4.2.min",  "jquery.jcarousel" %>   
 </head>
 <body>
 
   <div id="wrapper">
-     
   	<div id="header">
-    	<h1 style="font-weight:bold">
-        <%=h "#{@shop.name}: #{@shop.address}" %>
-    	</h1>
     </div>
 
     <div style="padding-left:20px;">
@@ -78,6 +74,9 @@
   function tattooTemplate(t, a){return '<%= js_tattoo_template %>'};
   function tattoosTemplate(t){return '<%= js_tattoos_template %>'};
 
+/* Event delegation*/
+  jQuery.delegate = function(rules) {return function(e) { var target = $(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, $.makeArray(arguments));}}
+
 // populate the main window
   function tastyMain(type, url){
     $('div.gallery-full').html('<div class="loading">Loading...</div>');
@@ -99,7 +98,6 @@
       $('div.gallery-full').html(data);
       
       // load thumb assets.
-      console.log(assets.length);
       var tinys = '';
       for (var i = 0; i < assets.length; i++){
         tinys += '<img src="/system/datas/' + assets[i].id +'/thumb/'+ assets[i].data_file_name +'" >';
@@ -158,18 +156,19 @@
     
    // display artist tattoos gallery
     'a.do-artist-tattoos' : function(e){
-      $('div.gallery-scroller').html('<div class="loading white">Loading...</div>');
+      $('ul#mycarousel').html('<div class="loading white">Loading...</div>');
       $('ul.artists-list li a').removeClass('active');
       var rel = $(e.target).attr('rel');
       $('ul.artists-list li a[rel='+ rel +']').addClass('active');
       
       $.get(e.target.href +'.json', function(rsp){
-        $('div.gallery-scroller').empty();
-        $.each(rsp, function(){
-          //NOTE: should filter out tattoos with no images server side.
-          if (this.tattoo.assets.length <= 0) return;
-          $('div.gallery-scroller').append(tattoosTemplate(this.tattoo));
-        });
+        var gallery = $('#mycarousel').data('jcarousel');
+        gallery.reset();
+        gallery.size(rsp.length);
+        for (var i = 1; i <= rsp.length; i++) {
+          if (rsp[i-1].tattoo.assets.length <= 0) continue;
+          gallery.add(i, tattoosTemplate(rsp[i-1].tattoo));
+        }
       });
        
       // load artist or shop profile
@@ -184,7 +183,7 @@
     'a.toggle-details' : function(e){
       $('div.gallery-body').toggle();
       return false;
-    }  
+    }
          
    }));
    
@@ -193,9 +192,15 @@
     $('ul.main-tabs li a:first').click();
   });
 
-  //$.evalJSON();
-</script>
+  // init
+  $(document).ready(function() {
+      $('#mycarousel').jcarousel({
+          size: <%= @shop.tattoos.count %>
+      }); 
+  });
 
+
+</script>
 
 </body>
 </html>

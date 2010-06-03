@@ -1,7 +1,7 @@
 
 /*
   singleton shops top view.
-*/ 
+  ------------------------------------------------------------ */ 
 .shop-show {
   overflow:hidden;
   margin-bottom:10px;
@@ -11,6 +11,7 @@
   padding:10px; margin-bottom:10px;
   border:1px solid #ccc;
   -webkit-border-radius:10px;
+  -moz-border-radius:10px;
 }
 .shop-map {
   float:right; width:45%; height:220px;
@@ -20,8 +21,7 @@
 
 
 /* main tab navigation 
-   -----------------------------
-*/
+  ------------------------------------------------------------ */
 ul.main-tabs {
   list-style:none;
   padding-bottom:10px;
@@ -57,16 +57,15 @@ ul.main-tabs li a.active{
   box-shadow: 1px -1px 4px #eee;
 }
 /* main tab content divs
-*/
+  ------------------------------------------------------------ */
 .tab-content {
   margin-bottom:10px;
   overflow:hidden;
   min-height:300px;
 }
-
 /* 
   artists list 
-*/
+  ------------------------------------------------------------ */
 ul.artists-list {
 }
 ul.artists-list li {
@@ -76,6 +75,7 @@ ul.artists-list li {
 ul.artists-list li a {
   padding:4px 8px;
   -webkit-border-radius:5px;
+  -moz-border-radius:5px;
   background:#ccc;
   text-decoration:none;
   color:#333;
@@ -87,10 +87,50 @@ ul.artists-list li a.active {
   
 }
 
+/*
+  tattoo gallery scroller
+  ------------------------------------------------------------ */
+.gallery-scroller {
+  margin:10px 0;
+  ackground:#111; /* blue : ddffff , border: 99ffff*/
+  order:1px solid #111;
+  ext-align:center;
+}
+div.scrollable{
+  margin:auto;
+  width:400px;
+  height:90px;
+  overflow:auto;
+}
+div.scroll-up{
+  width:80px;
+  height:80px;
+  background:green;
+  float:left;
+}
+div.scroll-down{
+  width:80px;
+  height:80px;
+  background:green;
+  float:right;
+}
+
+  .gallery-scroller img {
+    display:inline-block;
+    width:75px; height:75px;
+    margin:5px 5px 5px 0;
+    background:#fff;
+    border:1px solid #fff;
+  }
+  .gallery-scroller a:hover img,
+  .gallery-scroller a.active img {
+    border:1px solid orange;
+  }
+  
 
 /*
-  Main image gallery view that tattoos get loaded into.
-*/
+  (global) Main image gallery view that tattoos get loaded into.
+  ------------------------------------------------------------ */
 .gallery-full {
   overflow:hidden;
   min-height:300px;
@@ -99,19 +139,70 @@ ul.artists-list li a.active {
     overflow:hidden;
   }
     .gallery-full div.gallery-body {
-      float:left; width:30%;
-      margin-right:20px;
+      width:250px;
+      position:absolute;
+      background:#222;
+      color:#fff;;
+      -webkit-box-shadow:1px 1px 2px #333;
+      -moz-box-shadow:1px 1px 2px #333;
+    }
+    .gallery-full div.gallery-body h2 {
+      color:#fff;
     }
   .gallery-full div.gallery-images {
-    float:left;
+    margin:auto;
+    text-align:center;
   }
   .gallery-full div.gallery-images img {
+    border:1px solid #111;
   } 
-     
-  /* shop profile javascript injected html formatting 
-  */
+  .gallery-full a {color:lightblue;}
+  .gallery-full a:hover {color:orange;}
+  
+  a.toggle-details.show {
+    display:block;
+    position:absolute;
+    padding:1px 12px;
+    color:#fff;
+    font-weight:bold;
+    text-decoration:none;
+    background:#111;
+    -webkit-border-radius:8px;
+    -webkit-opacity:0.7;
+    -moz-border-radius:8px;
+    -moz-opacity:0.7;
+  }
+  a.toggle-details.show:hover {
+    -webkit-opacity:1;
+    -moz-opacity:1;
+    background:green;
+  }
+  a.toggle-details.hide{
+    float:right;
+    padding:5px;
+    font-weight:bold;
+    font-size:14px;
+    color:#fff;
+    text-decoration:none;
+    position:relative;
+    top:-5px;
+  }
+  a.toggle-details.hide:hover{
+    float:right;
+    color:red;
+  }
+span#assets {display:block; padding:3px; overflow:hidden; text-align:left;}
+span#assets img {display:inline-block; width:40px; height:40px; margin:2px; border:1px solid #fff;}
+span#assets img:hover { border:1px solid orange !important; cursor:cursor; cursor:pointer;}
+
+
+         
+  /* javascript shop profile  injected html formatting 
+    ------------------------------------------------------------ */
   .s-js-contents .gallery-body {
     border:3px solid #222;
+    -webkit-opacity:0.95;
+    -moz-opacity:0.95;
   }  
   .s-js-details {
     padding:10px; background:#222;
@@ -119,75 +210,55 @@ ul.artists-list li a.active {
   }
   .s-js-details h2 {color:#fff }
   .s-js-contents .gallery-images img {
-    border:2px solid #222;
+
   }
     
-  /* artist profile javascript injected html formatting 
-  */
+  /* javascript artist profile injected html formatting 
+   ------------------------------------------------------------ */
   .a-js-contents .gallery-body {
-    border:3px solid #99ccff;
+    border:1px solid #111;
   }  
   .a-js-details {
-    padding:10px; background:#C8E1FA;
+    padding:10px; 
   }
   .a-js-details img {
     height:90px; width:90px; float:right; margin-left:7px;
   }
   .a-js-contents .gallery-images img {
-    border:3px solid #99ccff;
+    border:2px solid #111;
   }  
   
     
-  /* tattoo profile javascript injected html formatting 
-  */
+  /* javascript tattoo profile injected html formatting 
+    ------------------------------------------------------------ */
   .t-js-contents .gallery-body {
-    border:3px solid #ffff99;
-  }  
+    background:#fff;
+    -webkit-opacity:1;
+    -moz-opacity:1;
+    border:1px solid #111;
+  }
+  .t-js-contents a.toggle-details.hide {color:#111;}
+  .t-js-contents a.toggle-details.hide:hover {color:red;}
   .t-js-details {
     padding:10px;
+    background:#fff;
+    color:#111;
+  }
+  .t-js-details h2 {
+    color:#111 !important;
   }
   .t-js-artist-details {
     margin-top:10px;
     padding:10px;
-    background:#ffff99;
+    color:#fff;
   }
   .t-js-artist-details img {
     height:90px; width:90px; float:right; margin-left:7px;
   }
   
 
-/* basic small tattoo wrappe
-*/
-.tattoo-each {
-  margin:10px 5px; float:left; 
-}
- 
- 
-/*
-  tattoo gallery scroller
-*/
-.gallery-scroller {
-  margin:10px 0;
-  height:100px;
-  overflow:auto;
-  background:#111; /* blue : ddffff , border: 99ffff*/
-  border:2px solid #000;
-}
-  .gallery-scroller .tattoo-each img {
-    width:75px; height:75px; /* note this */
-    background:#fff;
-    border:1px solid #fff;
-  }
-  .gallery-scroller .tattoo-each a:hover img,
-  .gallery-scroller .tattoo-each a.active img {
-    border:1px solid orange;
-  }
-  
-
-
 /* artist stuff
-   -----------------------------
-*/
+  ------------------------------------------------------------ */
 .artist-wrap {
   padding:10px;
   margin:10px; 
@@ -202,13 +273,21 @@ ul.artists-list li a.active {
   width:45%;
   float:left; 
   overflow:hidden;
-  background:#ddffff;
-  border:1px solid #99ffff;  
+  background:#222;
+  border:1px solid #111;
+  color:#fff; 
 }
+#tab-artists .artist-each h2 {
+  color:#fff;
+}
+#tab-artists .artist-each  a {color:lightblue;}
+#tab-artists .artist-each  a:hover {color:orange;}
+
 #tab-artists .artist-each img {
-  float:right; padding:10px; margin-left:10px; 
-  background:#fff;
-  border:1px solid #ccc;
+  float:right; margin-left:10px; 
+  width:75px; height:75px;
+  border:1px solid #fff;
+  
 }
 
 .artist-show .artist-each {
@@ -228,8 +307,7 @@ ul.artists-list li a.active {
 
 /* tattoo stuff
    tattoos get loaded into Main this image gallery view
-   -----------------------------
-*/
+  ------------------------------------------------------------ */
 .tattoo-main {
   width:50%; float:left;
   adding:10px; order-right:1px dashed green;
@@ -250,5 +328,16 @@ ul.artists-list li a.active {
   adding:10px; order-right:1px dashed green;
   
 }
+
+/* ajax */
+.loading{
+  width:200px;
+  margin:auto; margin-top:30px;
+  padding-top:20px;
+  text-align:center;
+  color:#222;
+  background:url('http://tastyink.com/images/loading.gif') no-repeat top center;
+}
+.loading.white{color:#fff}
 
 

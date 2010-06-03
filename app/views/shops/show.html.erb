@@ -7,20 +7,30 @@
   <% end %>
 </ul>    	
 
+
 <div class="gallery-scroller">
-  <%= render :partial => @shop.tattoos %>
+  <ul id="mycarousel" class="jcarousel-skin-tango">
+    <%= render :partial => @shop.tattoos %>
+  </ul>
 </div>
+
 <div class="gallery-full">
-  LOADING...
+  <div class="gallery-contents s-js-contents"> 
+    <a href="#"  id="show" class="toggle-details show">View Details</a>
+    <div id="details" class="gallery-body">
+      <a href="#" id="hide" class="toggle-details hide">[-]</a>
+      <div class="s-js-details">
+        <h2><%= @shop.name %></h2>
+        <p><%= @shop.desc %></p>
+        <span id="assets">
+        <% for asset in @shop.assets %>
+          <%= image_tag asset.url(:thumb) %>
+        <% end %>
+        </span>
+      </div>
+    </div>
+    <div class="gallery-images">
+      <%= image_tag @shop.assets.first.url(:gallery) unless @shop.assets.first.nil? %>
+    </div>
+  </div>
 </div>
-
-<!-- get rid of this -->
-<script type="text/javascript">
-  // initialize shop profile
-  $(document).ready(function(){
-    $('a.do-shop').click();  
-  });
-</script>
-
-
-
