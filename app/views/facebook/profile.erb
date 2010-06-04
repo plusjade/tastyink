@@ -12,7 +12,7 @@
   <div id="scroller" class="gallery-scroller" onclick="return false">
 <% for tattoo in @shop.tattoos %>
   <% next if tattoo.assets.first.nil? %>
-    <%= image_tag tattoo.assets.first.url(:thumb), :name => tattoo.id %>
+    <%= image_tag "#{url}#{tattoo.assets.first.url(:thumb)}", :name => tattoo.id %>
 <% end %>
   </div>
 
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="gallery-images">
-        <%= image_tag @shop.assets.first.url(:gallery) unless @shop.assets.first.nil? %>
+        <%= image_tag "#{url}#{@shop.assets.first.url(:gallery)}" unless @shop.assets.first.nil? %>
       </div>
     </div>
   </div>
