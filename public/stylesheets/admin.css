@@ -1,0 +1,19 @@
+
+fieldset{margin-bottom:10px;}
+.right-half { float:right; width:48%;}
+.left-half { width:48%;}
+.right-half img { width:75px; height:75px;}
+form textarea {
+  width:90%;height:100px;
+}
+form label {
+  font-size:14px;
+}
+
+/* assets */
+.gallery {}
+.gallery div {
+  width:75px; height:125px; 
+  float:left; margin:5px;
+  }
+.gallery img {width:75px; height:75px}  

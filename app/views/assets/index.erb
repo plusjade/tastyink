@@ -1,0 +1,15 @@
+
+
+<h4>Total assets: <%= @assets.count %></h4>
+
+<div class="gallery">
+  
+<% for asset in @assets %>
+  <div>
+    <%= image_tag asset.url(:thumb) %>
+    <br/>has:  <%= asset.attachings_count %>
+  </div>
+<% end %>
+</div>
+<div style="clear:both"></div>
+

@@ -27,9 +27,9 @@
             <%= link_to 'Shop Home', shop_path(@shop) %>
             | <%= link_to 'Add Artist', new_shop_artist_path(@shop) %>
             | <%= link_to 'Add Tattoo', new_shop_tattoo_path(@shop) %>
+            | <%= link_to 'View Assets', shop_assets_path(@shop) %>
             | <%= link_to 'Edit Shop', edit_shop_path(@shop)  %>
-          <% end%>
-           | <a href="#" class="toggle-shop">hide</a>
+          <% end %>
         </div>
         
         <%= yield %>

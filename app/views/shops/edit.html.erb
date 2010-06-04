@@ -1,41 +1,41 @@
 <h1>Editing shop</h1>
 
 
-<% for asset in @shop.assets %>
-  <%= image_tag asset.url(:thumb), :style => 'float:right; clear:right;' %>
-<% end %>
-
 <% form_for @shop, :html => { :multipart => true } do |f| %>
   <%= f.error_messages %>
-
-  <p>
-  <%= f.file_field :data %>
-  </p>
-  
-  
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :address %><br />
-    <%= f.text_area :address %>
-  </p>
-  <p>
-    <%= f.label :desc %><br />
-    <%= f.text_area :desc %>
-  </p>
-  <p>
-    <%= f.label :phone %><br />
-    <%= f.text_field :phone %>
-  </p>
-  <p>
-    <%= f.label :hours %><br />
-    <%= f.text_area :hours %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
+  <div class="right-half">
+    <fieldset>
+    <%= f.file_field :data %>
+    </fieldset>
+<% for asset in @shop.assets %>
+  <%= image_tag asset.url(:thumb) %>
+<% end %> 
+  </div>
+  <div class="left-half">
+    <fieldset>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :phone %><br />
+      <%= f.text_field :phone %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :address %><br />
+      <%= f.text_area :address %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :desc %><br />
+      <%= f.text_area :desc %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :hours %><br />
+      <%= f.text_area :hours %>
+    </fieldset>
+    <fieldset>
+      <%= f.submit "Update" %>
+    </fieldset>
+  </div>
 <% end %>
 
 <%= link_to 'Show', @shop %> |

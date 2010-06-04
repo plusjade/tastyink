@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :shops do |shops|
     shops.resources :artists, :name_prefix => "shop_"
     shops.resources :tattoos, :name_prefix => "shop_"
+    shops.resources :assets, :name_prefix => "shop_"
   end
 
   map.resources :artists do |artists|
