@@ -1,16 +1,9 @@
 
 <h2>Add Tattoo<h2>
 
-<% form_for @tattoo, {:url => shop_tattoos_path(params[:shop_id]) , :html => { :multipart => true } } do |f| %>
+<% form_for @tattoo, :url => shop_tattoos_path(params[:shop_id]) do |f| %>
   <%= f.error_messages %>
 
-  <div class="right-half">
-    <fieldset>
-      <%= f.label :data, "Upload Images" %><br />
-      <%= f.file_field :data %>
-    </fieldset>
-  </div>
-  
   <div class="left-half">
     <fieldset>
       <%= f.label :title, "Title" %><br />

@@ -3,81 +3,96 @@ class AssetsController < ApplicationController
   layout 'admin'
   
   
-  # GET /shops
-  # GET /shops.xml
+  # GET /assets
   def index
     render :text => 'specify shop' and return if params[:shop_id].nil? 
-    
     @shop = Shop.find(params[:shop_id])
     @assets = Asset.find(:all)
-     #render :json => @assets.to_json(:include => :attachings) and return 
-  end
-
-  # GET /shops/1
-  # GET /shops/1.xml
-  def show
-    @shop = Shop.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render :json => @shop.to_json(:include => :assets) }
+      format.json { render :json => @assets }
+    end    
+  end
+
+
+  # GET /assets/1
+  def show
+    @asset = Asset.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @asset }
     end
   end
 
 
-
-  # GET /shops/new
-  # GET /shops/new.xml
+  # GET /assets/new
   def new
-    @shop = Shop.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
+    @asset = Asset.new
+    render :template => 
+      'assets/new',
+      :layout => false,
+      :locals => {:asset => @asset} if request.xhr?
   end
 
-  # GET /shops/1/edit
+
+  # GET /assets/1/edit
   def edit
-    @shop = Shop.find(params[:id])
+    @asset = Asset.find(params[:id])
   end
 
-  # POST /shops
-  # POST /shops.xml
+
+  # POST /assets
   def create
-    @shop = Shop.new(params[:shop])
+    render :json => {'msg' => 'Nothing sent.'} and return if params[:asset][:data].is_a?(String)    
+    @asset = Asset.new(params[:asset])
 
-    respond_to do |format|
-      if @shop.save
-        flash[:notice] = 'Shop was successfully created.'
-        format.html { redirect_to(@shop) }
-      else
-        format.html { render :action => "new" }
-      end
+    if @asset.save
+      render :json => 
+      {
+        'status' => 'good',
+        'msg'    => "Asset Uploaded!"
+      }
+    else
+      render :json =>
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please try again!"
+      }
     end
   end
 
-  # PUT /shops/1
-  # PUT /shops/1.xml
+
+  # PUT /assets/1
   def update
-    @shop = Shop.find(params[:id])
+    @asset = Asset.find(params[:id])
 
-    respond_to do |format|
-      if @shop.update_attributes(params[:shop])
-        flash[:notice] = 'Shop was successfully updated.'
-        format.html { redirect_to(@shop) }
-      else
-        format.html { render :action => "edit" }
-      end
+    if @asset.update_attributes(params[:shop])
+      render :json => 
+      {
+        'status' => 'good',
+        'msg'    => "asset Updated!"
+      }
+    else
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please try again!"
+      }
     end
   end
 
-  # DELETE /shops/1
-  # DELETE /shops/1.xml
+
+  # DELETE /assets/1
   def destroy
-    @shop = Shop.find(params[:id])
-    @shop.destroy
+    @asset = Asset.find(params[:id])
+    @asset.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(shops_url) }
-    end
+    render :json =>
+    {
+      "status" => 'good',
+      'msg'    => 'Asset deleted!'
+    }
   end
+  
+  
 end

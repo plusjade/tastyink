@@ -1,0 +1,20 @@
+
+<% form_for @asset, {:url => shop_assets_path(params[:shop_id]) , :html => { :multipart => true } } do |f| %>
+  <%= f.error_messages %>
+
+  <div class="right-half">
+    <fieldset>
+      <%= f.label :data, "Upload Images" %><br />
+      <%= f.file_field :data %>
+    </fieldset>
+  </div>
+ 
+    <fieldset>
+      <%= f.submit "Save" %>
+    </fieldset>
+  </div> 
+  
+<% end %>
+<br style="clear:both"/>
+
+

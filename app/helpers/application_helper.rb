@@ -22,7 +22,12 @@ module ApplicationHelper
     html = render(:file => 'tattoos/js-gallery')
     html.gsub("\n",'')
   end
-  
+
+  def js_assets_template
+    html = render(:file => 'assets/js-gallery')
+    html.gsub("\n",'')
+  end
+    
   ## Facebook application templates
   ## TODO: dry this up.
   ## the main diff. as of now if just the URL to scope to fb controller.

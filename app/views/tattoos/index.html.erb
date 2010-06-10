@@ -1,1 +1,30 @@
-hello!
+
+
+<h2>Total tattoos: <%= @shop.tattoos.count %></h2>
+
+<div class="edit-tattoo-wrapper">
+nothing here yet
+</div>
+
+<div class="edit-tattoos-wrapper">
+<% for tattoo in @shop.tattoos %>
+<div>
+  <%=
+    link_to tattoo.assets.first.nil? ? 'edit' : image_tag(tattoo.assets.first.url(:thumb)), 
+      edit_tattoo_path(tattoo),
+      :class => 'edit-tattoo'
+  %>
+  <br/><b><%= tattoo.title %></b>
+  <br/><%= tattoo.assets.count %> images.
+</div>
+<% end %>
+</div>
+
+<script type="text/javascript">
+  $('a.edit-tattoo').click(function(){
+    $.get(this.href, function(view){
+      $('div.edit-tattoo-wrapper').html(view);
+    });
+    return false;
+  });
+</script>

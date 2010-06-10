@@ -1,16 +1,14 @@
 class ShopsController < ApplicationController
   layout :configure_layout
   
-  
   # GET /shops
-  # GET /shops.xml
   def index
     @shops = Shop.find(:all)
     render :template => 'shops/index', :layout => 'home'
   end
 
+
   # GET /shops/1
-  # GET /shops/1.xml
   def show
     @shop = Shop.find(params[:id])
     respond_to do |format|
@@ -20,9 +18,7 @@ class ShopsController < ApplicationController
   end
 
 
-
   # GET /shops/new
-  # GET /shops/new.xml
   def new
     @shop = Shop.new
 
@@ -31,13 +27,18 @@ class ShopsController < ApplicationController
     end
   end
 
+
   # GET /shops/1/edit
   def edit
     @shop = Shop.find(params[:id])
+    render :template =>
+      'shops/edit',
+      :layout => false,
+      :locals => {:shop => @shop} if request.xhr?
   end
 
+
   # POST /shops
-  # POST /shops.xml
   def create
     @shop = Shop.new(params[:shop])
 
@@ -51,29 +52,48 @@ class ShopsController < ApplicationController
     end
   end
 
+
   # PUT /shops/1
-  # PUT /shops/1.xml
   def update
     @shop = Shop.find(params[:id])
-
-    respond_to do |format|
-      if @shop.update_attributes(params[:shop])
-        flash[:notice] = 'Shop was successfully updated.'
-        format.html { redirect_to(@shop) }
-      else
-        format.html { render :action => "edit" }
-      end
+    if @shop.update_attributes(params[:shop])
+      render :json => 
+      {
+        'status' => 'good',
+        'msg'    => "Shop Updated!"
+      }
+    else
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please try again!"
+      }
     end
   end
 
+  def attach
+    render :nothing => true and return if params[:asset].nil?
+    @shop = Shop.find(params[:id])
+    return attach_helper(@shop)
+  end 
+  
+  
+  def detach
+    render :nothing => true and return if params[:asset].nil?
+    @shop = Shop.find(params[:id])
+    return detach_helper(@shop)
+  end
+  
+  
   # DELETE /shops/1
-  # DELETE /shops/1.xml
   def destroy
     @shop = Shop.find(params[:id])
     @shop.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(shops_url) }
-    end
+    render :json =>
+    {
+      "status" => 'good',
+      'msg'    => 'Tattoo deleted!'
+    }
   end
 end

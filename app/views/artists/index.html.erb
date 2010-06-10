@@ -1,5 +1,6 @@
-<h1>Artists for <%= @shop.name %></h1>
-
+<ul class="sub-nav">
+  <li><%= link_to 'Add Artist', new_shop_artist_path(@shop) %></li>
+</ul>  
 
 
 <% for artist in @artists %>
@@ -17,7 +18,3 @@
 </div>
 <% end %>
 
-<br />
-
-<%= link_to 'New artist', new_shop_artist_path(@shop) %>
-<%= link_to 'Back to Shop', @shop %>

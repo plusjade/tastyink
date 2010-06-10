@@ -1,42 +1,50 @@
-<h1>Editing shop</h1>
-
+<ul id="profile-assets-wrapper" class="selectable">
+<% for asset in @shop.assets %>
+  <li>
+  <%= image_tag asset.url(:thumb) %>
+  <%= link_to 'detach', "#{shop_path(@shop)}/detach?asset=#{asset.id}"%>
+  </li>
+<% end %>
+</ul>
 
 <% form_for @shop, :html => { :multipart => true } do |f| %>
   <%= f.error_messages %>
+
   <div class="right-half">
     <fieldset>
     <%= f.file_field :data %>
     </fieldset>
-<% for asset in @shop.assets %>
-  <%= image_tag asset.url(:thumb) %>
-<% end %> 
+    
+    <fieldset>
+      <%= f.label :desc %><br />
+      <%= f.text_area :desc %>
+    </fieldset>
+    
+    <fieldset>
+      <%= f.label :hours %><br />
+      <%= f.text_area :hours %>
+    </fieldset>    
   </div>
+  
   <div class="left-half">
     <fieldset>
       <%= f.label :name %><br />
       <%= f.text_field :name %>
     </fieldset>
+    
     <fieldset>
       <%= f.label :phone %><br />
       <%= f.text_field :phone %>
     </fieldset>
+    
     <fieldset>
       <%= f.label :address %><br />
       <%= f.text_area :address %>
     </fieldset>
-    <fieldset>
-      <%= f.label :desc %><br />
-      <%= f.text_area :desc %>
-    </fieldset>
-    <fieldset>
-      <%= f.label :hours %><br />
-      <%= f.text_area :hours %>
-    </fieldset>
+
     <fieldset>
       <%= f.submit "Update" %>
     </fieldset>
   </div>
 <% end %>
 
-<%= link_to 'Show', @shop %> |
-<%= link_to 'Back', shops_path %>

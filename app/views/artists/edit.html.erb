@@ -1,16 +1,15 @@
-<h1>Editing artist</h1>
-
+<ul id="profile-assets-wrapper" class="selectable">
 <% for asset in @artist.assets %>
-  <%= image_tag asset.url(:thumb), :style => 'float:right; clear:right;' %>
+  <li>
+  <%= image_tag asset.url(:thumb) %>
+  <%= link_to 'detach', "#{artist_path(@artist)}/detach?asset=#{asset.id}"%>
+  </li>
 <% end %>
-
-<% form_for @artist, :html => { :multipart => true } do |f| %>
+</ul>
+<%= link_to delete_artist_path(@artist) %>
+<% form_for @artist do |f| %>
   <%= f.error_messages %>
 
-  <p>
-  <%= f.file_field :data %>
-  </p>
-  
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -24,5 +23,3 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', artist_path(@artist) %> |
-<%= link_to 'Back', artists_path() %>

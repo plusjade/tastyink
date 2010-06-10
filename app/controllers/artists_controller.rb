@@ -6,6 +6,7 @@ class ArtistsController < ApplicationController
     @artists = @shop.artists
   end
 
+
   def show
     respond_to do |format|
       format.html do
@@ -17,54 +18,92 @@ class ArtistsController < ApplicationController
         render :json => @artist.to_json(:include => :assets)
       end
     end
-    #@shop = Shop.find(params[:shop_id])
-    #@artist = @shop.artists.find(params[:id])
   end
+
 
   # GET
   def new
     @shop = Shop.find(params[:shop_id])
     @artist = @shop.artists.build
+    render :template => 
+      'artists/new',
+      :layout => false,
+      :locals => {:artist => @artist} if request.xhr?
   end
+
 
   #POST
   def create
     @shop = Shop.find(params[:shop_id])
     @artist = @shop.artists.build(params[:artist])
     if @artist.save
-      redirect_to shop_artist_url(@shop, @artist)
+      render :json => 
+      {
+        'status' => 'good',
+        'msg'    => "Artist created!"
+      }
     else
-      render :action => "new"
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please try again!"
+      }
     end
   end
 
+
   def edit
     @artist = Artist.find(params[:id])
+    render :template =>
+      'artists/edit',
+      :layout => false,
+      :locals => {:artist => @artist} if request.xhr?
   end
 
 
   def update
     @artist = Artist.find(params[:id])
     if @artist.update_attributes(params[:artist])
-      redirect_to artist_url(@artist)
+      render :json => 
+      {
+        'status' => 'good',
+        'msg'    => "Artist Updated!"
+      }
     else
-      render :action => "edit"
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please try again!"
+      }
     end
   end
 
 
-
+  def attach
+    render :nothing => true and return if params[:asset].nil?
+    @artist = Artist.find(params[:id])
+    return attach_helper(@artist)
+  end 
+  
+  
+  def detach
+    render :nothing => true and return if params[:asset].nil?
+    @artist = Artist.find(params[:id])
+    return detach_helper(@artist)
+  end
+  
+  
   def destroy
     @artist = Artist.find(params[:id])
     @artist.destroy
 
-    respond_to do |format|
-      format.html { redirect_to artists_path }
-      format.xml  { head :ok }
-    end
+    render :json =>
+    {
+      "status" => 'good',
+      'msg'    => 'Artist deleted!'
+    }
   end
 
-
-  
+ 
 end
 
