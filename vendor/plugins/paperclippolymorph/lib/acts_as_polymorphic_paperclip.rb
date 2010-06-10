@@ -25,7 +25,13 @@ module LocusFocus
               @owner.assets << asset
               @owner.assets(true)
             end
-            
+
+            def detach_quick(asset_id)
+              asset_id = extract_id(asset_id)
+              attaching = @owner.attachings.find(:first, :conditions => ['asset_id = ?', asset_id])
+              attaching.destroy if attaching
+            end
+                        
             def detach(asset_id, delete_if_no_attachings = false)
               asset_id = extract_id(asset_id)
               attaching = @owner.attachings.find(:first, :conditions => ['asset_id = ?', asset_id])
