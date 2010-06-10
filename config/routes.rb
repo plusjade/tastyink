@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     shops.resources :tattoos, :name_prefix => "shop_"
     shops.resources :assets, :name_prefix => "shop_"
   end
-
+  
   map.resources :artists do |artists|
     artists.resources :tattoos, :name_prefix => "artist_"
   end
@@ -17,11 +17,12 @@ ActionController::Routing::Routes.draw do |map|
     tattoos.resources :comments, :name_prefix => "tattoo_"
   end
 
-  map.resources :comments
-
-  #map.resources :facebook
+  map.resources :shops, :artists, :tattoos, 
+    :member => { :attach => :get, :detach => :get }
 
   map.connect 'facebook/:action/:id/:meta', :controller => 'facebook'
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
