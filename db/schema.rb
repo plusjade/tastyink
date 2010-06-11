@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100610101503) do
+ActiveRecord::Schema.define(:version => 20100611082509) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20100610101503) do
     t.integer  "attachings_count",  :default => 0
     t.datetime "created_at"
     t.datetime "data_updated_at"
+    t.integer  "shop_id"
   end
 
   create_table "attachings", :force => true do |t|

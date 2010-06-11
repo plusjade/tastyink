@@ -4,13 +4,11 @@ class AssetsController < ApplicationController
   
   # GET /assets
   def index
-    @shop = current_user.shop
-     
-    @assets = Asset.find(:all)
-    respond_to do |format|
-      format.html
-      format.json { render :json => @assets }
-    end    
+    @assets = Asset.find(
+      :all,
+      :conditions => { :shop_id => current_user.shop.id }
+    )
+    render :json => @assets 
   end
 
 
@@ -36,15 +34,19 @@ class AssetsController < ApplicationController
 
   # GET /assets/1/edit
   def edit
-    @asset = Asset.find(params[:id])
+    @asset = Asset.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
   end
 
 
   # POST /assets
   def create
-    render :json => {'msg' => 'Nothing sent.'} and return if params[:asset][:data].is_a?(String)    
+    #render :json => {'msg' => 'Nothing sent.'} and return if params[:asset][:data].is_a?(String)    
     @asset = Asset.new(params[:asset])
-
+    @asset.shop_id = current_user.shop.id
+    
     if @asset.save
       render :json => 
       {
@@ -63,8 +65,10 @@ class AssetsController < ApplicationController
 
   # PUT /assets/1
   def update
-    @asset = Asset.find(params[:id])
-
+    @asset = Asset.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     if @asset.update_attributes(params[:shop])
       render :json => 
       {
@@ -83,7 +87,10 @@ class AssetsController < ApplicationController
 
   # DELETE /assets/1
   def destroy
-    @asset = Asset.find(params[:id])
+    @asset = Asset.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     @asset.destroy
 
     render :json =>
