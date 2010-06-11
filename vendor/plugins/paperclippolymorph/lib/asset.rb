@@ -1,9 +1,13 @@
 class Asset < ActiveRecord::Base
   has_many :attachings, :dependent => :destroy
+  belongs_to :shop
   has_attached_file :data,
                     :styles => {
                     :thumb => "75x75#",
                     :gallery  => "600x800>" }                               
+  before_create :randomize_file_name
+  validates_attachment_presence :data
+  validates_attachment_content_type :data, :content_type => /image\/[A-Za-z_-]/
 
 
   def url(*args)
@@ -43,4 +47,13 @@ class Asset < ActiveRecord::Base
     raise ActiveRecord::RecordNotFound unless a
     a.destroy
   end
+  
+  private
+  
+  def randomize_file_name
+    extension = File.extname(data_file_name).downcase
+    self.data.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(6)}#{extension}")
+  end
+  
+  
 end
