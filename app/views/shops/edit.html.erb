@@ -7,13 +7,10 @@
 <% end %>
 </ul>
 
-<% form_for @shop, :html => { :multipart => true } do |f| %>
+<% form_for @shop do |f| %>
   <%= f.error_messages %>
 
   <div class="right-half">
-    <fieldset>
-    <%= f.file_field :data %>
-    </fieldset>
     
     <fieldset>
       <%= f.label :desc %><br />
