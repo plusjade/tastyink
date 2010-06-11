@@ -1,6 +1,8 @@
 class ShopsController < ApplicationController
   layout :configure_layout
+  before_filter :require_user, :except => [:index, :show]
   
+   
   # GET /shops
   def index
     @shops = Shop.find(:all)
@@ -17,20 +19,15 @@ class ShopsController < ApplicationController
     end
   end
 
-
+  # shops are created internally when creating a User!
   # GET /shops/new
-  def new
-    @shop = Shop.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
-  end
+  #def new
+  #end
 
 
   # GET /shops/1/edit
   def edit
-    @shop = Shop.find(params[:id])
+    @shop = current_user.shop
     render :template =>
       'shops/edit',
       :layout => false,
@@ -38,24 +35,9 @@ class ShopsController < ApplicationController
   end
 
 
-  # POST /shops
-  def create
-    @shop = Shop.new(params[:shop])
-
-    respond_to do |format|
-      if @shop.save
-        flash[:notice] = 'Shop was successfully created.'
-        format.html { redirect_to(@shop) }
-      else
-        format.html { render :action => "new" }
-      end
-    end
-  end
-
-
   # PUT /shops/1
   def update
-    @shop = Shop.find(params[:id])
+    @shop = current_user.shop
     if @shop.update_attributes(params[:shop])
       render :json => 
       {
@@ -71,29 +53,20 @@ class ShopsController < ApplicationController
     end
   end
 
+
   def attach
     render :nothing => true and return if params[:asset].nil?
-    @shop = Shop.find(params[:id])
+    @shop = current_user.shop
     return attach_helper(@shop)
   end 
   
   
   def detach
     render :nothing => true and return if params[:asset].nil?
-    @shop = Shop.find(params[:id])
+    @shop = current_user.shop
     return detach_helper(@shop)
   end
-  
-  
-  # DELETE /shops/1
-  def destroy
-    @shop = Shop.find(params[:id])
-    @shop.destroy
 
-    render :json =>
-    {
-      "status" => 'good',
-      'msg'    => 'Tattoo deleted!'
-    }
-  end
+
+
 end

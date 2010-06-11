@@ -1,8 +1,9 @@
 class AdminController < ApplicationController
-  
-  # NOTE: authentication should store the shop object.
+
+  before_filter :require_user
+   
   def index
-    @shop = Shop.find(1)
+    @shop = current_user.shop
     @assets = Asset.find(:all)
   end
 

@@ -1,12 +1,11 @@
 class AssetsController < ApplicationController
-
   layout 'admin'
-  
+  before_filter :require_user
   
   # GET /assets
   def index
-    render :text => 'specify shop' and return if params[:shop_id].nil? 
-    @shop = Shop.find(params[:shop_id])
+    @shop = current_user.shop
+     
     @assets = Asset.find(:all)
     respond_to do |format|
       format.html

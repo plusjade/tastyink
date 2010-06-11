@@ -1,5 +1,7 @@
 class TattoosController < ApplicationController
   layout :configure_layout
+  before_filter :require_user, :except => [:index, :show]
+  
   
   # GET /posts
   def index
@@ -52,11 +54,10 @@ class TattoosController < ApplicationController
     end
   end
 
-
+  
   # GET /tattoos/new
   def new
-    render :text => 'specify shop' and return if params[:shop_id].nil?
-    @shop = Shop.find(params[:shop_id])
+    @shop = current_user.shop
     @tattoo = Tattoo.new
     render :template => 
       'tattoos/new',
@@ -67,7 +68,10 @@ class TattoosController < ApplicationController
 
   # GET /tattoos/1/edit
   def edit
-    @tattoo = Tattoo.find(params[:id], :include => [:shop, :artist])
+    @tattoo = Tattoo.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     render :template => 
       'tattoos/edit',
       :layout => false,
@@ -77,10 +81,8 @@ class TattoosController < ApplicationController
   
   # POST /tattoos
   def create
-    render :text => 'specify shop' and return if params[:shop_id].nil?
-
     @tattoo = Tattoo.new(params[:tattoo])
-    @tattoo.shop_id = params[:shop_id]
+    @tattoo.shop_id = current_user.shop.id
     
     if @tattoo.save
       render :json => 
@@ -100,7 +102,10 @@ class TattoosController < ApplicationController
   
   # PUT /tattoos/1
   def update
-    @tattoo = Tattoo.find(params[:id])
+    @tattoo = Tattoo.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     if @tattoo.update_attributes(params[:tattoo])
       render :json => 
       {
@@ -119,14 +124,20 @@ class TattoosController < ApplicationController
 
   def attach
     render :nothing => true and return if params[:asset].nil?
-    @tattoo = Tattoo.find(params[:id])
+    @tattoo = Tattoo.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     return attach_helper(@tattoo)
   end 
   
   
   def detach
     render :nothing => true and return if params[:asset].nil?
-    @tattoo = Tattoo.find(params[:id])
+    @tattoo = Tattoo.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     return detach_helper(@tattoo)
   end
  
@@ -134,7 +145,10 @@ class TattoosController < ApplicationController
   
   # DELETE /tattoos/1
   def destroy
-    @tattoo = Tattoo.find(params[:id])
+    @tattoo = Tattoo.find(
+      params[:id],
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     @tattoo.destroy
     
     render :json =>

@@ -1,6 +1,7 @@
 class ArtistsController < ApplicationController
   layout :configure_layout
-  
+  before_filter :require_user, :except => [:index, :show]
+    
   def index
     @shop = Shop.find(params[:shop_id])
     @artists = @shop.artists
@@ -23,7 +24,7 @@ class ArtistsController < ApplicationController
 
   # GET
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = current_user.shop
     @artist = @shop.artists.build
     render :template => 
       'artists/new',
@@ -34,7 +35,7 @@ class ArtistsController < ApplicationController
 
   #POST
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = current_user.shop
     @artist = @shop.artists.build(params[:artist])
     if @artist.save
       render :json => 
@@ -53,7 +54,10 @@ class ArtistsController < ApplicationController
 
 
   def edit
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find(
+      params[:id], 
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     render :template =>
       'artists/edit',
       :layout => false,
@@ -62,7 +66,10 @@ class ArtistsController < ApplicationController
 
 
   def update
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find(
+      params[:id], 
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     if @artist.update_attributes(params[:artist])
       render :json => 
       {
@@ -81,22 +88,30 @@ class ArtistsController < ApplicationController
 
   def attach
     render :nothing => true and return if params[:asset].nil?
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find(
+      params[:id], 
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     return attach_helper(@artist)
   end 
   
   
   def detach
     render :nothing => true and return if params[:asset].nil?
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find(
+      params[:id], 
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     return detach_helper(@artist)
   end
   
   
   def destroy
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find(
+      params[:id], 
+      :conditions => { :shop_id => current_user.shop.id }
+    )
     @artist.destroy
-
     render :json =>
     {
       "status" => 'good',
