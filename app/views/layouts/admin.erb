@@ -9,9 +9,8 @@
 <body>
   <div id="wrapper">
     
-    <div style="margin:10px; auto; order:1px solid #ccc;">
-        <h3 style="text-align:center">Workspace</h3>
-
+    <div style="margin:10px auto">
+      <h3 style="text-align:center">Workspace</h3>
 
       <div class="workspace-wrapper">
         <ul class="workspace-toolbar">
@@ -58,7 +57,7 @@
   
   
 <script type="text/javascript">
-  function tattoosTemplate(t){return '<%= js_tattoos_template %>'};
+  function tattoosTemplate(t){return '<%= admin_tattoos_template %>'};
   function assetsTemplate(a){return '<%= js_assets_template %>'};
   
   $('a[rel*=facebox]').facebox();
@@ -126,10 +125,10 @@
     $('ul.tattoos-wrapper').empty();
     $.get(this.href + '.json',function(rsp){
       $.each(rsp, function(){
-        if (this.tattoo.assets.length <= 0) return;
-        $('ul.tattoos-wrapper').append(
-        '<li class="drag-profile" rel="'+ this.tattoo.id +'">' + tattoosTemplate(this.tattoo) + this.tattoo.title + '</li>'
-        );
+        this.tattoo.src = (this.tattoo.assets.length <= 0)
+          ? '/images/no-image.gif'
+          : '/system/datas/' + this.tattoo.assets[0].id +'/thumb/'+ this.tattoo.assets[0].data_file_name;
+        $('ul.tattoos-wrapper').append(tattoosTemplate(this.tattoo));
       });
       // tattoo profiles are draggable.
       $("ul.tattoos-wrapper li").draggable({
