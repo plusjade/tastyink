@@ -1,57 +1,67 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  # output the correct image path to first asset.
+  def display_first_asset(assets)
+    if assets.first.nil? 
+      '/images/no-image.gif'
+    else
+      assets.first.url(:thumb)
+    end  
+  end
+  
+  
   def js_shop_template
-    html = render(:file => 'shops/js-single')
-    html.gsub("\n",'')
+    render(:file => 'shops/js-single').gsub("\n",'')
   end
   
 
   def js_artist_template
-    html = render(:file => 'artists/js-single')
-    html.gsub("\n",'')
+    render(:file => 'artists/js-single').gsub("\n",'')
   end
   
 
   def js_tattoo_template
-    html = render(:file => 'tattoos/js-single')
-    html.gsub("\n",'')
+    render(:file => 'tattoos/js-single').gsub("\n",'')
   end
+
 
   def js_tattoos_template
-    html = render(:file => 'tattoos/js-gallery')
-    html.gsub("\n",'')
+    render(:file => 'tattoos/js-gallery').gsub("\n",'')
   end
 
+
   def js_assets_template
-    html = render(:file => 'assets/js-gallery')
-    html.gsub("\n",'')
+    render(:file => 'assets/js-gallery').gsub("\n",'')
   end
-    
+
+
+  def admin_tattoos_template
+    render(:file => 'tattoos/admin-gallery').gsub("\n",'')
+  end
+      
   ## Facebook application templates
   ## TODO: dry this up.
   ## the main diff. as of now if just the URL to scope to fb controller.
   
   def fb_shop_template
-    html = render(:file => 'shops/fb-single')
-    html.gsub("\n",'')
+    render(:file => 'shops/fb-single').gsub("\n",'')
   end
   
 
   def fb_artist_template
-    html = render(:file => 'artists/fb-single')
-    html.gsub("\n",'')
+    render(:file => 'artists/fb-single').gsub("\n",'')
   end
   
 
   def fb_tattoo_template
-    html = render(:file => 'tattoos/fb-single')
-    html.gsub("\n",'')
+    render(:file => 'tattoos/fb-single').gsub("\n",'')
   end
 
+
   def fb_tattoos_template
-    html = render(:file => 'tattoos/fb-gallery')
-    html.gsub("\n",'')
+    render(:file => 'tattoos/fb-gallery').gsub("\n",'')
   end
+  
   
 end
