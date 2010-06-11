@@ -16,6 +16,9 @@
     tolerance: 'touch',
     drop: function(e, ui) {
       $('span', this).html($(ui.draggable).html());
+      $('ul.workspace-toolbar li.edit a').removeClass('disable');
+	    if(undefined != $('ul.working-assets img:first').attr('src'))
+        $('ul.workspace-toolbar li.save a').removeClass('disable');
     }
   }); 
 
@@ -24,7 +27,14 @@
     accept: '.drag-asset',
     activeClass: 'ui-state-highlight',
     hoverClass: 'drophover',
-    tolerance: 'touch'
+    tolerance: 'touch',
+    drop: function(e, ui) {
+      if(undefined != $('ul.working-assets img:first').attr('src')){
+        $('ul.workspace-toolbar li.clear a').removeClass('disable');
+	      if(undefined != $('div.working-profile img').attr('id'))
+          $('ul.workspace-toolbar li.save a').removeClass('disable');
+      }
+    }
   });
 
   // working assets are sortable.
@@ -73,6 +83,7 @@
   // clear the working assets
   $('a.clear-assets').click(function(){
     $('ul.working-assets').empty();
+    $('li.save a, li.clear a', 'ul.workspace-toolbar').addClass('disable');
     return false;
   });
 

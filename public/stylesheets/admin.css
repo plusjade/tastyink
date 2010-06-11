@@ -87,21 +87,35 @@ form label {
 }
 .workspace-wrapper ul.workspace-toolbar {
   float:left;
-  background:#CCFF99; /*408000 */
   margin-top:8px;
 }
 .workspace-wrapper ul.workspace-toolbar li {
   
 }
 .workspace-wrapper ul.workspace-toolbar li a{
+  padding:1px 6px;
+  display:block;  
   color:green;
+  background:#CCFF99;
   font-size:12px;
   text-decoration:none;
-  display:block;
-  padding:1px 6px;  
   border-bottom:1px solid #69D100;
   text-align:center;
 }
+.workspace-wrapper ul.workspace-toolbar li.save a,
+.workspace-wrapper ul.workspace-toolbar li.clear a {
+  margin-left:8px;
+}
+.workspace-wrapper ul.workspace-toolbar li.edit a {
+  color:#fff;
+  background:green; 
+}
+.workspace-wrapper ul.workspace-toolbar li a.disable {
+  color:#ccc;
+  background:#eee; 
+  border-bottom:1px solid #ccc;
+}
+
 .workspace-wrapper ul.workspace-toolbar li a:hover{
   background:#111; 
   color:#fff;
