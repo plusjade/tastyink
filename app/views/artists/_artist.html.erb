@@ -1,6 +1,6 @@
 <div class="artist-each">
   <h2><%=h artist.name %></h2>
-  <%= image_tag artist.assets.first.url(:thumb) %>
+  <%= image_tag display_first_asset(artist.assets) %>
   <p><%=h artist.bio %></p>
   <%= link_to "View #{artist.name}'s Profile", artist, :class => 'do-artist' %>
 </div>

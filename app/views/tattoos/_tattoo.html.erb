@@ -1,5 +1,4 @@
-<% return if tattoo.assets.first.nil? %>
 <li>
-<%= link_to ( image_tag tattoo.assets.first.url(:thumb), {:width => '75px', :height =>'75px'} ), tattoo %>
+  <%= link_to ( image_tag display_first_asset(tattoo.assets), {:width => '75px', :height =>'75px'} ), tattoo %>
 </li>
 

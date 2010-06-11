@@ -1,6 +1,6 @@
 
 <div class="shop-each drag-profile">
-  <%= image_tag admin_shop.assets.first.url(:thumb), :id => "shops_#{admin_shop.id}" %>
+  <%= image_tag display_first_asset(admin_shop.assets), :id => "shops_#{admin_shop.id}" %>
   <%= admin_shop.name %>
 </div>
 
