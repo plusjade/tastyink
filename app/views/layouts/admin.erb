@@ -59,9 +59,7 @@
 <script type="text/javascript">
   function tattoosTemplate(t){return '<%= admin_tattoos_template %>'};
   function assetsTemplate(a){return '<%= js_assets_template %>'};
-  
-  $('a[rel*=facebox]').facebox();
-  
+    
 // activate tab navigation
   $('ul.main-tabs li a').click(function(){
     $('div.tab-content').hide();
@@ -101,13 +99,15 @@
   });
 
 // assets are draggable
-  $("ul#assets-wrapper li img").draggable({
-    appendTo: 'body',
-    stack: "ul.assets-wrapper li img",
-    zIndex: 2700,
-    revert: true,
-    helper: 'clone',
-    connectToSortable: 'ul.working-assets'
+  $(document).bind('draggableAssets', function(){
+    $("ul#assets-wrapper li img").draggable({
+      appendTo: 'body',
+      stack: "ul.assets-wrapper li img",
+      zIndex: 2700,
+      revert: true,
+      helper: 'clone',
+      connectToSortable: 'ul.working-assets'
+    });
   });
   
 // shop/artists profiles are draggable.  
@@ -170,22 +170,19 @@
   }));
 
 
-// edit a profile
-
+// refresh asset container
   $('a.refresh-assets').click(function(){
     $('ul#assets-wrapper').empty();
     $.getJSON(this.href + '.json', function(rsp){
       $.each(rsp, function(){
         $('ul#assets-wrapper').append(assetsTemplate(this.asset));
       });
-      
+      $(document).trigger('draggableAssets');
     });
-    
-    console.log('works');
     return false;
   });
   
-  
+// edit a profile 
   $('a.edit-profile').click(function(){
 		var profile = $('div.working-profile img').attr('id');
 		if(undefined == profile){
@@ -307,7 +304,9 @@
     setTimeout('$(".responding.active").fadeOut(4000)', 1900);  
   });
 
-  
+// init
+  $('a[rel*=facebox]').facebox();
+  $(document).trigger('draggableAssets'); 
 </script>
 
 
