@@ -1,4 +1,7 @@
 ;$(document).ready(function(){
+  $wProfile = $('div.working-profile');
+  $wAssets  = $('div.working-assets');
+ 
   // activate tab navigation
   $('ul.main-tabs li a').click(function(){
     $('div.tab-content').hide();
@@ -8,8 +11,8 @@
     return false;
   });
 
-  // working profile is droppable
-  $(".working-profile").droppable({
+  // working profile container is droppable
+  $wProfile.droppable({
     accept: '.drag-profile',
     activeClass: 'ui-state-highlight',
     hoverClass: 'drophover',
@@ -17,92 +20,149 @@
     drop: function(e, ui) {
       $('span', this).html($(ui.draggable).html());
       $('ul.workspace-toolbar li.edit a').removeClass('disable');
-	    if(undefined != $('ul.working-assets img:first').attr('src'))
+	    if(undefined != $('img:first', $wAssets).attr('src'))
         $('ul.workspace-toolbar li.save a').removeClass('disable');
+      
+      var profile = $('img:first', $(ui.draggable)).attr('id');
+	    if(undefined == profile){alert('profile id was not found'); return false};
+	    profile = profile.split('_');
+	    $("img:not(.is-new)", $wAssets).remove();
+      $.getJSON('/' + profile[0] + '/' + profile[1] + '.json', function(rsp) {
+        $.each(rsp[profile[0].slice(0, -1)].assets, function(){
+          $wAssets.append(assetsWorkTemplate(this));
+        });
+        $(document).trigger('workingAssetsSortable');
+      });
     }
   }); 
 
   // working assets container is droppable
-  $("ul.working-assets").droppable({
+  $wAssets.droppable({
     accept: '.drag-asset',
     activeClass: 'ui-state-highlight',
     hoverClass: 'drophover',
     tolerance: 'touch',
     drop: function(e, ui) {
-      if(undefined != $('ul.working-assets img:first').attr('src')){
+      $(ui.draggable).addClass('is-working');
+      if(undefined != $('img:first', $wAssets).attr('src')){
         $('ul.workspace-toolbar li.clear a').removeClass('disable');
-	      if(undefined != $('div.working-profile img').attr('id'))
+	      if(undefined != $('img', $wProfile).attr('id'))
           $('ul.workspace-toolbar li.save a').removeClass('disable');
       }
     }
   });
 
-  // working assets are sortable.
-  $("ul.working-assets").sortable({
-    items: 'img',
-    forceHelperSize: true,
-    forcePlaceholderSize: true,
-    placeholder: 'sortable-placeholder'
+  // trashcan is droppable
+  $('div.trashcan').droppable({
+    accept: '.drag-asset, .drag-profile',
+    activeClass: 'ui-state-highlight',
+    hoverClass: 'drophover',
+    tolerance: 'touch',
+    drop: function(e, ui) {
+      if($(ui.draggable).hasClass('drag-profile')){
+        console.log('ruhoh remove profile!');
+        $(ui.draggable).remove();
+        return;
+      }
+      
+      if($(ui.draggable).hasClass('is-new')){
+        if($(ui.draggable).hasClass('is-working')){
+          console.log('no big');
+        }else{
+          console.log('removed asset from resources!');
+        }
+        $(ui.draggable).remove();
+        return;
+      }
+      // detach from working profile.
+      var resource = $('img', $wProfile).attr('id').split('_');
+      var asset = $(ui.draggable).attr('id').split('_');
+      $.getJSON('/' + resource[0] + '/' + resource[1] + '/detach',
+        {asset: asset[1]},
+        function(rsp){
+          $(document).trigger('responding', rsp);
+          $(ui.draggable).remove();
+        }
+      );
+    }
   });
-
-  // shop/artists profiles are draggable.  
-  $(".drag-profile").draggable({
-    appendTo: 'body',
-    handle: 'img',
-    stack: ".drag-profile",
-    zIndex: 2700,
-    revert: true
-  });  
-
-/* click functions
------------------------------------ */
-  // "save" assets-to-profile attachments.
-  $('a.attach-assets').click(function(){
-	  var profile = $('div.working-profile img').attr('id');
-	  if(undefined == profile){
-	    alert('Add a profile to the workspace'); return false
-	  };
+  
+/* workspace interactions (click)
+----------------------------------- */ 
+// collect working assets
+  // @resource = Array, @complain = bool 
+  function saveAssets(resource, complain){
 	  var ids = [];
-	  $("ul.working-assets img").each(function(){
-	    ids.push(this.id.replace('asset_',''));
+	  //Note: this only saves new assets.
+	  // TODO: add positioning.
+	  $("img.is-new", $wAssets).each(function(){
+	    ids.push(this.id.split('_')[1]);
     });
     if(ids.length <= 0){
-      alert('Add images to the workspace'); return false;
-    }
-    profile = profile.split('_');
-    //console.log(profile); console.log(ids); return false;
+      if(complain) alert('No New Images in the Workspace');
+      return false;
+    }    
     $(document).trigger('submitting');
-    $.get('/' + profile[0] + '/' + profile[1] + '/attach',
+    $.get('/' + resource[0] + '/' + resource[1] + '/attach',
       $.param({asset: ids}),
       function(rsp){
-        $(document).trigger('responding', rsp);  
-    });
+        $(document).trigger('responding', rsp);
+        if('good' == rsp.status)
+          $("img.is-new", $wAssets).removeClass('is-new');
+      }
+    );
+  };
+   
+  // "save" working assets to working profile resource.
+  $('a.attach-assets').click(function(){
+	  var resource = $('img', $wProfile).attr('id');
+	  if(undefined == resource){ alert('Add a profile to the workspace'); return false };
+    resource = resource.split('_');
+    if('new' == resource[1]){
+      $.facebox(function(){
+        $.get('/' + resource[0] + '/new',
+          function(view) { $.facebox(view) });
+      });
+      return;   
+    }
+    saveAssets(resource, true);
     return false;
   });
-
-  // clear the working assets
-  $('a.clear-assets').click(function(){
-    $('ul.working-assets').empty();
-    $('li.save a, li.clear a', 'ul.workspace-toolbar').addClass('disable');
-    return false;
-  });
-
-  // "edit" a profile 
+  
+  // "edit" the working profile resource.
   $('a.edit-profile').click(function(){
-	  var profile = $('div.working-profile img').attr('id');
-	  if(undefined == profile){
+	  var resource = $('img', $wProfile).attr('id');
+	  if(undefined == resource){
 	    alert('Add a profile to the workspace'); return false
 	  };
-	  profile = profile.split('_');
+	  resource = resource.split('_');
     $.facebox(function() {
-      $.get('/' + profile[0] + '/' + profile[1] + '/edit',
+      $.get('/' + resource[0] + '/' + resource[1] + '/edit',
         function(data) { $.facebox(data) });
     });
     return false;
   });
+  
+  // clear the unsaved working assets
+  $('a.clear-assets').click(function(){
+    $('img.is-new', $wAssets).remove();
+    $('li.save a, li.clear a', 'ul.workspace-toolbar').addClass('disable');
+    return false;
+  });
 
-  // tattoo profiles are loadable.  
-  $('ul.artists-list li a').click(function(){ 
+  // load new artist or tattoo profile
+  $('a.tattoos_new, a.artists_new').click(function(){
+    var data = '<img src="/images/no-image.gif" id="'+ $(this).attr('class') +'"/>' + $(this).attr('class');
+    $('span', $wProfile).html(data);
+    $('img:not(.is-new)', $wAssets).remove();
+    return false;
+  });
+    
+    
+/* resource interactions (click)
+----------------------------------- */
+  // tattoo resources are loadable.  
+  $('ul.artists-list li a').click(function(){
     $('ul.tattoos-wrapper').empty();
     $.get(this.href + '.json',function(rsp){
       $.each(rsp, function(){
@@ -116,12 +176,12 @@
     return false;
   });
 
-  // refresh asset container
+  // refresh asset resources container
   $('a.refresh-assets').click(function(){
     $('ul#assets-wrapper').empty();
     $.getJSON(this.href + '.json', function(rsp){
       $.each(rsp, function(){
-        $('ul#assets-wrapper').append(assetsTemplate(this.asset));
+        $('ul#assets-wrapper').append(assetsReTemplate(this.asset));
       });
       $(document).trigger('draggableAssets');
     });
@@ -151,6 +211,18 @@
     }
   }));
 
+  $('body').dblclick($.delegate({ 
+    // open edit panel via facebox
+    '.drag-profile img' : function(e){
+	    var profile = $(e.target).attr('id').split('_');
+      $.facebox(function() {
+        $.get('/' + profile[0] + '/' + profile[1] + '/edit',
+          function(data) { $.facebox(data) });
+      });
+      return false;
+    }
+  }));
+  
   /*
   // selectable list entries
   $(".selectable").selectable({
@@ -167,7 +239,7 @@
 
 /* bindings 
 ------------------------------- */
-  // make assets draggable
+  // make asset resources draggable
   $(document).bind('draggableAssets', function(){
     $("ul#assets-wrapper li img").draggable({
       appendTo: 'body',
@@ -175,11 +247,32 @@
       zIndex: 2700,
       revert: true,
       helper: 'clone',
-      connectToSortable: 'ul.working-assets'
+      connectToSortable: 'div.working-assets'
     });
   });
 
-  // make tattoo profiles draggable.
+// make working assets sortable.
+  $(document).bind('workingAssetsSortable', function(){
+    $wAssets.sortable({
+      items: 'img',
+      forceHelperSize: true,
+      forcePlaceholderSize: true,
+      placeholder: 'sortable-placeholder'
+    });
+  });  
+
+// make shop/artist resources draggable.  
+  $(document).bind('draggableProfiles', function(){
+    $(".drag-profile").draggable({
+      appendTo: 'body',
+      handle: 'img',
+      stack: ".drag-profile",
+      zIndex: 2700,
+      revert: true
+    });  
+  }); 
+      
+  // make tattoo resources draggable.
   $(document).bind('draggableTattoos', function(){
     $("ul.tattoos-wrapper li").draggable({
       appendTo: 'body',
@@ -196,17 +289,15 @@
       beforeSubmit: function(fields, form){
         if(! $("input", form[0]).jade_validate() ) return false;
         if('no_disable' != $(form[0]).attr('rel'))
-          $('button', form[0])
-          .attr('disabled','disabled')
-          .removeClass('jade_positive');
+          $('button', form[0]).attr('disabled','disabled').removeClass('jade_positive');
         $(document).trigger('submitting');
       },
       success: function(rsp) {
         console.log(rsp);
-        $('.facebox form button')
-        .removeAttr('disabled')
-        .addClass('jade_positive');
         $(document).trigger('responding', rsp);
+        $('.facebox form button').removeAttr('disabled').addClass('jade_positive');
+        if(undefined != rsp.created)
+          saveAssets([rsp.created.resource, rsp.created.id]);
       }
     });
   });

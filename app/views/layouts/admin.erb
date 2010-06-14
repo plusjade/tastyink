@@ -10,20 +10,23 @@
   <div id="wrapper">
     
     <div style="margin:10px auto">
-      <h3 style="text-align:center">Workspace</h3>
+      <ul class="add-links">
+        <li><%= link_to 'Add Images', new_shop_asset_path(@shop), :rel => 'facebox' %></li>
+      </ul>
 
       <div class="workspace-wrapper">
-        <ul class="workspace-toolbar">
-          <li class="edit"><a href="#" class="edit-profile disable">edit profile</a></li>
-          <li class="save"><a href="#" class="attach-assets disable">save images</a></li>
-          <li class="clear"><a href="#" class="clear-assets disable">clear images</a></li>
-        </ul>
         <div class="working-profile">
-          <h6>Profile</h6>
-          <span>Drag existing profile here<br/>OR<br/> create new</span>
+          <span>Load New Profile <br/>OR<br/>Drag existing profile here</span>
         </div>
-        <ul class="working-assets">
+        <ul class="workspace-toolbar">
+          <li class="save"><a href="#" class="attach-assets disable">Save profile</a></li>
+          <li class="edit"><a href="#" class="edit-profile disable">Edit profile</a></li>
+          <li class="clear"><a href="#" class="clear-assets disable">Clear unsaved images</a></li>
+          <li><%= link_to 'New Tattoo', new_tattoo_path, :class => 'tattoos_new' %></li>
+          <li><%= link_to 'New Artist', new_artist_path, :class => 'artists_new' %></li>
         </ul>
+        <div class="working-assets"></div>
+        <div class="trashcan"></div>
       </div>
     </div>
     
@@ -56,11 +59,15 @@
   
   <script type="text/javascript">
     function tattoosTemplate(t){return '<%= admin_tattoos_template %>'};
-    function assetsTemplate(a){return '<%= js_assets_template %>'};
+    function assetsWorkTemplate(a){return '<%= admin_working_template %>'};
+    function assetsReTemplate(a){return '<%= admin_resource_template %>'};
     $(document).ready(function(){  
       $('ul.main-tabs li a:first').click();
       $(document).trigger('draggableAssets');
-      $('a[rel*=facebox]').facebox(); 
+      $(document).trigger('workingAssetsSortable');
+      $(document).trigger('draggableProfiles');
+      $('a[rel*=facebox]').facebox();
+      $('ul.artists-list li a:first').click();
     });
   </script>
 </body>

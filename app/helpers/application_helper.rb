@@ -31,11 +31,14 @@ module ApplicationHelper
   end
 
 
-  def js_assets_template
-    render(:file => 'assets/js-gallery').gsub("\n",'')
+  def admin_resource_template
+    render(:file => 'assets/admin-resource').gsub("\n",'')
   end
 
-
+  def admin_working_template
+    render(:file => 'assets/admin-working').gsub("\n",'')
+  end
+  
   def admin_tattoos_template
     render(:file => 'tattoos/admin-gallery').gsub("\n",'')
   end

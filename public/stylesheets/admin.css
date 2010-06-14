@@ -1,7 +1,109 @@
 
+/* top most "add image link(s)
+  ------------------------------------------------------------ */
+ul.add-links {
+  list-style:none;
+  text-align:right;
+}
+ul.add-links li {
+  display:inline;
+  margin-right:10px;
+}
+
+/* top workspace wrapper 
+  ------------------------------------------------------------ */
+.workspace-wrapper {
+  clear:both;
+  margin-bottom:20px;
+  min-height:90px;
+  overflow:hidden;
+}
+  ul.workspace-toolbar {
+    width:700px;
+    float:left;
+    list-style:none;
+    overflow:hidden;
+  }
+  ul.workspace-toolbar li {
+    float:left;
+  }
+  ul.workspace-toolbar li a{
+    padding:1px 6px;
+    display:block;  
+    color:green;
+    margin-right:8px;
+    background:#CCFF99;
+    font-size:12px;
+    text-decoration:none;
+    text-align:center;
+  }
+.workspace-wrapper ul.workspace-toolbar li a.disable {
+  color:#ccc;
+  background:#eee; 
+}
+.workspace-wrapper ul.workspace-toolbar li a:hover{
+  background:#111; 
+  color:#fff;
+}
+
+.workspace-wrapper .working-profile {
+  width:120px;
+  float:left;
+  padding:5px 0;
+  background:#ffffcc;
+  border:2px solid #ffff99;
+  text-align:center;
+  color:#555;
+}
+.workspace-wrapper .working-profile h6 {
+  text-align:center;
+  font-size:10px;
+  background:#ffff99;
+}
+.workspace-wrapper .working-profile img {
+  width:75px;
+  height:75px;
+  display:block;
+  margin:auto;
+  border:1px solid green;
+}
+
+div.working-assets {
+  width:700px;
+  min-height:65px;
+  float:left;
+  padding:5px;
+  border:1px solid #eee;
+  background:#fff;
+  list-style:none;
+}
+div.working-assets img {
+  display:block;
+  height:50px;
+  width:50px;
+  float:left;
+  margin:2px;
+  border:1px solid #333;
+}
+div.working-assets img.is-new {
+  -webkit-opacity:0.5;
+  -moz-opacity:0.5;
+  opacity:0.5;
+  border:1px solid #eee;
+}
+
+div.trashcan {
+  float:left;
+  width:100px;
+  height:65px;
+  padding:5px;
+  background:#777;
+  border:1px solid #111;
+}
 /* main tab navigation 
   ------------------------------------------------------------ */
 ul.main-tabs {
+  clear:both;
   list-style:none;
   padding-bottom:10px;
 }
@@ -36,13 +138,74 @@ ul.main-tabs li a.active{
   box-shadow: 1px -1px 4px #eee;
 }
 
-
 .tab-content {
   min-height:200px;
 }
 
 
+/* assets resources tab
+  ------------------------------------------------------------ */
+ul.asset-actions{
+  clear:both;
+  list-style:none;
+}	
+ul.asset-actions li {
+  display:inline;
+  margin-right:10px;
+}
+ul#assets-wrapper { }
+ul#assets-wrapper li {
+  margin: 3px; padding: 1px; float: left; 
+  width:75px; height:100px text-align: center;
+}
+ul#assets-wrapper img {
+  width:75px; height:75px;
+  border:1px solid #555;
+  cursor:move;
+}  
 
+ /* TODO: remove this when i edit the edit views */
+    ul#profile-assets-wrapper {
+      padding:5px;
+      background:#ccc;
+      overflow:hidden;
+      list-style:none;
+    }
+    ul#profile-assets-wrapper li {
+      float:left;
+      width:50px;
+      margin:2px;
+      text-align:center;
+      
+    }
+    ul#profile-assets-wrapper li img{
+      width:50px;
+      height:50px;
+      border:1px solid #fff;
+    }
+
+/* tattoos resource tab
+  ------------------------------------------------------------ */
+ul.tattoos-wrapper {
+  list-style:none;
+}	
+ul.tattoos-wrapper li {
+  float:left;
+  text-align:center;
+  display:inline;
+  margin:2px;
+}
+ul.tattoos-wrapper li img {
+  display:block;
+  width:75px;
+  height:75px;
+  margin:2px;
+  border:1px solid #333;
+  cursor:move;
+}
+
+/* artist and shop resources tab
+  ------------------------------------------------------------ */
 .artist-each, .shop-each {
   width:150px;
   float:left;
@@ -61,127 +224,7 @@ ul.main-tabs li a.active{
   cursor:move;
 }
 
-ul.sub-nav {
-  list-style:none;
-}
-ul.sub-nav li {display:inline; margin-right:10px;}
-
-fieldset{margin-bottom:10px;}
-.right-half { float:right; width:48%;}
-.left-half { width:48%;}
-.right-half img { width:75px; height:75px;}
-form textarea {
-  width:90%;height:100px;
-}
-form label {
-  font-size:14px;
-}
-
-
-/* top workspace wrapper 
-  ------------------------------- */
-.workspace-wrapper {
-  margin-bottom:20px;
-  overflow:auto;
-  min-height:90px;
-}
-.workspace-wrapper ul.workspace-toolbar {
-  float:left;
-  margin-top:8px;
-}
-.workspace-wrapper ul.workspace-toolbar li {
-  
-}
-.workspace-wrapper ul.workspace-toolbar li a{
-  padding:1px 6px;
-  display:block;  
-  color:green;
-  background:#CCFF99;
-  font-size:12px;
-  text-decoration:none;
-  border-bottom:1px solid #69D100;
-  text-align:center;
-}
-.workspace-wrapper ul.workspace-toolbar li.save a,
-.workspace-wrapper ul.workspace-toolbar li.clear a {
-  margin-left:8px;
-}
-.workspace-wrapper ul.workspace-toolbar li.edit a {
-  color:#fff;
-  background:green; 
-}
-.workspace-wrapper ul.workspace-toolbar li a.disable {
-  color:#ccc;
-  background:#eee; 
-  border-bottom:1px solid #ccc;
-}
-
-.workspace-wrapper ul.workspace-toolbar li a:hover{
-  background:#111; 
-  color:#fff;
-}
-.workspace-wrapper .working-profile {
-  width:120px;
-  float:left;
-  background:#ffffcc;
-  border:1px solid #ffff99;
-  text-align:center;
-  color:#555;
-}
-.workspace-wrapper .working-profile h6 {
-  text-align:center;
-  font-size:10px;
-  background:#ffff99;
-}
-.workspace-wrapper .working-profile img {
-  width:75px;
-  height:75px;
-  display:block;
-  margin:auto;
-  border:1px solid green;
-}
-.workspace-wrapper .working-assets {
-  width:700px;
-  margin-top:8px;
-  min-height:90px;
-  float:left;
-  padding:7px;
-  border:1px solid #ccc;
-  border-left:0;
-  background:#fff;
-  list-style:none;
-}
-.workspace-wrapper .working-assets li {
-  float:left;
-}
-.workspace-wrapper .working-assets img {
-  height:50px;
-  width:50px;
-  margin:2px;
-  border:1px solid #ccc;
-  
-}
-div.left-pane{
-  float:left; width:45%
-}
-div.right-pane {
-  float:right; width:50%
-}
-
-
-ul.profile-tabs {
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-ul.profile-tabs li {
-  display:inline;
-  margin-right:10px;
-}
-
-/* 
-  artists list 
-  ------------------------------------------------------------ */
+/* artist list */
 ul.artists-list {
 }
 ul.artists-list li {
@@ -205,15 +248,6 @@ ul.artists-list li a.active {
 
 /* selecting
  --------------------------------- */
-ul.selectable-actions{
-  clear:both;
-  list-style:none;
-}	
-ul.selectable-actions li {
-  display:inline;
-  margin-right:10px;
-}
-
 ul.selectable {list-style: none; margin: 0; padding: 0;}
 ul.selectable .ui-selecting { background: #FECA40; }
 ul.selectable .ui-selected { background: #F39814; color: white; }
@@ -222,43 +256,19 @@ ul.selectable .ui-selected { background: #F39814; color: white; }
   border:1px solid #69D100 !important;
   color:#111;
 }
+div.trashcan.ui-state-highlight {
+  background:darkred !important;
+  border:1px solid #000 !important;
+}
 .drophover {
   background:#4D9900 !important;
   border:1px solid green !important;
   color:#fff !important;
 }
-
-/* assets */
-#assets-wrapper { }
-#assets-wrapper li {
-  margin: 3px; padding: 1px; float: left; 
-  width:75px; height:100px text-align: center;
+div.trashcan.drophover {
+  background:#111 !important;
+  border:1px solid #000 !important;
 }
-#assets-wrapper img {
-  width:75px; height:75px;
-  border:1px solid #555;
-  cursor:move;
-}  
-
-/* tattoos */
-ul.tattoos-wrapper {
-  list-style:none;
-}	
-ul.tattoos-wrapper li {
-  float:left;
-  text-align:center;
-  display:inline;
-  margin:2px;
-}
-ul.tattoos-wrapper li img {
-  display:block;
-  width:60px;
-  height:60px;
-  margin:2px;
-  cursor:move;
-}
-
-
 
 .sortable-placeholder {
   width:50px;
@@ -267,9 +277,8 @@ ul.tattoos-wrapper li img {
 }
 
 /* pages 
-----------------------------------------*/
-
-.edit-tattoos-wrapper{
+  ------------------------------------------------------------ */
+.edit-tattoos-wrapper {
   overflow:hidden;
 }
 .edit-tattoos-wrapper div {
@@ -283,49 +292,8 @@ ul.tattoos-wrapper li img {
   height:75px;
 }
 
-
-/* assets 
- --------------------------------- */
-ul#profile-assets-wrapper {
-  padding:5px;
-  background:#ccc;
-  overflow:hidden;
-  list-style:none;
-}
-ul#profile-assets-wrapper li {
-  float:left;
-  width:50px;
-  margin:2px;
-  text-align:center;
-  
-}
-ul#profile-assets-wrapper li img{
-  width:50px;
-  height:50px;
-  border:1px solid #fff;
-}
-
-
-
-/* responses
- ---------------------------------------- */
-#top-container .responding.active.good {
-  background:green;
-  color:#fff;
-}
-#top-container .responding.active.bad {
-  background:red;
-  color:#fff;
-}
-#top-container .responding.active.warn {
-  background:orange;
-  color:#fff;
-}
-
-
-/* facebox */
-
-/* --- facebox --- */
+/* facebox
+  ------------------------------------------------------------ */
 #facebox .b {background:url(/images/facebox/b.png);}
 
 #facebox .tl {
@@ -434,6 +402,45 @@ ul#profile-assets-wrapper li img{
 }
 
 
+/* random stuff
+  ------------------------------------------------------------ */
+ul.sub-nav {
+  list-style:none;
+}
+ul.sub-nav li {display:inline; margin-right:10px;}
+
+fieldset{margin-bottom:10px;}
+.right-half { float:right; width:48%;}
+.left-half { width:48%;}
+.right-half img { width:75px; height:75px;}
+form textarea {
+  width:90%;height:100px;
+}
+form label {
+  font-size:14px;
+}
+div.left-pane{
+  float:left; width:45%
+}
+div.right-pane {
+  float:right; width:50%
+}
+
+
+/* responses
+ ---------------------------------------- */
+#top-container .responding.active.good {
+  background:green;
+  color:#fff;
+}
+#top-container .responding.active.bad {
+  background:red;
+  color:#fff;
+}
+#top-container .responding.active.warn {
+  background:orange;
+  color:#fff;
+}
 /* ajax
  ---------------------------------------- */
 .submitting{
