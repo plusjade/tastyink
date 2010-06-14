@@ -38,10 +38,11 @@ class ArtistsController < ApplicationController
     @shop = current_user.shop
     @artist = @shop.artists.build(params[:artist])
     if @artist.save
-      render :json => 
+      render :json =>
       {
-        'status' => 'good',
-        'msg'    => "Artist created!"
+        'status'  => 'good',
+        'msg'     => 'Artist created!',
+        'created' => { 'resource' => 'artists', 'id' => @artist.id }
       }
     else
       render :json => 

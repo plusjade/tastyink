@@ -87,8 +87,9 @@ class TattoosController < ApplicationController
     if @tattoo.save
       render :json => 
       {
-        'status' => 'good',
-        'msg'    => "Tattoo created!"
+        'status'  => 'good',
+        'msg'     => 'Tattoo created!',
+        'created' => { 'resource' => 'tattoos', 'id' => @tattoo.id }
       }
     else
       render :json => 
