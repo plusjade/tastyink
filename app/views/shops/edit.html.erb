@@ -1,12 +1,3 @@
-<ul id="profile-assets-wrapper" class="selectable">
-<% for asset in @shop.assets %>
-  <li>
-  <%= image_tag asset.url(:thumb) %>
-  <%= link_to 'detach', "#{shop_path(@shop)}/detach?asset=#{asset.id}"%>
-  </li>
-<% end %>
-</ul>
-
 <% form_for @shop do |f| %>
   <%= f.error_messages %>
 

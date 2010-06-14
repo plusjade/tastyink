@@ -1,12 +1,3 @@
-<ul id="profile-assets-wrapper" class="selectable">
-<% for asset in @tattoo.assets %>
-  <li>
-  <%= image_tag asset.url(:thumb) %>
-  <%= link_to 'detach', "#{tattoo_path(@tattoo)}/detach?asset=#{asset.id}"%>
-  </li>
-<% end %>
-</ul>
-
 <% form_for @tattoo do |f| %>
   <%= f.error_messages %>
 

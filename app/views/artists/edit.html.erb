@@ -1,15 +1,5 @@
-<ul id="profile-assets-wrapper" class="selectable">
-<% for asset in @artist.assets %>
-  <li>
-  <%= image_tag asset.url(:thumb) %>
-  <%= link_to 'detach', "#{artist_path(@artist)}/detach?asset=#{asset.id}"%>
-  </li>
-<% end %>
-</ul>
-
 <% form_for @artist do |f| %>
   <%= f.error_messages %>
-
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name %>
