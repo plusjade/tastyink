@@ -8,5 +8,8 @@
   <%=h @user.login_count %>
 </p>
 
-
+<%= link_to 'Go To Admin Panel', '/admin' %>
+<br/><br/>
 <%= link_to 'Edit', edit_account_path %>
+<br/><br/>
+<%= link_to 'Logout', '/user_sessions/destroy' %>
