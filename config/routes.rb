@@ -1,12 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
-  #map.resources :shops
-  #map.resources :shops, :has_many => :artists
-
 
   map.resources :shops do |shops|
     shops.resources :artists, :name_prefix => "shop_"
     shops.resources :tattoos, :name_prefix => "shop_"
-    shops.resources :assets, :name_prefix => "shop_"
+    #shops.resources :assets, :name_prefix => "shop_"
   end
   
   map.resources :artists do |artists|
@@ -22,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'facebook/:action/:id/:meta', :controller => 'facebook'
   
+  map.resources :assets
   map.resource :user_session
   map.resource :account, :controller => "users"
   map.resources :users

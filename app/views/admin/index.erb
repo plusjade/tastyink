@@ -2,7 +2,7 @@
 <div id="tab-assets" class="tab-content">  
   <ul class="asset-actions">
     <li>Total assets: <%= @assets.count %></li>
-    <li><%= link_to 'Refresh', shop_assets_path(@shop), :class => 'refresh-assets' %></li>
+    <li><%= link_to 'Refresh', assets_path, :class => 'refresh-assets' %></li>
   </ul>
 
   <ul id="assets-wrapper" class="selectable">

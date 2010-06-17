@@ -1,5 +1,5 @@
 class AssetsController < ApplicationController
-  layout 'admin'
+  layout 'home'
   before_filter :require_user
   
   # GET /assets

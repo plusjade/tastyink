@@ -1,5 +1,5 @@
 
-<% form_for @asset, {:url => shop_assets_path(params[:shop_id]) , :html => { :multipart => true } } do |f| %>
+<% form_for @asset, {:url => '/assets' , :html => { :multipart => true } } do |f| %>
   <%= f.error_messages %>
 
   <div class="right-half">
