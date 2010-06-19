@@ -1,17 +1,6 @@
 
 <div id="tab-assets" class="tab-content">  
-  <ul class="asset-actions">
-    <li>Total assets: <%= @assets.count %></li>
-    <li><%= link_to 'Refresh', assets_path, :class => 'refresh-assets' %></li>
-  </ul>
-
-  <ul id="assets-wrapper" class="selectable">
-  <% for asset in @assets %>
-    <li>
-      <%= image_tag asset.url(:thumb), {:id => "asset_#{asset.id}",:class => 'drag-asset is-new', :title => "attached to #{asset.attachings_count} profiles" } %>
-    </li>
-  <% end %>
-  </ul>
+  some stuff
 </div>
 
 <div id="tab-tattoos" class="tab-content">

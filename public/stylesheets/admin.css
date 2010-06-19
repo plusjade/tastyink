@@ -1,3 +1,150 @@
+/* facebox
+  ------------------------------------------------------------ */
+#facebox .b {background:url(/images/facebox/b.png);}
+
+#facebox .tl {
+  background:url(/images/facebox/fbx-border-sprite.png) 0 0;
+  width: 10px; height: 10px;
+}
+
+#facebox .tr {
+  background:url(/images/facebox/fbx-border-sprite.png) -10px 0;
+  width: 10px; height: 10px;
+}
+
+#facebox .bl {
+  background:url(/images/facebox/fbx-border-sprite.png) -20px 0;
+  width: 10px; height: 10px;
+}
+
+#facebox .br {
+  background:url(/images/facebox/fbx-border-sprite.png) -30px 0;
+  width: 10px; height: 10px;
+}
+
+#facebox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  text-align: left;
+}
+
+#facebox .popup {
+  position: relative;
+}
+
+#facebox table {
+  border-collapse: collapse;
+  /* ie 6 hack -- if the global table width is set to anything it could cause us issues*/
+  -width:0%;
+}
+
+#facebox td {
+  border-bottom: 0;
+  padding: 0;
+}
+
+#facebox .body {
+  padding: 10px;
+  background: #fff;
+  width: 600px;
+}
+#facebox .content {
+  overflow:hidden;
+}
+#facebox .loading {
+  text-align: center;
+  width: 370px;
+}
+
+#facebox .image {
+  text-align: center;
+}
+
+
+#facebox .footer {
+  border-bottom: 1px solid #DDDDDD;
+  padding-bottom: 5px;
+  margin-bottom:10px;
+  text-align: center;
+  overflow:hidden;
+}
+#facebox .footer a {float:right}
+#facebox .footer img {
+  vertical-align: middle;
+}
+
+#facebox .tl, #facebox .tr, #facebox .bl, #facebox .br {
+  height: 10px;
+  width: 10px;
+  overflow: hidden;
+  padding: 0;
+}
+
+#facebox_overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+}
+
+.facebox_hide {
+  z-index:-100;
+}
+
+.facebox_overlayBG {
+  background-color: #000;
+  z-index: 99;
+}
+
+* html #facebox_overlay { /* ie6 hack */
+  position: absolute;
+  height: expression("document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px'");
+}
+
+
+div.asset-panel {
+  position:fixed; top:0; width:100%; background:transparent; 
+  z-index:99999; font-size: 12px !important; font-family:verdana, arial, "sans serif" !important;
+  color:#333 !important; text-align:left !important;
+  }
+div.asset-panel .actions{
+  position:relative; overflow:hidden; top:2px;}
+div.asset-panel a.hide,
+div.asset-panel a.close {
+  display:block; height:28px; width:70px; float:right; 
+  padding:5px 5px 0 5px; border:1px solid #999; margin-left:7px; 
+  border-bottom:0; background:#eee; text-align:center; color:#000;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -webkit-border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;  
+  }
+div.asset-panel a.hide:hover,
+div.asset-panel a.close:hover {
+  background:#333;
+  color:#fff;
+}
+div.content-window-wrapper {
+  background:#f1f2f3; border:1px solid #999; border-bottom:0;
+  -webkit-box-shadow:-5px -5px 15px #ccc;
+  }
+div.content-window {
+  height:300px; margin:0 auto; min-width:800px; 
+  width:80%; background:#f1f2f3; overflow:hidden; padding:0;}
+
+
+li.super-trash{
+  height:60px;
+  width:120px;
+  line-height:16px;
+  border:1px solid #777;
+  background:#999;
+  color:#efefef;
+  text-align:center;
+}
 
 /* top most "add image link(s)
   ------------------------------------------------------------ */
@@ -12,8 +159,12 @@ ul.add-links li {
 
 /* top workspace wrapper 
   ------------------------------------------------------------ */
+#the-workspace{
+  display:none;
+}
 .workspace-wrapper {
   clear:both;
+  width:950px;
   margin-bottom:20px;
   min-height:90px;
   overflow:hidden;
@@ -48,6 +199,7 @@ ul.add-links li {
 
 .workspace-wrapper .working-profile {
   width:120px;
+  min-height:100px;
   float:left;
   padding:5px 0;
   background:#ffffcc;
@@ -153,36 +305,19 @@ ul.asset-actions li {
   display:inline;
   margin-right:10px;
 }
-ul#assets-wrapper { }
-ul#assets-wrapper li {
-  margin: 3px; padding: 1px; float: left; 
-  width:75px; height:100px text-align: center;
+ul.assets-wrapper { height:225px; overflow:auto; }
+ul.assets-wrapper li {
+  margin: 3px; float: left; 
+  width:60px; height:60px;
+  text-align: center;
 }
-ul#assets-wrapper img {
-  width:75px; height:75px;
+ul.assets-wrapper img {
+  width:60px; height:60px;
+  background:#fff;
   border:1px solid #555;
   cursor:move;
 }  
 
- /* TODO: remove this when i edit the edit views */
-    ul#profile-assets-wrapper {
-      padding:5px;
-      background:#ccc;
-      overflow:hidden;
-      list-style:none;
-    }
-    ul#profile-assets-wrapper li {
-      float:left;
-      width:50px;
-      margin:2px;
-      text-align:center;
-      
-    }
-    ul#profile-assets-wrapper li img{
-      width:50px;
-      height:50px;
-      border:1px solid #fff;
-    }
 
 /* tattoos resource tab
   ------------------------------------------------------------ */
@@ -194,12 +329,18 @@ ul.tattoos-wrapper li {
   text-align:center;
   display:inline;
   margin:2px;
+  padding:5px;
+  height:100px;
+  overflow:hidden;
+  width:85px;
+  background:#eee;
+  border:1px solid #ccc;
 }
 ul.tattoos-wrapper li img {
   display:block;
   width:75px;
   height:75px;
-  margin:2px;
+  margin:0 auto 2px auto;
   border:1px solid #333;
   cursor:move;
 }
@@ -226,6 +367,7 @@ ul.tattoos-wrapper li img {
 
 /* artist list */
 ul.artists-list {
+  margin-bottom:15px;
 }
 ul.artists-list li {
   display:inline;
@@ -233,8 +375,6 @@ ul.artists-list li {
 }
 ul.artists-list li a {
   padding:4px 8px;
-  -webkit-border-radius:5px;
-  -moz-border-radius:5px;
   background:#ccc;
   text-decoration:none;
   color:#333;
@@ -256,7 +396,8 @@ ul.selectable .ui-selected { background: #F39814; color: white; }
   border:1px solid #69D100 !important;
   color:#111;
 }
-div.trashcan.ui-state-highlight {
+div.trashcan.ui-state-highlight,
+li.super-trash.ui-state-highlight {
   background:darkred !important;
   border:1px solid #000 !important;
 }
@@ -265,7 +406,8 @@ div.trashcan.ui-state-highlight {
   border:1px solid green !important;
   color:#fff !important;
 }
-div.trashcan.drophover {
+div.trashcan.drophover,
+li.super-trash.drophover  {
   background:#111 !important;
   border:1px solid #000 !important;
 }
@@ -292,114 +434,7 @@ div.trashcan.drophover {
   height:75px;
 }
 
-/* facebox
-  ------------------------------------------------------------ */
-#facebox .b {background:url(/images/facebox/b.png);}
 
-#facebox .tl {
-  background:url(/images/facebox/fbx-border-sprite.png) 0 0;
-  width: 10px; height: 10px;
-}
-
-#facebox .tr {
-  background:url(/images/facebox/fbx-border-sprite.png) -10px 0;
-  width: 10px; height: 10px;
-}
-
-#facebox .bl {
-  background:url(/images/facebox/fbx-border-sprite.png) -20px 0;
-  width: 10px; height: 10px;
-}
-
-#facebox .br {
-  background:url(/images/facebox/fbx-border-sprite.png) -30px 0;
-  width: 10px; height: 10px;
-}
-
-#facebox {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  text-align: left;
-}
-
-#facebox .popup {
-  position: relative;
-}
-
-#facebox table {
-  border-collapse: collapse;
-  /* ie 6 hack -- if the global table width is set to anything it could cause us issues*/
-  -width:0%;
-}
-
-#facebox td {
-  border-bottom: 0;
-  padding: 0;
-}
-
-#facebox .body {
-  padding: 10px;
-  background: #fff;
-  width: 600px;
-}
-#facebox .content {
-  overflow:hidden;
-}
-#facebox .loading {
-  text-align: center;
-  width: 370px;
-}
-
-#facebox .image {
-  text-align: center;
-}
-
-#facebox img {
-  border: 0;
-  margin: 0;
-}
-
-#facebox .footer {
-  border-top: 1px solid #DDDDDD;
-  padding-top: 5px;
-  margin-top: 10px;
-  text-align: right;
-}
-
-#facebox .footer img {
-  vertical-align: middle;
-}
-
-#facebox .tl, #facebox .tr, #facebox .bl, #facebox .br {
-  height: 10px;
-  width: 10px;
-  overflow: hidden;
-  padding: 0;
-}
-
-#facebox_overlay {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  height:100%;
-  width:100%;
-}
-
-.facebox_hide {
-  z-index:-100;
-}
-
-.facebox_overlayBG {
-  background-color: #000;
-  z-index: 99;
-}
-
-* html #facebox_overlay { /* ie6 hack */
-  position: absolute;
-  height: expression("document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px'");
-}
 
 
 /* random stuff
@@ -429,27 +464,40 @@ div.right-pane {
 
 /* responses
  ---------------------------------------- */
-#top-container .responding.active.good {
+div.responding.active.good {
   background:green;
   color:#fff;
 }
-#top-container .responding.active.bad {
+div.responding.active.bad {
   background:red;
   color:#fff;
 }
-#top-container .responding.active.warn {
+div.responding.active.warn {
   background:orange;
   color:#fff;
 }
 /* ajax
  ---------------------------------------- */
+div.status{
+  position:absolute;
+  top:0;
+  height:30px;
+  width:500px;
+  background:transparent;
+  z-index:99999999;
+  overflow:hidden;
+}
 .submitting{
-  width:170px;
-  padding-left:140px;
+  padding:3px 3px 0 170px;
   text-align:left;
   margin:auto;
   color:#222;
-  background:url('/images/loading.gif') no-repeat center left;
+  border:1px solid brown;
+  background:#ffffcc url('/images/loading.gif') no-repeat 5% 50%;
+}
+.responding{
+  padding:3px 3px 0 3px;
+  text-align:center;
 }
 .loading{
   width:200px;
