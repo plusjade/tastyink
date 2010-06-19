@@ -150,13 +150,19 @@ class TattoosController < ApplicationController
       params[:id],
       :conditions => { :shop_id => current_user.shop.id }
     )
-    @tattoo.destroy
-    
-    render :json =>
-    {
-      "status" => 'good',
-      'msg'    => 'Tattoo deleted!'
-    }
+    if @tattoo.destroy
+      render :json =>
+      {
+        "status" => 'good',
+        'msg'    => 'Tattoo deleted!'
+      }
+    else
+      render :json =>
+      {
+        "status" => 'bad',
+        'msg'    => 'Problem deleting the tattoo'
+      }    
+    end
   end
 
   

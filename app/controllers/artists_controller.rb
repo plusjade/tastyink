@@ -112,12 +112,20 @@ class ArtistsController < ApplicationController
       params[:id], 
       :conditions => { :shop_id => current_user.shop.id }
     )
-    @artist.destroy
-    render :json =>
-    {
-      "status" => 'good',
-      'msg'    => 'Artist deleted!'
-    }
+    if @artist.destroy
+      render :json =>
+      {
+        "status" => 'good',
+        'msg'    => 'Artist deleted!'
+      }
+    else
+      render :json =>
+      {
+        "status" => 'bad',
+        'msg'    => 'Problem deleting the artist.'
+      }    
+    end
+    
   end
 
  
