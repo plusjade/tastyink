@@ -1,0 +1,25 @@
+<% form_for @tattoo do |f| %>
+  <%= f.error_messages %>
+
+  
+
+  <div class="right-half">
+    <fieldset>
+      <%= f.label :desc %>
+      <br /><%= f.text_area :desc %>
+    </fieldset>
+  </div>
+  
+  <div class="left-half">
+    <fieldset class="buttons">
+      <button type="submit" class="positive">Save Changes</button>
+    </fieldset>
+    
+    <fieldset>
+      <%= f.label :title, "Title" %> <span class="star_req">*</span>
+      <br /><%= f.text_field :title, :rel => 'text_req' %>
+    </fieldset>
+  </div>
+
+  
+<% end %>

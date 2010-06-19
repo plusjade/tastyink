@@ -252,7 +252,7 @@
     $('form').ajaxForm({     
       beforeSubmit: function(fields, form){
         if(! $("input", form[0]).jade_validate() ) return false;
-        $('button', form[0]).attr('disabled','disabled').removeClass('jade_positive');
+        $('button', form[0]).attr('disabled','disabled').removeClass('positive');
         $(document).trigger('submitting');
       },
       success: function(rsp) {
@@ -263,7 +263,7 @@
           $('a.refresh-' + rsp.created.resource).click();
         }
         $(document).trigger('responding', rsp);
-        $('.facebox form button').removeAttr('disabled').addClass('jade_positive');
+        $('#facebox form button').removeAttr('disabled').addClass('positive');
       }
     });
   });

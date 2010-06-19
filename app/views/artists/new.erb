@@ -1,0 +1,24 @@
+
+
+<% form_for(@artist) do |f| %>
+  <%= f.error_messages %>
+  
+  <div class="right-half">
+    <fieldset>
+      <%= f.label :name %> <span class="star_req">*</span>
+      <br /><%= f.text_field :name, :rel => 'text_req' %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :bio %><br />
+      <%= f.text_area :bio %>
+    </fieldset>
+  </div>
+  
+  <div class="left-half">
+    <fieldset class="buttons">
+      <button type="submit" class="positive">Add New Artist</button>
+    </fieldset>
+    
+    Images can be added in the next step =)
+  </div>
+<% end %>
