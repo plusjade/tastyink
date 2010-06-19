@@ -61,11 +61,13 @@
 	    $hAssets.empty();
 	    $hProfile.empty();
 	    $(e.target).clone().appendTo($hProfile);
-      $.getJSON('/' + profile[0] + '/' + profile[1] + '.json', function(rsp) {
-        $.each(rsp[profile[0].slice(0, -1)].assets, function(){
-          $hAssets.append(assetsWorkTemplate(this));
-        });
-        $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
+      $.facebox(function() { 
+        $.getJSON('/' + profile[0] + '/' + profile[1] + '.json', function(rsp) {
+          $.each(rsp[profile[0].slice(0, -1)].assets, function(){
+            $hAssets.append(assetsWorkTemplate(this));
+          });
+          $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
+        });        
       });
       return false;
     }
