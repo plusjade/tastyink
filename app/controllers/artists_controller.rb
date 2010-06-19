@@ -3,8 +3,15 @@ class ArtistsController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
     
   def index
+    render :nothing => true and return if params[:shop_id].nil?
     @shop = Shop.find(params[:shop_id])
     @artists = @shop.artists
+    respond_to do |format|
+      format.html { redirect_to shop_path(params[:shop_id]) }
+      format.json do
+        render :json => @artists.to_json(:include => :assets)
+      end
+    end
   end
 
 

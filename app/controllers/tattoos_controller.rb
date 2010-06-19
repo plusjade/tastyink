@@ -5,19 +5,16 @@ class TattoosController < ApplicationController
   
   # GET /posts
   def index
-
+    render :nothing => true and return if params[:shop_id].nil? and params[:artist_id].nil?
+    
     respond_to do |format| 
-
       format.html do
-        @shop = Shop.find(1)
-=begin
         if ( params[:shop_id] ) 
           redirect_to shop_path(params[:shop_id])
         end
         if ( params[:artist_id] )
           redirect_to artist_path(params[:artist_id])
         end
-=end  
       end
     
       format.json do
@@ -30,13 +27,11 @@ class TattoosController < ApplicationController
             @artist = Artist.find(params[:artist_id], :include => [:tattoos])
             render :json => @artist.tattoos.to_json(:include => { :assets => { :only => [:id, :data_file_name] } })
             return
-          else
-            render :json => []
           end
-        end 
+        end
       end 
-       
     end
+    
   end
 
   # GET /tattoos/1
