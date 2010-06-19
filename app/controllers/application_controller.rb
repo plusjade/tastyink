@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   
 
   def configure_layout
-    ( ['show'].include? action_name ) ? 'shop' : 'admin' 
+    ( ['index','show'].include? action_name ) ? 'shop' : 'admin' 
   end
   
 

@@ -139,6 +139,7 @@ div.content-window {
 li.super-trash{
   height:60px;
   width:120px;
+  float:right;
   line-height:16px;
   border:1px solid #777;
   background:#999;
@@ -146,11 +147,18 @@ li.super-trash{
   text-align:center;
 }
 
+.drag-profile img:hover, .shop-each img:hover{
+  border:1px solid green !important;
+  -webkit-opacity:0.9 !important;
+  -moz-opacity:0.9 !important;
+  opacity:0.9 !important;
+}
 /* top most "add image link(s)
   ------------------------------------------------------------ */
 ul.add-links {
   list-style:none;
   text-align:right;
+  margin:10px auto;
 }
 ul.add-links li {
   display:inline;
@@ -252,12 +260,21 @@ div.trashcan {
   background:#777;
   border:1px solid #111;
 }
+
+div.working-details {
+  clear:both;
+  padding:10px;
+}
+
+
 /* main tab navigation 
   ------------------------------------------------------------ */
 ul.main-tabs {
   clear:both;
   list-style:none;
+  margin-top:20px;
   padding-bottom:10px;
+  padding-left:20px;
 }
 ul.main-tabs li{ display:inline;}
 ul.main-tabs li a{

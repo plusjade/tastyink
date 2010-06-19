@@ -1,20 +1,3 @@
-<ul class="sub-nav">
-  <li><%= link_to 'Add Artist', new_shop_artist_path(@shop) %></li>
-</ul>  
 
-
-<% for artist in @artists %>
-<div style="padding:10px; margin:10px; border:1px dashed #333;">
-    <b>Name:</b> <%=h artist.name %>
-    <p>
-      <b>Bio:</b>
-      <br/> <%=h artist.bio %>
-    </p>
-    
-    <%= link_to 'Show', shop_artist_path(@shop, artist) %>
-    | <%= link_to 'Edit', edit_shop_artist_path(@shop, artist) %>
-    | <%= link_to 'Destroy', shop_artist_path(@shop, artist),
-            :confirm => 'Are you sure?', :method => :delete %>
-</div>
-<% end %>
+nothing here
 

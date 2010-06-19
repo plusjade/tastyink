@@ -8,66 +8,56 @@
 </head>
 <body>
   <div id="wrapper">
+  
     <div class="status">
       <div class="submitting" style="display:none">Submitting..</div>
       <div class="responding"></div>
     </div>
           
-    <div style="margin:10px auto">
-      <ul class="add-links">
-        <li><%= link_to 'Add Images', new_asset_path, :rel => 'facebox' %></li>
-        <li><%= link_to 'New Tattoo', new_tattoo_path, {:class => 'tattoos_new', :rel => 'facebox' } %></li>
-        <li><%= link_to 'New Artist', new_artist_path, {:class => 'artists_new', :rel => 'facebox' } %></li>
-        <li><%= link_to 'View Public Profile', shop_path(@shop), :target => '_blank' %></li>
-        <li><%= link_to 'Account', account_path %></li>
-        <li><%= link_to 'Logout', '/user_sessions/destroy' %></li>
-      </ul>
-
-      <div id="the-workspace" class="workspace-wrapper">
-        <div class="working-profile"> </div>
-        <ul class="workspace-toolbar">
-          <li class="save"><a href="#" class="attach-assets">Save Album</a></li>
-          <li class="clear"><a href="#" class="clear-assets">Clear unsaved images</a></li>
-          <li class="edit"><a href="#" class="edit-details">Edit Details</a></li>
-        </ul>
-        <div class="working-assets"></div>
-        <div class="trashcan"></div>
-        
-        <div style="clear:both" class="working-details-wrapper">
-          <div class="working-details"></div>
-        </div>
-      </div>
-      
-    </div>
+    <ul class="add-links">
+      <li><%= link_to 'Add Images', new_asset_path, :rel => 'facebox' %></li>
+      <li><%= link_to 'New Tattoo', new_tattoo_path, {:class => 'tattoos_new', :rel => 'facebox' } %></li>
+      <li><%= link_to 'New Artist', new_artist_path, {:class => 'artists_new', :rel => 'facebox' } %></li>
+      <li><%= link_to 'View Public Profile', shop_path(@shop), :target => '_blank' %></li>
+      <li><%= link_to 'Account', account_path %></li>
+      <li><%= link_to 'Logout', '/user_sessions/destroy' %></li>
+    </ul>
     
-    <div style="padding-left:20px;margin-top:20px;">
-      <ul class="main-tabs">
-        <li><a href="#tattoos" class="active" rel="tab-tattoos">Tattoo Profiles</a></li>
-        
-        <li><a href="#artists" rel="tab-artists">Artist Profiles</a></li>
-        <li><a href="#shop" rel="tab-shop">Shop Profile</a></li>
-        <li class="super-trash" style="float:right">
-          Trashcan
-          <br/>Drop profiles here to delete them.
-          <!--  <a href="#assets"  rel="tab-assets">Images</a> -->
-        </li>
-      </ul> 
-    </div>
+    <ul class="main-tabs">
+      <li><a href="#tattoos" class="active" rel="tab-tattoos">Tattoo Profiles</a></li>
+      <li><a href="#artists" rel="tab-artists">Artist Profiles</a></li>
+      <li><a href="#shop" rel="tab-shop">Shop Profile</a></li>
+      <li class="super-trash">Trashcan<br/>Drop profiles here to delete them.</li>
+    </ul> 
 
     <div id="top-container"></div>  
         
     <div id="content_out">
       <div id="content">
         <%= yield %>
+        <br/ style="clear:both"> 
       </div>
     </div>
    
     <div id="footer">
   		<p>&copy; 2010 Tastyink.com</p>
     </div>
-    
   </div> 
 
+  <!-- the workspace -->
+  <div id="the-workspace" class="workspace-wrapper">
+    <div class="working-profile">&#160;</div>
+    <ul class="workspace-toolbar">
+      <li class="save"><a href="#" class="attach-assets">Save Album</a></li>
+      <li class="clear"><a href="#" class="clear-assets">Clear unsaved images</a></li>
+      <li class="edit"><a href="#" class="edit-details">Edit Details</a></li>
+    </ul>
+    <div class="working-assets">&#160;</div>
+    <div class="trashcan">&#160;</div>
+    <div class="working-details">&#160;</div>
+  </div>
+  
+  <!-- the asset panel -->  
   <div class="asset-panel"> 
     <div class="actions"> 
       <a href="#" class="hide">hide</a> 
@@ -76,33 +66,29 @@
       <div class="content-window">
 
         <ul class="asset-actions">
-          <li>Total assets: <%= @assets.count %></li>
           <li><%= link_to 'Refresh', assets_path, :class => 'refresh-assets' %></li>
         </ul>
 
         <ul class="assets-wrapper" class="selectable">
-        <% for asset in @assets %>
-          <li>
-            <%= image_tag asset.url(:thumb), {:id => "asset_#{asset.id}",:class => 'drag-asset is-new', :title => "attached to #{asset.attachings_count} profiles" } %>
-          </li>
-        <% end %>
+        &#160;
         </ul>
         
-      
       </div>
     </div>
   </div>
     
   <script type="text/javascript">
     function tattoosTemplate(t){return '<%= admin_tattoos_template %>'};
+    function artistsTemplate(a){return '<%= admin_artists_template %>'};
     function assetsWorkTemplate(a){return '<%= admin_working_template %>'};
     function assetsReTemplate(a){return '<%= admin_resource_template %>'};
     $(document).ready(function(){  
       $('ul.main-tabs li a:first').click();
-      $('ul.artists-list li a:first').click();
+      $('a.refresh-tattoos').click();
+      $('a.refresh-assets').click();
       $(document).trigger('draggableAssets');
       $(document).trigger('draggableProfiles');
-       $(document).trigger('superTrash');
+      $(document).trigger('superTrash');
       $('a[rel*=facebox]').facebox();
       $('div.asset-panel').css('top', $.getPageHeight()- 300);
     });

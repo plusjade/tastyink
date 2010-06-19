@@ -1,25 +1,22 @@
 
-<div id="tab-assets" class="tab-content">  
-  some stuff
-</div>
-
 <div id="tab-tattoos" class="tab-content">
+  <%= link_to 'Show All', shop_tattoos_path(@shop), :class => 'refresh-tattoos' %>
+   or filter by artist:
   <ul class="artists-list">
-    <li><%= link_to 'All Artists', shop_tattoos_path(@shop), :class => 'do-artist-tattoos active' %></li>
     <% for artist in @shop.artists %>
-      <li><%= link_to "#{artist.name}", artist_tattoos_path(artist), { :class => 'do-artist-tattoos', :rel => artist.id } %></li>
+      <li><%= link_to "#{artist.name}", artist_tattoos_path(artist) %></li>
     <% end %>
   </ul> 
-  <ul class="tattoos-wrapper"></ul>
+  <ul class="tattoos-wrapper">&#160;</ul>
 </div>
 
 <div id="tab-artists" class="tab-content">
-  <%= render :partial => "artists/admin_artist", :collection => @shop.artists %>
+  <%= link_to 'Refresh Artists', "#{shop_artists_path(@shop)}.json", :class => 'refresh-artists' %>
+  <div class="artists-wrapper">
+    <%= render :partial => "artists/admin_artist", :collection => @shop.artists %>
+  </div>
 </div>
 
 <div id="tab-shop" class="tab-content">
   <%= render :partial => "shops/admin_shop", :locals => { :admin_shop => @shop } %>
-</div> 
-
-
-<br style="clear:both"/>
+</div>

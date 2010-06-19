@@ -3,41 +3,6 @@
   $hProfile = $('#the-workspace div.working-profile');
   $hAssets  = $('#the-workspace div.working-assets');
 
-  /* return the resource type and id or false
-   * @return Array or false 
-   */    
-  function getResource(){
-    var resource = $('img', $wProfile).attr('id');
-    if(undefined == resource){ alert('Add a profile to the workspace'); return false };
-    return resource.split('_');
-  };
-  
-  /* collect working assets
-   * @param resource = Array
-   * @param complain = bool 
-   */
-  function saveAssets(resource, complain){
-	  var ids = [];
-	  //Note: this only saves new assets.
-	  // TODO: add positioning.
-	  $("img.is-new", $wAssets).each(function(){
-	    ids.push(this.id.split('_')[1]);
-    });
-    if(ids.length <= 0){
-      if(complain) alert('No New Images in the Workspace');
-      return false;
-    }    
-    $(document).trigger('submitting');
-    $.get('/' + resource[0] + '/' + resource[1] + '/attach',
-      $.param({asset: ids}),
-      function(rsp){
-        $(document).trigger('responding', rsp);
-        if('good' == rsp.status)
-          $("img.is-new", $wAssets).removeClass('is-new');
-      }
-    );
-  };
-   
   // activate tab navigation
   $('ul.main-tabs li a').click(function(){
     $('div.tab-content').hide();
@@ -47,12 +12,63 @@
     return false;
   });
 
-  
-/* edit profiles
------------------------------------ */ 
+/* refresh resources
+----------------------------------- */
 
-  $('body').dblclick($.delegate({
-  
+  // refresh artist resources container
+  $('a.refresh-artists').click(function(){
+    $('div.artists-wrapper').html(loading);
+    $.getJSON(this.href, function(rsp){
+      $('div.artists-wrapper').empty();
+      $('ul.artists-list').empty();
+      $.each(rsp, function(){
+        this.artist.src = getFirstImage(this.artist.assets);
+        $('div.artists-wrapper').append(artistsTemplate(this.artist));
+        $('ul.artists-list').append('<li><a href="/artists/' + this.artist.id + '/tattoos">' + this.artist.name + '</a></li>');
+      });
+      $(document).trigger('draggableProfiles');
+    });
+    return false;
+  });
+ 
+  // refresh asset resources container
+  $('a.refresh-assets').click(function(){
+    $('ul.assets-wrapper').html(loading);
+    $.getJSON(this.href + '.json', function(rsp){
+      $('ul.assets-wrapper').empty();
+      $.each(rsp, function(){
+        $('ul.assets-wrapper').append(assetsReTemplate(this.asset));
+      });
+      $(document).trigger('draggableAssets');
+    });
+    return false;
+  });
+
+   
+/* click delegations
+----------------------------------- */
+  $('body').click($.delegate({
+
+   // refresh and load tattoo resources.  
+    'a.refresh-tattoos, ul.artists-list li a' : function(e){
+      $('ul.artists-list li a').removeClass('active');
+      $(e.target).addClass('active');
+      $('ul.tattoos-wrapper').html(loading);
+      $.get(e.target.href + '.json',function(rsp){
+        $('ul.tattoos-wrapper').empty();
+        if(0 == rsp.length){
+          $('ul.tattoos-wrapper').html('No tattoos found.');
+          return false;
+        }
+        $.each(rsp, function(){
+          this.tattoo.src = getFirstImage(this.tattoo.assets);
+          $('ul.tattoos-wrapper').append(tattoosTemplate(this.tattoo));
+        });
+        $(document).trigger('draggableProfiles');
+      });
+      return false;
+    },
+
     // edit profiles via facebox
     '.drag-profile img, .shop-each img' : function(e){
       var profile = $(e.target).attr('id');
@@ -67,53 +83,15 @@
             $hAssets.append(assetsWorkTemplate(this));
           });
           $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
-        });        
+        })       
       });
       return false;
-    }
-    
-  }));
- 
-
-/* resource interactions
------------------------------------ */
-  // tattoo resources are loadable.  
-  $('ul.artists-list li a').click(function(){
-    $('ul.tattoos-wrapper').html(loading);
-    $.get(this.href + '.json',function(rsp){
-      $('ul.tattoos-wrapper').empty();
-      $.each(rsp, function(){
-        this.tattoo.src = (this.tattoo.assets.length <= 0)
-          ? '/images/no-image.gif'
-          : '/system/datas/' + this.tattoo.assets[0].id +'/thumb/'+ this.tattoo.assets[0].data_file_name;
-        $('ul.tattoos-wrapper').append(tattoosTemplate(this.tattoo));
-      });
-      $(document).trigger('draggableProfiles');
-    });
-    return false;
-  });
-
-  // refresh asset resources container
-  $('a.refresh-assets').click(function(){
-    $('ul.assets-wrapper').empty();
-    $.getJSON(this.href + '.json', function(rsp){
-      $.each(rsp, function(){
-        $('ul.assets-wrapper').append(assetsReTemplate(this.asset));
-      });
-      $(document).trigger('draggableAssets');
-    });
-    return false;
-  });
-
- 
-/* click delegations
------------------------------------ */
-  $('body').click($.delegate({
-  
+    },
+      
    // "save" working assets to working profile resource.
     'a.attach-assets' : function(e){
-      var resource = getResource(); if(!resource) return false;
-      saveAssets(resource, true);
+      var profile = getProfile(); if(!profile) return false;
+      saveAssets(profile, true);
       return false;
     },
 
@@ -126,9 +104,9 @@
    
    // "edit details" of the working profile resource.
     'a.edit-details' : function(e){
-      var resource = getResource(); if(!resource) return false;
+      var profile = getProfile(); if(!profile) return false;
       $('#facebox div.working-details').html(loading);
-      $.get('/' + resource[0] + '/' + resource[1] + '/edit',
+      $.get('/' + profile[0] + '/' + profile[1] + '/edit',
         function(view){
           $('#facebox div.working-details').html(view);
           $(document).trigger('ajaxify.form');
@@ -136,19 +114,8 @@
       return false;
     },
   
-
-   // disable clicking on tattoo profiles.
-    'ul.tattoos-wrapper a' : function(e){
-      return false;
-    },
-    'ul.tattoos-wrapper a img' : function(e){
-      $(e.target).parent('a').click();
-      return false;
-    },
-    
-    
     // hide the asset panel
-    "div.asset-panel a.hide": function(e) {
+    "div.asset-panel a.hide": function(e){
       $('div.dialog_wrapper').toggle();      
       if('hide'== $(e.target).html()){
         $(e.target).html('show images');
@@ -158,13 +125,14 @@
         $(e.target).html('hide')
       }
       return false;
-    }
+    },
     
-         
+   // disable clicking on tattoo profiles.
+    'ul.tattoos-wrapper a' : function(e){
+      return false;
+    }
+           
   }));
-
-
-
 
 /* bindings 
 ------------------------------- 
@@ -185,7 +153,7 @@
             $('ul.workspace-toolbar li.save a').removeClass('disable');
         }
       }
-    });
+    })
   });
 
   // make working assets sortable.
@@ -195,7 +163,7 @@
       forceHelperSize: true,
       forcePlaceholderSize: true,
       placeholder: 'sortable-placeholder'
-    });
+    })
   });  
 
   // make super trashcan droppable
@@ -205,19 +173,14 @@
       activeClass: 'ui-state-highlight',
       hoverClass: 'drophover',
       tolerance: 'touch',
-      drop: function(e, ui) {
+      drop: function(e, ui){
         if($(ui.draggable).hasClass('drag-profile')){
-          // is profile
           var profile = $('img:first',$(ui.draggable)).attr('id');
-
         }else if($(ui.draggable).hasClass('drag-asset')){
-          // asset
           var profile = $(ui.draggable).attr('id');
-          
           $(ui.draggable).parent().remove();
         }
         profile = profile.split('_');
-        console.log(profile);
         $.ajax({
           type: 'DELETE',
           dataType:'json',
@@ -228,18 +191,15 @@
           },
           success: function(rsp){
             $(document).trigger('responding', rsp);
-            console.log(rsp);
             $(ui.draggable).remove();
             $(ui.helper).remove();
           }
-        });
-
-        
+        })
       }
-    });
+    })
   }); 
       
-  // make trashcan droppable
+  // make working trashcan droppable
   $(document).bind('droppableTrash', function(){
     $('div.trashcan').droppable({
       accept: '#facebox .drag-asset',
@@ -247,34 +207,20 @@
       hoverClass: 'drophover',
       tolerance: 'touch',
       drop: function(e, ui) {
-        // is profile
-        if($(ui.draggable).hasClass('drag-profile')){
-          console.log('ruhoh remove profile!');
-          $(ui.draggable).remove();
-          return;
-        }
-        // is new non-attached asset
         if($(ui.draggable).hasClass('is-new')){
-          if($(ui.draggable).hasClass('is-working')){
-            console.log('no big');
-          }else{
-            console.log('removed asset from resources!');
-          }
           $(ui.draggable).remove();
           return;
         }
-        // detach from working profile.
-        var resource = $('img', $wProfile).attr('id').split('_');
+        var profile = getProfile();
         var asset = $(ui.draggable).attr('id').split('_');
-        $.getJSON('/' + resource[0] + '/' + resource[1] + '/detach',
+        $.getJSON('/' + profile[0] + '/' + profile[1] + '/detach',
           {asset: asset[1]},
           function(rsp){
             $(document).trigger('responding', rsp);
             $(ui.draggable).remove();
-          }
-        );
+        })
       }
-    });
+    })
   });  
   
   // make asset resources draggable
@@ -290,7 +236,7 @@
     });
   });
 
-  // make shop/artist/tattoo resources draggable.  
+  // make artist/tattoo resources draggable.  
   $(document).bind('draggableProfiles', function(){
     $(".drag-profile").draggable({
       appendTo: 'body',
@@ -306,16 +252,15 @@
     $('form').ajaxForm({     
       beforeSubmit: function(fields, form){
         if(! $("input", form[0]).jade_validate() ) return false;
-        if('no_disable' != $(form[0]).attr('rel')) $('button', form[0]).attr('disabled','disabled').removeClass('jade_positive');
+        $('button', form[0]).attr('disabled','disabled').removeClass('jade_positive');
         $(document).trigger('submitting');
       },
       success: function(rsp) {
-        console.log(rsp);
-        if(undefined != rsp.created){       
-          var data = '<img src="/images/no-image.gif" id="'+ rsp.created.resource +'_'+ rsp.created.id +'"/>' + rsp.created.resource ;
+        if(undefined != rsp.created){      
           $hAssets.empty();
-          $hProfile.html(data); 
+          $hProfile.html('<img src="/images/no-image.gif" id="'+ rsp.created.resource +'_'+ rsp.created.id +'"/>' + rsp.created.resource); 
           $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
+          $('a.refresh-' + rsp.created.resource).click();
         }
         $(document).trigger('responding', rsp);
         $('.facebox form button').removeAttr('disabled').addClass('jade_positive');
@@ -323,9 +268,8 @@
     });
   });
 
-  // bind facebox functions  
+  // facebox reveal callback  
   $(document).bind('reveal.facebox', function(){
-    //$('body').addClass('disable_body').attr('scroll','no');
     $wAssets  = $('#facebox div.working-assets');
     $wProfile = $('#facebox div.working-profile');
     $(document).trigger('wAssetsSortable');
@@ -333,7 +277,7 @@
     $(document).trigger('ajaxify.form');
   });
 
-  // Bind functions to the CLOSE facebox event.
+  // facebox close callback
   $(document).bind('close.facebox', function() {
     //$('body').removeClass('disable_body').removeAttr('scroll');
   });
@@ -350,15 +294,57 @@
     var msg = (undefined == rsp.msg) ? 'There was a problem!' : rsp.msg;
     $('div.submitting').hide();
     $('div.responding.active').remove();
-    $('div.responding')
-      .clone()
-      .addClass('active ' + status)
-      .html(msg)
-      .show()
-      .insertAfter('.responding');
+    $('div.responding').clone().addClass('active ' + status).html(msg).show().insertAfter('.responding');
     setTimeout('$(".responding.active").fadeOut(4000)', 1900);  
   });
 
+
+/* helper functions 
+------------------------------- */
+
+  /* return the resource type and id or false
+   * @return Array or false 
+   */    
+  function getProfile(){
+    var profile = $('img', $wProfile).attr('id');
+    if(undefined == profile){ alert('Add a profile to the workspace'); return false };
+    return profile.split('_');
+  };
+
+  /* return the correct first image of a profile's album
+   */ 
+  function getFirstImage(assets){
+    return (assets.length <= 0)
+      ? '/images/no-image.gif'
+      : '/system/datas/' + assets[0].id +'/thumb/'+ assets[0].data_file_name;    
+  } 
+    
+  /* collect working assets
+   * @param profile = Array
+   * @param complain = bool
+	 * Note: this only saves new assets.
+	 * TODO: add positioning.
+   */
+  function saveAssets(profile, complain){
+	  var ids = [];
+	  $("img.is-new", $wAssets).each(function(){
+	    ids.push(this.id.split('_')[1]);
+    });
+    if(ids.length <= 0){
+      if(complain) alert('No New Images in the Workspace');
+      return false;
+    }    
+    $(document).trigger('submitting');
+    $.getJSON('/' + profile[0] + '/' + profile[1] + '/attach',
+      $.param({asset: ids}),
+      function(rsp){
+        $(document).trigger('responding', rsp);
+        if('good' == rsp.status)
+          $("img.is-new", $wAssets).removeClass('is-new');
+    })
+  };
+  
+  
 }); //end
 
 // Adapted from getPageSize() by quirksmode.com
@@ -368,12 +354,4 @@ jQuery.getPageHeight = function() {
 	else if (document.documentElement && document.documentElement.clientHeight) {windowHeight = document.documentElement.clientHeight;}
 	else if (document.body) { windowHeight = document.body.clientHeight;}	
 	return windowHeight
-};
-// getPageScroll() by quirksmode.com
-jQuery.getPageScroll = function() {
-	var xScroll, yScroll;
-	if (self.pageYOffset) { yScroll = self.pageYOffset; xScroll = self.pageXOffset; }
-	else if (document.documentElement && document.documentElement.scrollTop) { yScroll = document.documentElement.scrollTop; xScroll = document.documentElement.scrollLeft;} 
-	else if (document.body) { yScroll = document.body.scrollTop; xScroll = document.body.scrollLeft;}
-	return new Array(xScroll,yScroll) 
 };

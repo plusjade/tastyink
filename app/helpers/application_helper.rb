@@ -42,7 +42,12 @@ module ApplicationHelper
   def admin_tattoos_template
     render(:file => 'tattoos/admin-gallery').gsub("\n",'')
   end
-      
+
+  def admin_artists_template
+    render(:file => 'artists/admin-gallery').gsub("\n",'')
+  end
+  
+        
   ## Facebook application templates
   ## TODO: dry this up.
   ## the main diff. as of now if just the URL to scope to fb controller.
