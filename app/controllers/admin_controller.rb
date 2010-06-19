@@ -4,10 +4,10 @@ class AdminController < ApplicationController
    
   def index
     @shop = current_user.shop
-    @assets = Asset.find(
-      :all,
-      :conditions => { :shop_id => current_user.shop.id }
-    )
+    #@assets = Asset.find(
+    #  :all,
+    #  :conditions => { :shop_id => current_user.shop.id }
+    #)
   end
 
 end
