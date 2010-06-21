@@ -4,17 +4,80 @@
 
   <div class="right-half">
     <fieldset>
-      <%= f.label :data, "Upload Images" %><br />
-      <%= f.file_field :data %>
+      <%= f.label :data, "Upload Images" %>
+      <br/><%= f.file_field :data %>
     </fieldset>
   </div>
  
-    <fieldset>
-      <%= f.submit "Save" %>
+  <div class="left-half">
+    <fieldset class="buttons">
+      <button type="submit" class="positive">Add Image</button>
     </fieldset>
+    
+    I'm working on a multi-image uploader.
+    <br/> Till then please just keep adding them one by one =/
+    <br/><br/>
+    Refresh the image gallery to view newly uploaded images.
   </div> 
   
 <% end %>
+
 <br style="clear:both"/>
 
+<!--
+<div class="common_left_panel aligncenter">
+	<span id="spanButtonPlaceHolder"></span>
+	<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px;" />
+</div>
+
+<div id="swf_wrapper" class="common_main_panel">
+	Use the <b>browse</b> button to select up to 50 files at a time for uploading.
+	<br>Files can be any type and 20mb or less per file.
+	<br><br>
+	<span class="legend">Upload Queue</span>
+	<div class="fieldset flash" id="fsUploadProgress"></div>
+</div>
+	
+<br style="clear:both"/>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+	var swfu = new SWFUpload({
+		upload_url: '/assets',
+		post_params: {"test" : "something"},
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: true,
+		upload_start_handler :  function(){
+			console.log('start');
+			/*
+			$('.facebox .show_submit').show();
+			
+			$('.common_left_panel input:checked').each(function(i){
+				swfu.addPostParam('thumb['+i+']', $(this).val());
+			});
+			*/
+		},
+		queue_complete_handler : function(){
+			swfu.destroy();
+			console.log('complete');
+			/*
+			$('.facebox .show_submit').hide();
+			$('#directory_window').html('<div>Loading...</div>');
+			$('#directory_window').load('/get/files/contents?dir=<?php echo $short_url_dir?>');
+		  */
+		}		
+	});
+	
+	$(document).bind('close.facebox', function() {
+		swfu.destroy();
+	});
+
+});
+
+</script>
+-->
 
