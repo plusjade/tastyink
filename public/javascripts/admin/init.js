@@ -249,7 +249,8 @@
       
   // ajaxify the forms
   $(document).bind('ajaxify.form', function(){
-    $('form').ajaxForm({     
+    $('form').ajaxForm({
+      dataType : 'json',     
       beforeSubmit: function(fields, form){
         if(! $("input", form[0]).jade_validate() ) return false;
         $('button', form[0]).attr('disabled','disabled').removeClass('positive');

@@ -1,6 +1,6 @@
 class AssetsController < ApplicationController
-  layout 'home'
-  before_filter :require_user
+  layout 'admin'
+  #before_filter :require_user
   
   # GET /assets
   def index
@@ -29,6 +29,7 @@ class AssetsController < ApplicationController
       'assets/new',
       :layout => false,
       :locals => {:asset => @asset} if request.xhr?
+    @shop = current_user.shop
   end
 
 
