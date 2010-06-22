@@ -86,6 +86,12 @@ class TattoosController < ApplicationController
         'msg'     => 'Tattoo created!',
         'created' => { 'resource' => 'tattoos', 'id' => @tattoo.id }
       }
+    elsif !@tattoo.valid?
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! The title and artist are required!"
+      }
     else
       render :json => 
       {

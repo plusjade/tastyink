@@ -8,7 +8,8 @@
     </fieldset>
       
     <fieldset>
-      Belongs to: <%= f.select(:artist_id, @shop.artists.collect {|a| [ a.name, a.id ] } ) %>
+      Belongs to: <span class="star_req">*</span>
+       <%= f.select(:artist_id, @shop.artists.collect {|a| [ a.name, a.id ] } ) %>
     </fieldset>
     
     <fieldset>

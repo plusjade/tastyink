@@ -43,13 +43,19 @@ class ArtistsController < ApplicationController
   #POST
   def create
     @shop = current_user.shop
-    @artist = @shop.artists.build(params[:artist])
+    @artist = @shop.artists.build(params[:artist])    
     if @artist.save
       render :json =>
       {
         'status'  => 'good',
         'msg'     => 'Artist created!',
         'created' => { 'resource' => 'artists', 'id' => @artist.id }
+      }
+    elsif !@artist.valid?
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please make sure all fields are valid!"
       }
     else
       render :json => 
@@ -83,6 +89,12 @@ class ArtistsController < ApplicationController
       {
         'status' => 'good',
         'msg'    => "Artist Updated!"
+      }
+    elsif !@artist.valid?
+      render :json => 
+      {
+        'status' => 'bad',
+        'msg'    => "Oops! Please make sure all fields are valid!"
       }
     else
       render :json => 
