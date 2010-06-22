@@ -21,7 +21,11 @@
     $.getJSON(this.href, function(rsp){
       $('div.artists-wrapper').empty();
       $('ul.artists-list').empty();
-      $.each(rsp, function(){
+      if(0 == rsp.length){
+        $('div.artists-wrapper').html('No artists found.');
+        return false;
+      }
+      $.each(rsp, function(){    
         this.artist.src = getFirstImage(this.artist.assets);
         $('div.artists-wrapper').append(artistsTemplate(this.artist));
         $('ul.artists-list').append('<li><a href="/artists/' + this.artist.id + '/tattoos">' + this.artist.name + '</a></li>');
