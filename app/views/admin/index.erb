@@ -13,10 +13,122 @@
 <div id="tab-artists" class="tab-content">
   <%= link_to 'Refresh Artists', "#{shop_artists_path(@shop)}.json", :class => 'refresh-artists' %>
   <div class="artists-wrapper">
+  <% if @shop.artists.empty? %>
+    No artists found.
+  <% else %>
     <%= render :partial => "artists/admin_artist", :collection => @shop.artists %>
+  <% end %>
   </div>
 </div>
 
 <div id="tab-shop" class="tab-content">
   <%= render :partial => "shops/admin_shop", :locals => { :admin_shop => @shop } %>
 </div>
+
+<div id="tab-help" class="tab-content">
+  <h2 style="font-weight:bold">Tastyink helps you build and manage an online portfolio.</h2>
+  <p style="font-weight:bold">
+    There are 2 main things to understand when building your portfolio: profiles and images.
+    <br/>(If you need more help, feel free to email me: <a href="mailto:plusjade@gmail.com">plusjade@gmail.com</a>)
+  </p>
+  
+  <h2 style="font-weight:bold">Profiles:</h2>
+  <div style="margin-left:20px;">
+    <p>
+      There are 3 types of profiles in tastyink: A shop profile, artist profiles,
+      and tattoo profiles. 
+      <br/>A profile makes it easy to create, edit, and organize
+      your information. Profiles contain data such as name, description, creation date, and
+      tags. 
+      <br/>All profiles have an image album.
+      You can "attach" any images you upload to a profile by dragging them into 
+      the profile's "album box". 
+      <br/>
+      <b>NOTE:</b> Images exists separately from profiles.
+      Images can be added to many different profiles or none at all. 
+      <br/>Images are NEVER deleted when a profile is deleted, only the association is removed.
+    </p>
+    
+    <h5>Shop Profile.</h5>
+    <p class="indent">
+      Your shop profile is the first thing a customer sees on your portfolio.
+      You can display your name, description, hours of operation, and address.
+      The shop image album is ideal for showcasing your shop's premises. 
+    </p>  
+    <h5>Artist Profiles.</h5>
+    <p>
+      Artist profiles are displayed whenever a customer clicks on the artist's name.
+      You can specify a brief bio or highlight awards and/or specialties.
+      The artist image album can be used to give a personal, human feel to your artists.
+    </p>
+    
+    <h5>Tattoo Profiles.</h5>
+    <p>
+      Tattoo profiles are used to showcase tattoos done by your artists.
+      Every tattoo profile must belong to an artist. The tattoo profile
+      can specify a title, and short description of the work.
+      The tattoo image album is used to display the tattoo! Note that many images
+      can fit into the album and represent the same tattoo.
+    </p>
+    
+    <h5>Adding, Editing, &amp; Deleting Profiles</h5>
+    <p>
+      <b>To add</b> an artist or tattoo profile, click on the respective links at the top of the page.
+      Once saved, you will be able to add images to the profile's album.
+      Note: There can only be one shop profile so there's no way to add another.
+    </p>
+    <p>
+      <b>To edit</b> a profile, navigate to the appropriate tab and click on the image of the profile
+      you want to edit. An edit box appears..
+    </p>
+    <p>
+      <b>To delete</b> a profile, navigate to the appropriate tab and click and hold on the image of the profile
+      you want to delete; while holding you can drag the profile into the trashcan on the top right corner.
+    </p> 
+  </div>
+  
+  
+  <h2 style="font-weight:bold">Images:</h2>
+  <div style="margin-left:20px;">
+    <p>
+      Images are the core to making a great looking portfolio.
+      <br/>You can add images anytime by clicking on the top most "add images" link.
+      <br/>Images are automatically resized and thumbnailed for your convenience.
+    </p>
+    <p>
+      Images exist separately from everything else on tastyink. You can add images
+      without needing to specify an artist or tattoo. The image tab holds all your 
+      images as a collection for you to work with at any time. 
+      <b>NOTE:</b> that in order to display images within your portfolio, you must add them to
+      a profile's image album.
+    </p>
+    
+    <h5>Adding/Uploading Images to Tastyink.</h5>
+    <p>
+      Click on the "add images" link on the top most navigation bar and select
+      images to upload. Once done, refresh the "images panel" on the bottom half of the page.
+    </p>
+    
+    <h5>Adding Images to A Profile's Album.</h5>
+    <p>
+      When creating or editing a profile a white "album box" will present itself.
+      Using the image thumbnails within your images panel, you can drag and drop
+      images into the "album box". Click "save album" to save the images to the album.
+    </p>
+
+    <h5>Removing Images From A Profile's Album.</h5>
+    <p>
+      When creating or editing a profile a white "album box" will present itself.
+      To remove images from the profile album, simply drag and drop the image thumbnail
+      into the trash. Images are automatically removed, no saving is required.
+    </p>
+            
+  </div>
+      
+</div>
+
+
+
+
+
+
