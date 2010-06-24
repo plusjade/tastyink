@@ -158,25 +158,8 @@
 ------------------------------- 
 ------------------------------- */
 
-  // make working assets container droppable
-  $(document).bind('droppableAssets', function(){
-    $wAssets.droppable({
-      accept: '.drag-asset',
-      activeClass: 'ui-state-highlight',
-      hoverClass: 'drophover',
-      tolerance: 'touch',
-      drop: function(e, ui) {
-        $(ui.draggable).addClass('is-working');
-        if(undefined != $('img:first', $wAssets).attr('src')){
-          $('ul.workspace-toolbar li.clear a').removeClass('disable');
-	        if(undefined != $('img', $wProfile).attr('id'))
-            $('ul.workspace-toolbar li.save a').removeClass('disable');
-        }
-      }
-    })
-  });
-
-  // make working assets sortable.
+  // make working assets sortable 
+  // * droppable is handled by connectToSortable
   $(document).bind('wAssetsSortable', function(){
     $wAssets.sortable({
       items: 'img',
@@ -186,7 +169,7 @@
     })
   });  
 
-  // make super trashcan droppable
+  // make super-trashcan droppable
   $(document).bind('superTrash', function(){
     $('td.super-trash').droppable({
       accept: '.drag-profile, #facebox .drag-asset', //.drag-asset cannot delete images yet 
@@ -243,9 +226,11 @@
       cursorAt: {top:30, left:30},
       stack: "ul.assets-wrapper li img",
       zIndex: 999999999,
-      revert: true,
+      addClasses: false,
       helper: 'clone',
-      connectToSortable: '#facebox div.working-assets'
+      connectToSortable: '#facebox div.working-assets',
+      start: function(e, ui){$wAssets.addClass('ui-state-highlight')},
+      stop: function(e, ui){$wAssets.removeClass('ui-state-highlight')}
     });
   });
 
