@@ -1,6 +1,6 @@
 class AssetsController < ApplicationController
   layout 'admin'
-  #before_filter :require_user
+  before_filter :require_user
   #skip_before_filter :verify_authenticity_token
   
   # GET /assets
@@ -51,10 +51,9 @@ class AssetsController < ApplicationController
     h[:asset] = Hash.new
     h[:asset][:data] = params[:Filedata]
     h[:asset][:data].content_type = MIME::Types.type_for(h[:asset][:data].original_filename).to_s
- 
+
     @asset = Asset.new(h[:asset])
-    @asset.shop_id = 1
-    #@asset.shop_id = current_user.shop.id
+    @asset.shop_id = current_user.shop.id
     
     if @asset.save
       render :json => 
