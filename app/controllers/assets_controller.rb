@@ -1,7 +1,7 @@
 class AssetsController < ApplicationController
   layout 'admin'
   #before_filter :require_user
-  skip_before_filter :verify_authenticity_token
+  #skip_before_filter :verify_authenticity_token
   
   # GET /assets
   def index

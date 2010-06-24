@@ -18,7 +18,9 @@ Rails::Initializer.run do |config|
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
   # See Rails::Configuration for more options.
-
+  %w(middleware).each do |dir|
+    config.load_paths << "#{RAILS_ROOT}/app/#{dir}" 
+  end
   # Skip frameworks you're not going to use. To use Rails without a database
   # you must remove the Active Record framework.
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
@@ -64,7 +66,6 @@ Rails::Initializer.run do |config|
     :key    => '_tastyink_session',
     :secret => '31b1a75b726dae3ffec859fd98fe4b12f42d6cecec751ce206561aeac7ceb7812af64c9a4f5658c1c4d5c22e0dce7ee6e5ec4f1400c771d3fbf217b4fd2eb9d5'
   }
-
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
   # (create the session table with "rake db:sessions:create")
