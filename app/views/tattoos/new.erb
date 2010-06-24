@@ -1,7 +1,22 @@
-<% form_for @tattoo, :url => tattoos_path do |f| %>
+<% form_for @tattoo, {:url => tattoos_path, :class =>'new-profile'} do |f| %>
   <%= f.error_messages %>
 
   <div class="right-half">
+
+    <fieldset>
+      <%= f.label :desc, 'Description' %>
+      <br /><%= f.text_area :desc %>
+    </fieldset>
+    
+  </div>
+  
+  <div class="left-half">
+    <!--
+    <fieldset class="buttons">
+      <button type="submit" class="positive">Add New Tattoo</button>
+    </fieldset>
+    -->
+    <h5>New Tattoo Info</h5>
     <fieldset>
       <%= f.label :title, "Title" %> <span class="star_req">*</span>
       <br /><%= f.text_field :title, :rel => 'text_req' %>
@@ -11,19 +26,7 @@
       Belongs to: <span class="star_req">*</span>
        <%= f.select(:artist_id, @shop.artists.collect {|a| [ a.name, a.id ] } ) %>
     </fieldset>
-    
-    <fieldset>
-      <%= f.label :desc, 'Description' %>
-      <br /><%= f.text_area :desc %>
-    </fieldset>
-    
-  </div>
-  
-  <div class="right-half">
-    <fieldset class="buttons">
-      <button type="submit" class="positive">Add New Tattoo</button>
-    </fieldset>
-    Images can be added in the next step =)
+        
   </div> 
   
 <% end %>

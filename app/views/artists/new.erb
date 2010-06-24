@@ -5,20 +5,21 @@
   
   <div class="right-half">
     <fieldset>
-      <%= f.label :name %> <span class="star_req">*</span>
-      <br /><%= f.text_field :name, :rel => 'text_req' %>
-    </fieldset>
-    <fieldset>
       <%= f.label :bio %><br />
       <%= f.text_area :bio %>
     </fieldset>
   </div>
   
   <div class="left-half">
+    <h5>New Artist Info</h5>
+    <fieldset>
+      <%= f.label :name %> <span class="star_req">*</span>
+      <br /><%= f.text_field :name, :rel => 'text_req' %>
+    </fieldset>    
+    <!--
     <fieldset class="buttons">
       <button type="submit" class="positive">Add New Artist</button>
     </fieldset>
-    
-    Images can be added in the next step =)
+    -->    
   </div>
 <% end %>

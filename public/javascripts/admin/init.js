@@ -73,13 +73,31 @@
       return false;
     },
 
-    // edit profiles via facebox
+   // new profiles via facebox
+    'a.new-profile' : function(e){
+	    $hAssets.empty();
+	    $hProfile.empty();
+	    $('a.show-details').hide();
+	    
+      $.facebox(function() {
+        $('.working-details').html(loading); 
+        $.get(e.target.href, function(view){
+          $('.working-details').html(view);
+          $(document).trigger('ajaxify.form');
+        });      
+         $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
+      });         
+      return false;
+    },
+    
+   // edit profiles via facebox
     '.drag-profile img, .shop-each img' : function(e){
       var profile = $(e.target).attr('id');
 	    if(undefined == profile){alert('profile id was not found'); return false};
 	    profile = profile.split('_');
 	    $hAssets.empty();
 	    $hProfile.empty();
+	    $('a.show-details').show();
 	    $(e.target).clone().appendTo($hProfile);
       $.facebox(function() { 
         $.getJSON('/' + profile[0] + '/' + profile[1] + '.json', function(rsp) {
@@ -91,27 +109,20 @@
       });
       return false;
     },
-      
-   // "save" working assets to working profile resource.
+       
+   // "save" profile resource.
     'a.save-profile' : function(e){
-      var profile = getProfile(); if(!profile) return false;
       // save the data
       if( 0 < $('div.working-details form').length ){
         $('div.working-details form').submit();
       }
-      saveAssets(profile, true);
-      return false;
-    },
-
-   // clear the unsaved working assets
-    'a.clear-assets' : function(e){
-      $('img.is-new', $wAssets).remove();
-      $('li.save a, li.clear a', 'ul.workspace-toolbar').addClass('disable');
+      var profile = getProfile()
+      if(profile) saveAssets(profile);
       return false;
     },
    
-   // "edit details" of the working profile resource.
-    'a.edit-details' : function(e){
+   // "show details" of the working profile resource.
+    'a.show-details' : function(e){
       var profile = getProfile(); if(!profile) return false;
       $('#facebox div.working-details').html(loading);
       $.get('/' + profile[0] + '/' + profile[1] + '/edit',
@@ -260,9 +271,7 @@
       },
       success: function(rsp) {
         if(undefined != rsp.created){      
-          $hAssets.empty();
-          $hProfile.html('<img src="/images/no-image.gif" id="'+ rsp.created.resource +'_'+ rsp.created.id +'"/>' + rsp.created.resource); 
-          $.facebox({ div: '#the-workspace' }, 'workspace-wrapper');
+          saveAssets([rsp.created.resource, rsp.created.id]);
           $('a.refresh-' + rsp.created.resource).click();
         }
         $(document).trigger('responding', rsp);
@@ -281,15 +290,16 @@
 
   // facebox close callback
   $(document).bind('close.facebox', function() {
+  	$hAssets.empty();
+	  $hProfile.empty();
+	  $('.working-details').empty();
     //$('body').removeClass('disable_body').removeAttr('scroll');
   });
 
   // show the submit ajax loading graphic.
   $(document).bind('submitting', function(){
     $('div.responding.active').remove();
-    //$('div.status').css('top', $.getPageScroll()[1]);
     $('div.submitting').show();
-    
   });
 
   // show the response (always json)
@@ -343,7 +353,7 @@ function toggleImagePane(force){
  */    
 function getProfile(){
   var profile = $('img', $wProfile).attr('id');
-  if(undefined == profile){ alert('Add a profile to the workspace'); return false };
+  if(undefined == profile) return false;
   return profile.split('_');
 };
 
@@ -355,19 +365,17 @@ function getFirstImage(assets){
     : '/system/datas/' + assets[0].id +'/thumb/'+ assets[0].data_file_name;    
 } 
   
-/* collect working assets
- * @param profile = Array
- * @param complain = bool
- * Note: this only saves new assets.
+/* collect and save any new working assets
+ * @param profile = Array [type, id]
  * TODO: add positioning.
  */
-function saveAssets(profile, complain){
+function saveAssets(profile){
   var ids = [];
   $("img.is-new", $wAssets).each(function(){
     ids.push(this.id.split('_')[1]);
   });
   if(ids.length <= 0){
-    //if(complain) $(document).trigger('responding', {msg:'No new images in the workspace', status:'warn'});
+    //$(document).trigger('responding', {msg:'No new images in the workspace', status:'warn'});
     return false;
   }    
   $(document).trigger('submitting');
