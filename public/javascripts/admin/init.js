@@ -119,17 +119,17 @@
     },
   
     // hide the asset panel
-    "div.asset-panel a.hide": function(e){
-      $('div.dialog_wrapper').toggle();      
-      if('hide'== $(e.target).html()){
-        $(e.target).html('show images');
-        $('div.asset-panel').css('top', $.getPageHeight()- 32);
-      }else{
-        $('div.asset-panel').css('top', $.getPageHeight()- 300);
-        $(e.target).html('hide')
-      }
+    "div.asset-panel a.toggle": function(e){
+      toggleImagePane();
       return false;
     },
+    
+    'div.asset-panel .actions a.show' : function(e){
+      toggleImagePane('open');
+      $('div.asset-content').hide();
+      $(e.target.hash + '-tab').show();
+      return false;
+    },    
     
    // disable clicking on tattoo profiles.
     'ul.tattoos-wrapper a' : function(e){
@@ -137,6 +137,7 @@
     }
            
   }));
+
 
 /* bindings 
 ------------------------------- 
@@ -172,7 +173,7 @@
 
   // make super trashcan droppable
   $(document).bind('superTrash', function(){
-    $('li.super-trash').droppable({
+    $('td.super-trash').droppable({
       accept: '.drag-profile', //.drag-asset cannot delete images yet 
       activeClass: 'ui-state-highlight',
       hoverClass: 'drophover',
@@ -268,7 +269,7 @@
           $('a.refresh-' + rsp.created.resource).click();
         }
         $(document).trigger('responding', rsp);
-        $('#facebox form button').removeAttr('disabled').addClass('positive');
+        $('form button').removeAttr('disabled').addClass('positive');
       }
     });
   });
@@ -290,7 +291,9 @@
   // show the submit ajax loading graphic.
   $(document).bind('submitting', function(){
     $('div.responding.active').remove();
+    //$('div.status').css('top', $.getPageScroll()[1]);
     $('div.submitting').show();
+    
   });
 
   // show the response (always json)
@@ -304,53 +307,83 @@
   });
 
 
+/* resizing functions */
+  $(window).resize(function() {
+    var height = $('div.asset-panel').hasClass('open') ? 300 : 32;
+    $('div.asset-panel').css('top', $.getPageHeight()- height);
+  });
+  /*
+  $(window).scroll(function(){
+    var height = $('div.asset-panel').hasClass('open') ? 300 : 32;
+    $('div.asset-panel').css('top', $.getPageHeight()- height);  
+  });  
+  */
+  
+}); //end
+
 /* helper functions 
 ------------------------------- */
 
-  /* return the resource type and id or false
-   * @return Array or false 
-   */    
-  function getProfile(){
-    var profile = $('img', $wProfile).attr('id');
-    if(undefined == profile){ alert('Add a profile to the workspace'); return false };
-    return profile.split('_');
-  };
+/* toggleImagePane
+ * @param force: String - force open or close
+ */ 
+function toggleImagePane(force){
+  if('open' == force || $('div.asset-panel').hasClass('closed')){
+    $('div.asset-panel').css('top', $.getPageHeight()- 300);
+    $('div.asset-panel').removeClass('closed').addClass('open');
+    $('div.asset-panel a.toggle').show();
+    return;
+  }
+  if('close' == force || $('div.asset-panel').hasClass('open')){
+    $('div.asset-panel').css('top', $.getPageHeight()- 32);
+    $('div.asset-panel').removeClass('open').addClass('closed');
+    $('div.asset-panel a.toggle').hide();
+    return;
+  }
+}
 
-  /* return the correct first image of a profile's album
-   */ 
-  function getFirstImage(assets){
-    return (assets.length <= 0)
-      ? '/images/no-image.gif'
-      : '/system/datas/' + assets[0].id +'/thumb/'+ assets[0].data_file_name;    
-  } 
-    
-  /* collect working assets
-   * @param profile = Array
-   * @param complain = bool
-	 * Note: this only saves new assets.
-	 * TODO: add positioning.
-   */
-  function saveAssets(profile, complain){
-	  var ids = [];
-	  $("img.is-new", $wAssets).each(function(){
-	    ids.push(this.id.split('_')[1]);
-    });
-    if(ids.length <= 0){
-      if(complain) alert('No New Images in the Workspace');
-      return false;
-    }    
-    $(document).trigger('submitting');
-    $.getJSON('/' + profile[0] + '/' + profile[1] + '/attach',
-      $.param({asset: ids}),
-      function(rsp){
-        $(document).trigger('responding', rsp);
-        if('good' == rsp.status)
-          $("img.is-new", $wAssets).removeClass('is-new');
-    })
-  };
+/* return the resource type and id or false
+ * @return Array or false 
+ */    
+function getProfile(){
+  var profile = $('img', $wProfile).attr('id');
+  if(undefined == profile){ alert('Add a profile to the workspace'); return false };
+  return profile.split('_');
+};
+
+/* return the correct first image of a profile's album
+ */ 
+function getFirstImage(assets){
+  return (assets.length <= 0)
+    ? '/images/no-image.gif'
+    : '/system/datas/' + assets[0].id +'/thumb/'+ assets[0].data_file_name;    
+} 
   
+/* collect working assets
+ * @param profile = Array
+ * @param complain = bool
+ * Note: this only saves new assets.
+ * TODO: add positioning.
+ */
+function saveAssets(profile, complain){
+  var ids = [];
+  $("img.is-new", $wAssets).each(function(){
+    ids.push(this.id.split('_')[1]);
+  });
+  if(ids.length <= 0){
+    if(complain) alert('No New Images in the Workspace');
+    return false;
+  }    
+  $(document).trigger('submitting');
+  $.getJSON('/' + profile[0] + '/' + profile[1] + '/attach',
+    $.param({asset: ids}),
+    function(rsp){
+      $(document).trigger('responding', rsp);
+      if('good' == rsp.status)
+        $("img.is-new", $wAssets).removeClass('is-new');
+  })
+};
   
-}); //end
 
 // Adapted from getPageSize() by quirksmode.com
 jQuery.getPageHeight = function() {
@@ -359,4 +392,20 @@ jQuery.getPageHeight = function() {
 	else if (document.documentElement && document.documentElement.clientHeight) {windowHeight = document.documentElement.clientHeight;}
 	else if (document.body) { windowHeight = document.body.clientHeight;}	
 	return windowHeight
+};
+
+// getPageScroll() by quirksmode.com
+jQuery.getPageScroll = function() {
+  var xScroll, yScroll;
+  if (self.pageYOffset) {
+    yScroll = self.pageYOffset;
+    xScroll = self.pageXOffset;
+  } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
+    yScroll = document.documentElement.scrollTop;
+    xScroll = document.documentElement.scrollLeft;
+  } else if (document.body) {// all other Explorers
+    yScroll = document.body.scrollTop;
+    xScroll = document.body.scrollLeft;
+  }
+  return new Array(xScroll,yScroll)
 };

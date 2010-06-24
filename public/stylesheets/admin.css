@@ -112,40 +112,49 @@ div.asset-panel {
   }
 div.asset-panel .actions{
   position:relative; overflow:hidden; top:2px;}
-div.asset-panel a.hide,
-div.asset-panel a.close {
-  display:block; height:28px; width:70px; float:right; 
-  padding:5px 5px 0 5px; border:1px solid #999; margin-left:7px; 
-  border-bottom:0; background:#eee; text-align:center; color:#000;
+
+
+div.asset-panel .actions a {
+  display:block; height:28px;  float:right; 
+  padding:5px 25px 0 25px;
+  border:1px solid #999; margin-left:7px; 
+  border-bottom:0; background:#eee; 
+  text-decoration:none;
+  text-align:center; color:#000;
   -moz-border-radius-topleft:5px;
   -moz-border-radius-topright:5px;
   -webkit-border-top-left-radius:5px;
   -webkit-border-top-right-radius:5px;  
   }
-div.asset-panel a.hide:hover,
-div.asset-panel a.close:hover {
+div.asset-panel .actions a.upload {
+  background:orange url('/images/gradients.jpg') repeat-x 0px -250px;
+  border:1px solid orange;
+  border-bottom:0;
+  color:#fff;
+  font-weight:bold;
+  text-decoration:none;
+} 
+div.asset-panel .actions a.upload:hover {
+  background:#d1f0b9 url('/images/gradients.jpg') repeat-x 0px -205px; 
+  border:1px solid #bde99c;
+ 
+ }
+
+div.asset-panel a:hover{
   background:#333;
   color:#fff;
 }
 div.content-window-wrapper {
-  background:#f1f2f3; border:1px solid #999; border-bottom:0;
+  background:#f1f2f3; 
+  border:1px solid #999; 
+  border-bottom:0;
   -webkit-box-shadow:-5px -5px 15px #ccc;
   }
 div.content-window {
   height:300px; margin:0 auto; min-width:800px; 
-  width:80%; background:#f1f2f3; overflow:hidden; padding:0;}
-
-
-li.super-trash{
-  height:60px;
-  width:120px;
-  float:right;
-  line-height:16px;
-  border:1px solid #777;
-  background:#999;
-  color:#efefef;
-  text-align:center;
+  width:80%; background:#f1f2f3; overflow:hidden; padding:0;
 }
+
 
 .drag-profile img:hover, .shop-each img:hover{
   border:1px solid green !important;
@@ -157,14 +166,14 @@ li.super-trash{
   ------------------------------------------------------------ */
 ul.add-links {
   list-style:none;
-  text-align:right;
-  margin:10px auto;
+  padding:5px;
 }
 ul.add-links li {
   display:inline;
   margin-right:10px;
 }
-
+ul.add-links li a {
+}
 /* top workspace wrapper 
   ------------------------------------------------------------ */
 #the-workspace{
@@ -172,7 +181,7 @@ ul.add-links li {
 }
 .workspace-wrapper {
   clear:both;
-  width:950px;
+  width:900px;
   margin-bottom:20px;
   min-height:90px;
   overflow:hidden;
@@ -272,7 +281,7 @@ div.working-details {
 ul.main-tabs {
   clear:both;
   list-style:none;
-  margin-top:20px;
+  margin-top:50px;
   padding-bottom:10px;
   padding-left:20px;
 }
@@ -317,6 +326,7 @@ ul.main-tabs li a.active{
 ul.asset-actions{
   clear:both;
   list-style:none;
+  padding-bottom:3px;
 }	
 ul.asset-actions li {
   display:inline;
@@ -325,11 +335,11 @@ ul.asset-actions li {
 ul.assets-wrapper { height:225px; overflow:auto; }
 ul.assets-wrapper li {
   margin: 3px; float: left; 
-  width:60px; height:60px;
+  width:50px; height:50px;
   text-align: center;
 }
 ul.assets-wrapper img {
-  width:60px; height:60px;
+  width:50px; height:50px;
   background:#fff;
   border:1px solid #555;
   cursor:move;
@@ -414,7 +424,7 @@ ul.selectable .ui-selected { background: #F39814; color: white; }
   color:#111;
 }
 div.trashcan.ui-state-highlight,
-li.super-trash.ui-state-highlight {
+.super-trash.ui-state-highlight {
   background:darkred !important;
   border:1px solid #000 !important;
 }
@@ -424,7 +434,7 @@ li.super-trash.ui-state-highlight {
   color:#fff !important;
 }
 div.trashcan.drophover,
-li.super-trash.drophover  {
+.super-trash.drophover  {
   background:#111 !important;
   border:1px solid #000 !important;
 }
@@ -483,6 +493,12 @@ div.right-pane {
   border:1px solid #bde99c;
 }
 
+
+.asset-content {
+  padding-top:10px;
+  display:none;
+}
+
 /* responses
  ---------------------------------------- */
 div.responding.active.good {
@@ -499,22 +515,31 @@ div.responding.active.warn {
 }
 /* ajax
  ---------------------------------------- */
-div.status{
-  position:absolute;
+table.top-bar{
+  position:fixed;
   top:0;
-  height:30px;
-  width:500px;
-  background:transparent;
+  width:960px;
+  height:25px;
+  background:#fff;
+  border:1px solid #ccc;
+  border-top:0;
   z-index:99999999;
+  border-collapse:collapse;
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
+}
+table.top-bar td{
+  height:20px;
   overflow:hidden;
 }
+
 .submitting{
   padding:3px 3px 0 170px;
   text-align:left;
-  margin:auto;
   color:#222;
-  border:1px solid brown;
-  background:#ffffcc url('/images/loading.gif') no-repeat 5% 50%;
+  background:#ffff99 url('/images/loading.gif') no-repeat 5% 50%;
 }
 .responding{
   padding:3px 3px 0 3px;
@@ -537,6 +562,7 @@ button{cursor:hand; cursor:pointer;}
 .buttons a, .buttons button{
   display:block; border:1px solid #999; 
   background:#ccc;
+  text-align:center;
   color:#999;
   font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif; font-size:1em; line-height:130%; text-decoration:none; font-weight:bold; cursor:pointer; padding:5px 10px 6px 7px; /* Links */
   -webkit-border-radius:5px;

@@ -1,5 +1,8 @@
 
 <div id="tab-tattoos" class="tab-content">
+  <div style="width:150px;margin-bottom:10px;" class="buttons">
+    <%= link_to 'Add More Tattoos', new_tattoo_path, {:class => 'tattoos_new positive', :rel => 'facebox' } %>
+  </div>
   <%= link_to 'Show All', shop_tattoos_path(@shop), :class => 'refresh-tattoos' %>
    or filter by artist:
   <ul class="artists-list">
@@ -11,6 +14,9 @@
 </div>
 
 <div id="tab-artists" class="tab-content">
+  <div style="width:150px;margin-bottom:10px;" class="buttons">
+    <%= link_to 'Add More Artists', new_artist_path, {:class => 'artists_new positive', :rel => 'facebox' } %>
+  </div>
   <%= link_to 'Refresh Artists', "#{shop_artists_path(@shop)}.json", :class => 'refresh-artists' %>
   <div class="artists-wrapper">
   <% if @shop.artists.empty? %>

@@ -1,25 +1,22 @@
 
-<% form_for @asset, {:url => '/assets' , :html => { :multipart => true } } do |f| %>
+<% form_for asset, {:url => '/assets' , :html => { :multipart => true } } do |f| %>
   <%= f.error_messages %>
 
+
+ 
   <div class="right-half">
+    <fieldset class="buttons">
+      <button type="submit" class="positive">Upload Images</button>
+    </fieldset>
+  </div> 
+  
+  <div class="left-half">
     <fieldset>
       <%= f.label :data, "Upload Images" %>
       <br/><%= f.file_field :data %>
     </fieldset>
-  </div>
- 
-  <div class="left-half">
-    <fieldset class="buttons">
-      <button type="submit" class="positive">Add Image</button>
-    </fieldset>
-    
-    I'm working on a multi-image uploader.
-    <br/> Till then please just keep adding them one by one =/
-    <br/><br/>
-    Refresh the image gallery to view newly uploaded images.
   </div> 
-  
+   
 <% end %>
 
 <br style="clear:both"/>

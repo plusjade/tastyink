@@ -8,27 +8,32 @@
 </head>
 <body>
   <div id="wrapper">
-  
-    <div class="status">
-      <div class="submitting" style="display:none">Submitting..</div>
-      <div class="responding"></div>
-    </div>
-          
-    <ul class="add-links">
-      <li><%= link_to 'Add Images', new_asset_path, :rel => 'facebox' %></li>
-      <li><%= link_to 'New Tattoo', new_tattoo_path, {:class => 'tattoos_new', :rel => 'facebox' } %></li>
-      <li><%= link_to 'New Artist', new_artist_path, {:class => 'artists_new', :rel => 'facebox' } %></li>
-      <li><%= link_to 'View Public Profile', shop_path(@shop), :target => '_blank' %></li>
-      <li><%= link_to 'Account', account_path %></li>
-      <li><%= link_to 'Logout', '/user_sessions/destroy' %></li>
-    </ul>
-    
+
+    <table class="top-bar">
+      <tr>
+        <td style="width:250px">
+          <ul class="add-links">
+            <li><%= link_to 'Account', account_path %></li>
+            <li><%= link_to 'View Public Profile', shop_path(@shop), :target => '_blank' %></li>
+            <li><%= link_to 'Logout', '/user_sessions/destroy' %></li>
+          </ul>        
+        </td>
+        <td class="status">
+          <div class="submitting" style="display:none">Submitting..</div>
+          <div class="responding"></div>
+        </td>
+        <td class="super-trash" style="width:100px; text-align:center;">Trashcan</td>
+      </tr>
+    </table> 
+        
+
+     
     <ul class="main-tabs">
       <li><a href="#tattoos" class="active" rel="tab-tattoos">Tattoo Profiles</a></li>
       <li><a href="#artists" rel="tab-artists">Artist Profiles</a></li>
       <li><a href="#shop" rel="tab-shop">Shop Profile</a></li>
       <li><a href="#help" rel="tab-help">[help]</a></li>
-      <li class="super-trash">Trashcan<br/>Drop profiles here to delete them.</li>
+      <!--<li class="super-trash">Trashcan<br/>Drop profiles here to delete them.</li>-->
     </ul> 
 
     <div id="top-container"></div>  
@@ -59,22 +64,31 @@
   </div>
   
   <!-- the asset panel -->  
-  <div class="asset-panel"> 
+  <div class="asset-panel">
     <div class="actions"> 
-      <a href="#" class="hide">hide</a> 
+      <a href="#" class="toggle hide">[hide]</a>
+      <a href="#image" class="show">Show Images</a>
+      <a href="#upload" class="show upload">Upload More Images</a>
     </div> 
     <div class="content-window-wrapper"> 
       <div class="content-window">
 
-        <ul class="asset-actions">
-          <li><%= link_to 'Refresh', assets_path, :class => 'refresh-assets' %></li>
-        </ul>
-
-        <ul class="assets-wrapper" class="selectable">
-        &#160;
-        </ul>
+        <div id="upload-tab" class="asset-content" style="display:block">
+          <%= render :file => 'assets/new', :locals => { :asset => Asset.new }  %>
+        </div>
         
+        <div id="image-tab" class="asset-content">
+          <ul class="asset-actions">
+            <li><%= link_to 'Refresh', assets_path, :class => 'refresh-assets' %></li>
+          </ul>
+
+          <ul class="assets-wrapper" class="selectable">
+            &#160;
+          </ul>
+        </div>
+ 
       </div>
+      
     </div>
   </div>
         
@@ -91,7 +105,8 @@
       $(document).trigger('draggableProfiles');
       $(document).trigger('superTrash');
       $('a[rel*=facebox]').facebox();
-      $('div.asset-panel').css('top', $.getPageHeight()- 300);
+      toggleImagePane('close');
+      $(document).trigger('ajaxify.form');
     });
   </script>
 </body>
