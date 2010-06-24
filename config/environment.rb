@@ -30,7 +30,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  
+  config.gem 'mime-types', :lib => 'mime/types'
   #config.gem 'paperclip' #, :version => "2.3.1.1"
   #config.gem "thoughtbot-shoulda",:version => "2.9.0",  :lib => "shoulda" 
  
@@ -61,8 +61,8 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_tastyink_session',
-    :secret      => '31b1a75b726dae3ffec859fd98fe4b12f42d6cecec751ce206561aeac7ceb7812af64c9a4f5658c1c4d5c22e0dce7ee6e5ec4f1400c771d3fbf217b4fd2eb9d5'
+    :key    => '_tastyink_session',
+    :secret => '31b1a75b726dae3ffec859fd98fe4b12f42d6cecec751ce206561aeac7ceb7812af64c9a4f5658c1c4d5c22e0dce7ee6e5ec4f1400c771d3fbf217b4fd2eb9d5'
   }
 
   # Use the database for sessions instead of the cookie-based default,
