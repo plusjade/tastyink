@@ -1,6 +1,7 @@
 class AssetsController < ApplicationController
   layout 'admin'
   #before_filter :require_user
+  skip_before_filter :verify_authenticity_token
   
   # GET /assets
   def index
@@ -43,10 +44,17 @@ class AssetsController < ApplicationController
 
 
   # POST /assets
+  # normal form accepts: params[:asset][:data]
   def create
-    #render :json => {'msg' => 'Nothing sent.'} and return if params[:asset][:data].is_a?(String)    
-    @asset = Asset.new(params[:asset])
-    @asset.shop_id = current_user.shop.id
+    render :json => {'msg' => 'Nothing sent.'} and return if params[:Filedata].is_a?(String)
+    h = Hash.new
+    h[:asset] = Hash.new
+    h[:asset][:data] = params[:Filedata]
+    h[:asset][:data].content_type = MIME::Types.type_for(h[:asset][:data].original_filename).to_s
+ 
+    @asset = Asset.new(h[:asset])
+    @asset.shop_id = 1
+    #@asset.shop_id = current_user.shop.id
     
     if @asset.save
       render :json => 
@@ -100,6 +108,6 @@ class AssetsController < ApplicationController
       'msg'    => 'Asset deleted!'
     }
   end
-  
-  
+
+    
 end

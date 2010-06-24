@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Online portfolio service for tattoo shops and artists</title>
   <%= stylesheet_link_tag "global", "admin" %>
-  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min", "addon", "facebox/facebox", "swfupload/swfupload", "admin/init" %>   
+  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min", "addon", "facebox/facebox", "uploadify/swfobject", "uploadify/jquery.uploadify.v2.1.0.js", "admin/init" %>   
 </head>
 <body>
   <div id="wrapper">
@@ -93,7 +93,8 @@
       
     </div>
   </div>
-        
+
+  <%- session_key_name = ActionController::Base.session_options[:key] -%>   
   <script type="text/javascript">
     function tattoosTemplate(t){return '<%= admin_tattoos_template %>'};
     function artistsTemplate(a){return '<%= admin_artists_template %>'};
@@ -109,6 +110,34 @@
       $('a[rel*=facebox]').facebox();
       toggleImagePane('close');
       $(document).trigger('ajaxify.form');
+      
+      // uploadify
+      $('#asset_data').click(function(event){
+        event.preventDefault();
+        return false;
+      });
+      $('#asset_data').uploadify({
+        'uploader'            : '/javascripts/uploadify/uploadify.swf',
+        'script'              : '/assets/create',
+        'multi'               : true,
+        'cancelImg'           : '/images/cancel.png',
+        //'method'              : 'POST',
+		    'scriptData': {
+		      '<%= session_key_name %>' : encodeURIComponent('<%= u cookies[session_key_name] %>'),
+		      'authenticity_token'      : encodeURIComponent('<%= u form_authenticity_token if protect_against_forgery? %>')
+		    },
+      	onComplete : function(event, queueID, fileObj, rsp, data){
+      	  console.log(rsp);
+      	},	   
+        onError : function(event, queueID, fileObj, errorObj) { 
+          console.log(errorObj);
+        },
+      });
+      $('#upload_submit').click(function(event){
+        event.preventDefault();
+        $('#asset_data').uploadifyUpload();
+        return false;
+      });      
     });
   </script>
 </body>
