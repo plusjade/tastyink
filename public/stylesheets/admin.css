@@ -181,7 +181,7 @@ ul.add-links li a {
 }
 .workspace-wrapper {
   clear:both;
-  width:900px;
+  width:800px;
   margin-bottom:20px;
   min-height:90px;
   overflow:hidden;
@@ -238,13 +238,12 @@ ul.add-links li a {
 }
 
 div.working-assets {
-  width:700px;
   min-height:65px;
-  float:left;
   padding:5px;
-  border:1px solid #eee;
-  background:#fff;
+  border:1px solid #999;
+  background:#eee;
   list-style:none;
+  margin-bottom:8px;
 }
 div.working-assets img {
   display:block;

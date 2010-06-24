@@ -93,8 +93,12 @@
     },
       
    // "save" working assets to working profile resource.
-    'a.attach-assets' : function(e){
+    'a.save-profile' : function(e){
       var profile = getProfile(); if(!profile) return false;
+      // save the data
+      if( 0 < $('div.working-details form').length ){
+        $('div.working-details form').submit();
+      }
       saveAssets(profile, true);
       return false;
     },
@@ -363,7 +367,7 @@ function saveAssets(profile, complain){
     ids.push(this.id.split('_')[1]);
   });
   if(ids.length <= 0){
-    if(complain) alert('No New Images in the Workspace');
+    //if(complain) $(document).trigger('responding', {msg:'No new images in the workspace', status:'warn'});
     return false;
   }    
   $(document).trigger('submitting');
