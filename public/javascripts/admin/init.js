@@ -174,11 +174,28 @@
   // make super trashcan droppable
   $(document).bind('superTrash', function(){
     $('td.super-trash').droppable({
-      accept: '.drag-profile', //.drag-asset cannot delete images yet 
+      accept: '.drag-profile, #facebox .drag-asset', //.drag-asset cannot delete images yet 
       activeClass: 'ui-state-highlight',
       hoverClass: 'drophover',
       tolerance: 'touch',
       drop: function(e, ui){
+        // if working images
+        if( $(ui.draggable).hasClass('drag-asset') ){        
+          if($(ui.draggable).hasClass('is-new')){
+            $(ui.draggable).remove();
+            return;
+          }
+          var profile = getProfile();
+          var asset = $(ui.draggable).attr('id').split('_');
+          $.getJSON('/' + profile[0] + '/' + profile[1] + '/detach',
+            {asset: asset[1]},
+            function(rsp){
+              $(document).trigger('responding', rsp);
+              $(ui.draggable).remove();
+          });
+          return;
+        }     
+        // if profiles
         if($(ui.draggable).hasClass('drag-profile')){
           var profile = $('img:first',$(ui.draggable)).attr('id');
         }else if($(ui.draggable).hasClass('drag-asset')){
@@ -199,30 +216,6 @@
             $(ui.draggable).remove();
             $(ui.helper).remove();
           }
-        })
-      }
-    })
-  }); 
-      
-  // make working trashcan droppable
-  $(document).bind('droppableTrash', function(){
-    $('div.trashcan').droppable({
-      accept: '#facebox .drag-asset',
-      activeClass: 'ui-state-highlight',
-      hoverClass: 'drophover',
-      tolerance: 'touch',
-      drop: function(e, ui) {
-        if($(ui.draggable).hasClass('is-new')){
-          $(ui.draggable).remove();
-          return;
-        }
-        var profile = getProfile();
-        var asset = $(ui.draggable).attr('id').split('_');
-        $.getJSON('/' + profile[0] + '/' + profile[1] + '/detach',
-          {asset: asset[1]},
-          function(rsp){
-            $(document).trigger('responding', rsp);
-            $(ui.draggable).remove();
         })
       }
     })
@@ -279,7 +272,6 @@
     $wAssets  = $('#facebox div.working-assets');
     $wProfile = $('#facebox div.working-profile');
     $(document).trigger('wAssetsSortable');
-    $(document).trigger('droppableTrash');
     $(document).trigger('ajaxify.form');
   });
 
