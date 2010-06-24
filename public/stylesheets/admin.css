@@ -235,7 +235,6 @@ div.working-assets {
   border:1px solid #999;
   background:#eee;
   list-style:none;
-  margin-bottom:8px;
 }
 div.working-assets img {
   display:block;
@@ -251,7 +250,13 @@ div.working-assets img.is-new {
   opacity:0.5;
   border:1px solid #eee;
 }
-
+.upload-note {
+  width:600px;
+  margin:0 auto;
+  padding:1px 3px; 
+  background:#ffffcc;
+  text-align:center;
+}
 div.trashcan {
   float:left;
   width:100px;
