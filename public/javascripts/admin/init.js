@@ -2,7 +2,9 @@
   var loading = '<div class="loading">Loading...</div>';
   $hProfile = $('#the-workspace div.working-profile');
   $hAssets  = $('#the-workspace div.working-assets');
-
+  $wAssets  = $('#facebox div.working-assets'); // define first.
+  $wProfile = $('#facebox div.working-profile'); // define first.
+  
   // activate tab navigation
   $('ul.main-tabs li a').click(function(){
     $('div.tab-content').hide();
