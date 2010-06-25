@@ -120,65 +120,6 @@ ul.admin-links li {
 ul.admin-links li a {
 }
 
-/* bottom asset panel
-  ------------------------------------------------------------ */
-div.asset-panel {
-  position:fixed; top:0; width:100%; background:transparent; 
-  z-index:99999; font-size: 12px !important; font-family:verdana, arial, "sans serif" !important;
-  color:#333 !important; text-align:left !important;
-}
-div.asset-panel .actions{
-  position:relative; overflow:hidden; top:2px;
-}
-div.asset-panel .actions a {
-  display:block; height:28px;  float:right; 
-  padding:5px 25px 0 25px;
-  border:1px solid #999; margin-left:7px; 
-  border-bottom:0; background:#eee; 
-  text-decoration:none;
-  text-align:center; color:#000;
-  -moz-border-radius-topleft:5px;
-  -moz-border-radius-topright:5px;
-  -webkit-border-top-left-radius:5px;
-  -webkit-border-top-right-radius:5px;  
-}
-div.asset-panel .actions a.upload {
-  background:orange url('/images/gradients.jpg') repeat-x 0px -250px;
-  border:1px solid orange;
-  border-bottom:0;
-  color:#fff;
-  font-weight:bold;
-  text-decoration:none;
-} 
-div.asset-panel .actions a.upload:hover {
-  background:#d1f0b9 url('/images/gradients.jpg') repeat-x 0px -205px; 
-  border:1px solid #bde99c;
-}
-div.asset-panel a:hover{
-  background:#333;
-  color:#fff;
-}
-div.content-window-wrapper {
-  background:#f1f2f3; 
-  border:1px solid #999; 
-  border-bottom:0;
-  -webkit-box-shadow:-5px -5px 15px #ccc;
-  }
-div.content-window {
-  height:300px; margin:0 auto; min-width:800px; 
-  width:80%; background:#f1f2f3; overflow:hidden; padding:0;
-}
-.asset-content {
-  padding-top:10px;
-  display:none;
-}
-.drag-profile img:hover, .shop-each img:hover{
-  border:1px solid green !important;
-  -webkit-opacity:0.9 !important;
-  -moz-opacity:0.9 !important;
-  opacity:0.9 !important;
-}
-
 /* the workspace 
   ------------------------------------------------------------ */
 #the-workspace{
@@ -463,6 +404,65 @@ fieldset.field_error {padding:10px !important; background: #fad6d6 !important; -
 fieldset span.error_msg { display: block; color: red; }
 
 
+/* bottom asset panel
+  ------------------------------------------------------------ */
+div.asset-panel {
+  position:fixed; top:0; width:100%; background:transparent; 
+  z-index:99999; font-size: 12px !important; font-family:verdana, arial, "sans serif" !important;
+  color:#333 !important; text-align:left !important;
+}
+div.asset-panel .actions{
+  position:relative; overflow:hidden; top:2px;
+}
+div.asset-panel .actions a {
+  display:block; height:28px;  float:right; 
+  padding:5px 25px 0 25px;
+  border:1px solid #999; margin-left:7px; 
+  border-bottom:0; background:#eee; 
+  text-decoration:none;
+  text-align:center; color:#000;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -webkit-border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;  
+}
+div.asset-panel .actions a.upload {
+  background:orange url('/images/gradients.jpg') repeat-x 0px -250px;
+  border:1px solid orange;
+  border-bottom:0;
+  color:#fff;
+  font-weight:bold;
+  text-decoration:none;
+} 
+div.asset-panel .actions a.upload:hover {
+  background:#d1f0b9 url('/images/gradients.jpg') repeat-x 0px -205px; 
+  border:1px solid #bde99c;
+}
+div.asset-panel a:hover{
+  background:#333;
+  color:#fff;
+}
+div.content-window-wrapper {
+  background:#f1f2f3; 
+  border:1px solid #999; 
+  border-bottom:0;
+  -webkit-box-shadow:-5px -5px 15px #ccc;
+  }
+div.content-window {
+  height:300px; margin:0 auto; width:900px; 
+  background:#f1f2f3; overflow:hidden; padding:0;
+}
+.asset-content {
+  padding-top:10px;
+  display:none;
+}
+.drag-profile img:hover, .shop-each img:hover{
+  border:1px solid green !important;
+  -webkit-opacity:0.9 !important;
+  -moz-opacity:0.9 !important;
+  opacity:0.9 !important;
+}
+
 /* uploadify
   ------------------------------------------------------------ */
 object#asset_dataUploader{
@@ -473,20 +473,22 @@ object#asset_dataUploader:hover{
   cursor:pointer;
   cursor:cursor;
 }
-.upload-info{
+div.upload-info{
   float:right;
-  width:170px;
-  padding:5px; 
-  border-left:1px solid #ccc;
+  width:220px;
+  padding:8px; 
+  border-left:1px solid #999;
 }
 #queue-wrapper{
   margin-top:10px;
   clear:both;
+  width:625px;
   height:190px;
   overflow:auto;
   border-top:1px solid #999;
 }
-.uploadifyQueue, #queue-container {
+.uploadifyQueue,
+#queue-container {
   background:#ff;
   overflow:hidden;
 }
