@@ -1,27 +1,22 @@
 /* facebox
   ------------------------------------------------------------ */
 #facebox .b {background:url(/images/facebox/b.png);}
-
 #facebox .tl {
   background:url(/images/facebox/fbx-border-sprite.png) 0 0;
   width: 10px; height: 10px;
 }
-
 #facebox .tr {
   background:url(/images/facebox/fbx-border-sprite.png) -10px 0;
   width: 10px; height: 10px;
 }
-
 #facebox .bl {
   background:url(/images/facebox/fbx-border-sprite.png) -20px 0;
   width: 10px; height: 10px;
 }
-
 #facebox .br {
   background:url(/images/facebox/fbx-border-sprite.png) -30px 0;
   width: 10px; height: 10px;
 }
-
 #facebox {
   position: absolute;
   top: 0;
@@ -29,22 +24,18 @@
   z-index: 100;
   text-align: left;
 }
-
 #facebox .popup {
   position: relative;
 }
-
 #facebox table {
   border-collapse: collapse;
   /* ie 6 hack -- if the global table width is set to anything it could cause us issues*/
   -width:0%;
 }
-
 #facebox td {
   border-bottom: 0;
   padding: 0;
 }
-
 #facebox .body {
   padding: 10px;
   background: #fff;
@@ -57,12 +48,9 @@
   text-align: center;
   width: 370px;
 }
-
 #facebox .image {
   text-align: center;
 }
-
-
 #facebox .footer {
   border-bottom: 1px solid #DDDDDD;
   padding-bottom: 5px;
@@ -74,14 +62,12 @@
 #facebox .footer img {
   vertical-align: middle;
 }
-
 #facebox .tl, #facebox .tr, #facebox .bl, #facebox .br {
   height: 10px;
   width: 10px;
   overflow: hidden;
   padding: 0;
 }
-
 #facebox_overlay {
   position: fixed;
   top: 0px;
@@ -89,31 +75,61 @@
   height:100%;
   width:100%;
 }
-
 .facebox_hide {
   z-index:-100;
 }
-
 .facebox_overlayBG {
   background-color: #000;
   z-index: 99;
 }
-
 * html #facebox_overlay { /* ie6 hack */
   position: absolute;
   height: expression("document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px'");
 }
 
+/* top fixed admin bar
+  ------------------------------------------------------------ */
+table.top-bar{
+  position:fixed;
+  top:0;
+  width:960px;
+  height:25px;
+  background:#fff;
+  border:1px solid #ccc;
+  border-top:0;
+  z-index:99999999;
+  border-collapse:collapse;
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
+}
+table.top-bar td{
+  height:20px;
+  overflow:hidden;
+}
 
+ul.admin-links {
+  list-style:none;
+  padding:5px;
+}
+ul.admin-links li {
+  display:inline;
+  margin-right:10px;
+}
+ul.admin-links li a {
+}
+
+/* bottom asset panel
+  ------------------------------------------------------------ */
 div.asset-panel {
   position:fixed; top:0; width:100%; background:transparent; 
   z-index:99999; font-size: 12px !important; font-family:verdana, arial, "sans serif" !important;
   color:#333 !important; text-align:left !important;
-  }
+}
 div.asset-panel .actions{
-  position:relative; overflow:hidden; top:2px;}
-
-
+  position:relative; overflow:hidden; top:2px;
+}
 div.asset-panel .actions a {
   display:block; height:28px;  float:right; 
   padding:5px 25px 0 25px;
@@ -125,7 +141,7 @@ div.asset-panel .actions a {
   -moz-border-radius-topright:5px;
   -webkit-border-top-left-radius:5px;
   -webkit-border-top-right-radius:5px;  
-  }
+}
 div.asset-panel .actions a.upload {
   background:orange url('/images/gradients.jpg') repeat-x 0px -250px;
   border:1px solid orange;
@@ -137,9 +153,7 @@ div.asset-panel .actions a.upload {
 div.asset-panel .actions a.upload:hover {
   background:#d1f0b9 url('/images/gradients.jpg') repeat-x 0px -205px; 
   border:1px solid #bde99c;
- 
- }
-
+}
 div.asset-panel a:hover{
   background:#333;
   color:#fff;
@@ -154,27 +168,18 @@ div.content-window {
   height:300px; margin:0 auto; min-width:800px; 
   width:80%; background:#f1f2f3; overflow:hidden; padding:0;
 }
-
-
+.asset-content {
+  padding-top:10px;
+  display:none;
+}
 .drag-profile img:hover, .shop-each img:hover{
   border:1px solid green !important;
   -webkit-opacity:0.9 !important;
   -moz-opacity:0.9 !important;
   opacity:0.9 !important;
 }
-/* top most "add image link(s)
-  ------------------------------------------------------------ */
-ul.add-links {
-  list-style:none;
-  padding:5px;
-}
-ul.add-links li {
-  display:inline;
-  margin-right:10px;
-}
-ul.add-links li a {
-}
-/* top workspace wrapper 
+
+/* the workspace 
   ------------------------------------------------------------ */
 #the-workspace{
   display:none;
@@ -257,15 +262,6 @@ div.working-assets img.is-new {
   background:#ffffcc;
   text-align:center;
 }
-div.trashcan {
-  float:left;
-  width:100px;
-  height:65px;
-  padding:5px;
-  background:#777;
-  border:1px solid #111;
-}
-
 div.working-details {
   clear:both;
   padding:10px;
@@ -409,150 +405,19 @@ ul.artists-list li a.active {
 }
 
 
-/* selecting
- --------------------------------- */
-ul.selectable {list-style: none; margin: 0; padding: 0;}
-ul.selectable .ui-selecting { background: #FECA40; }
-ul.selectable .ui-selected { background: #F39814; color: white; }
-.ui-state-highlight {
-  background:#CCFF99 !important;
-  border:1px solid #69D100 !important;
-  color:#111;
-}
-div.trashcan.ui-state-highlight,
-.super-trash.ui-state-highlight {
-  background:darkred !important;
-  border:1px solid #000 !important;
-}
-.drophover {
-  background:#4D9900 !important;
-  border:1px solid green !important;
-  color:#fff !important;
-}
-div.trashcan.drophover,
-.super-trash.drophover  {
-  background:#111 !important;
-  border:1px solid #000 !important;
-}
-
-.sortable-placeholder {
-  width:50px;
-  height:50px;
-  border:1px dashed #ccc;
-}
-
-/* pages 
+/* form elements
   ------------------------------------------------------------ */
-.edit-tattoos-wrapper {
-  overflow:hidden;
-}
-.edit-tattoos-wrapper div {
-  width:80px;
-  height:150px;
-  float:left;
-  margin:5px;
-}
-.edit-tattoos-wrapper div img {
-  width:75px;
-  height:75px;
-}
-
-
-
-
-/* random stuff
-  ------------------------------------------------------------ */
-ul.sub-nav {
-  list-style:none;
-}
-ul.sub-nav li {display:inline; margin-right:10px;}
-
-fieldset{margin-bottom:10px;}
+form fieldset {margin-bottom:10px;}
+form textarea {width:90%;height:100px;}
+form label {font-size:14px;}
+div.left-pane{float:left; width:45%}
+div.right-pane {float:right; width:50%}
 .right-half { float:right; width:48%;}
 .left-half { width:48%;}
 .right-half img { width:75px; height:75px;}
-form textarea {
-  width:90%;height:100px;
-}
-form label {
-  font-size:14px;
-}
-div.left-pane{
-  float:left; width:45%
-}
-div.right-pane {
-  float:right; width:50%
-}
-.do-green {
-  color:#fff;
-  background:#d1f0b9 url('/images/gradients.jpg') repeat-x 0px -205px;
-  border:1px solid #bde99c;
-}
 
-
-.asset-content {
-  padding-top:10px;
-  display:none;
-}
-
-/* responses
- ---------------------------------------- */
-div.responding.active.good {
-  background:green;
-  color:#fff;
-}
-div.responding.active.bad {
-  background:red;
-  color:#fff;
-}
-div.responding.active.warn {
-  background:orange;
-  color:#fff;
-}
-/* ajax
- ---------------------------------------- */
-table.top-bar{
-  position:fixed;
-  top:0;
-  width:960px;
-  height:25px;
-  background:#fff;
-  border:1px solid #ccc;
-  border-top:0;
-  z-index:99999999;
-  border-collapse:collapse;
-  -moz-border-radius-bottomleft:5px;
-  -moz-border-radius-bottomright:5px;
-  -webkit-border-bottom-left-radius:5px;
-  -webkit-border-bottom-right-radius:5px;
-}
-table.top-bar td{
-  height:20px;
-  overflow:hidden;
-}
-
-.submitting{
-  padding:3px 3px 0 170px;
-  text-align:left;
-  color:#222;
-  background:#ffff99 url('/images/loading.gif') no-repeat 5% 50%;
-}
-.responding{
-  padding:3px 3px 0 3px;
-  text-align:center;
-}
-.loading{
-  width:200px;
-  margin:auto; margin-top:30px;
-  padding-top:20px;
-  text-align:center;
-  color:#222;
-  background:url('http://tastyink.com/images/loading.gif') no-repeat top center;
-}
-.loading.white{color:#fff}
-
-
-/* --- FORM BUTTONS --- */
+/* form buttons
+  ------------------------------------------------------------ */
 .buttons{overflow:auto;}
 button{cursor:hand; cursor:pointer;}
 .buttons a, .buttons button{
@@ -598,7 +463,8 @@ fieldset.field_error {padding:10px !important; background: #fad6d6 !important; -
 fieldset span.error_msg { display: block; color: red; }
 
 
-/* uploadify */
+/* uploadify
+  ------------------------------------------------------------ */
 object#asset_dataUploader{
 
 }
@@ -694,5 +560,71 @@ table.upload-report th {background:#ccc;}
 table.upload-report td.good{background:lightgreen;}
 table.upload-report td.bad{background:lightpink;}
 
+/* selecting
+ --------------------------------- */
+ul.selectable {list-style: none; margin: 0; padding: 0;}
+ul.selectable .ui-selecting { background: #FECA40; }
+ul.selectable .ui-selected { background: #F39814; color: white; }
+.ui-state-highlight {
+  background:#CCFF99 !important;
+  border:1px solid #69D100 !important;
+  color:#111;
+}
+.super-trash.ui-state-highlight {
+  background:darkred !important;
+  color:#fff;
+}
+.drophover {
+  background:#4D9900 !important;
+  border:1px solid green !important;
+  color:#fff !important;
+}
+div.trashcan.drophover,
+.super-trash.drophover  {
+  background:#111 !important;
+  border:1px solid #000 !important;
+}
+
+.sortable-placeholder {
+  width:50px;
+  height:50px;
+  border:1px dashed #ccc;
+}
+
+
+/* ajax responses
+ ---------------------------------------- */
+.submitting{
+  padding:3px 3px 0 170px;
+  text-align:left;
+  color:#222;
+  background:#ffff99 url('/images/loading.gif') no-repeat 5% 50%;
+}
+.responding{
+  padding:3px 3px 0 3px;
+  text-align:center;
+}
+.loading{
+  width:200px;
+  margin:auto; margin-top:30px;
+  padding-top:20px;
+  text-align:center;
+  color:#222;
+  background:url('http://tastyink.com/images/loading.gif') no-repeat top center;
+}
+.loading.white{color:#fff}
+
+div.responding.active.good {
+  background:green;
+  color:#fff;
+}
+div.responding.active.bad {
+  background:red;
+  color:#fff;
+}
+div.responding.active.warn {
+  background:orange;
+  color:#fff;
+}
 
 
