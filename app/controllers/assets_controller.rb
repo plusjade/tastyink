@@ -46,7 +46,7 @@ class AssetsController < ApplicationController
   # POST /assets
   # normal form accepts: params[:asset][:data]
   def create
-    render :json => {'msg' => 'Nothing sent.'} and return if params[:Filedata].is_a?(String)
+    render :json => {'status' => 'bad', 'msg' => 'Nothing sent.'} and return if params[:Filedata].is_a?(String)
     h = Hash.new
     h[:asset] = Hash.new
     h[:asset][:data] = params[:Filedata]

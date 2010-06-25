@@ -2,19 +2,41 @@
 <% form_for asset, {:url => '/assets' , :html => { :multipart => true } } do |f| %>
   <%= f.error_messages %>
 
-  <div class="right-half">
-    <fieldset class="buttons">
-      <button type="submit" id="upload_submit" class="positive">Upload Images</button>
-    </fieldset>
-  </div> 
-  
-  <div class="left-half">
-    <fieldset>
-      <%= f.label :data, "Upload Images" %>
-      <br/><%= f.file_field :data %>
-    </fieldset>
-  </div> 
+  <div class="upload-info">
+    <div class="buttons" style="margin-bottom:10px;">
+      <button type="submit" id="upload_submit" class="positive" style="display:none">Upload Images</button>
+    </div>
+       
+    <h5>Status: <span>[Relaxing ~_~]</span></h5>
+    <table class="upload-report">
+    <tr>
+      <th>Files Uploaded:</th>
+      <td class="good">0</td>
+    </tr>
+    <tr>
+      <th>Files Rejected:</th>
+      <td class="bad">0</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="font-weight:normal;line-height:15px;">
+        Accepted image types:
+        <br/>*.jpg;*.jpeg;*.png;*.gif;*.bmp;
+      </td>
+    </tr>    
+    </table>
+    <p style="font-size:11px; line-height:13px;">
+      View newly uploaded images 
+      <br/>in the <b>Image Manager</b> tab.
+    </p>
+  </div>
    
+  <fieldset style="float:left;width:620px;">
+    <%= f.file_field :data %>
+  
+    <div id="queue-wrapper">
+      <div id="queue-container"></div>
+    </div>
+  </fieldset>
 <% end %>
 
 <br style="clear:both"/>

@@ -599,32 +599,100 @@ fieldset span.error_msg { display: block; color: red; }
 
 
 /* uploadify */
+object#asset_dataUploader{
+
+}
+object#asset_dataUploader:hover{
+  border-right:4px solid green;
+  cursor:pointer;
+  cursor:cursor;
+}
+.upload-info{
+  float:right;
+  width:170px;
+  padding:5px; 
+  border-left:1px solid #ccc;
+}
+#queue-wrapper{
+  margin-top:10px;
+  clear:both;
+  height:190px;
+  overflow:auto;
+  border-top:1px solid #999;
+}
+.uploadifyQueue, #queue-container {
+  background:#ff;
+  overflow:hidden;
+}
 .uploadifyQueueItem {
+  float:left;
+  width:100px;
+  height:75px;
 	font: 11px Verdana, Geneva, sans-serif;
-	border: 2px solid #E5E5E5;
-	background-color: #F5F5F5;
-	margin-top: 5px;
-	padding: 10px;
-	width: 350px;
+	border:1px solid #eee;
+	background-color: #fff;
+	margin: 3px;
+	padding:5px;
+	-webkit-box-shadow:2px 2px 2px #ccc;
+	-moz-box-shadow:2px 2px 2px #ccc;
+	box-shadow:2px 2px 2px #ccc;
+}
+#queue-container > div:first-child {
+  background:#ffff99;
+}
+.uploadifyQueueItem .fileSize{
+  float:left;
+}
+.uploadifyQueueItem .cancel {
+	float:right;
+}
+.uploadifyQueueItem input.fileName{
+  display:block;
+  clear:both;
+  margin:0 auto;
+  width:90px;
+  border:1px solid #eee;
+  position:relative;
+  top:5px;
+  overflow:hidden;
+  text-align:center;
+  font: 11px Verdana, Geneva, sans-serif;
+  color:#333;
+}
+.uploadifyQueueItem .percentage {
+  clear:both;
+  display:block;
+  text-align:center;
 }
 .uploadifyError {
 	border: 2px solid #FBCBBC !important;
 	background-color: #FDE5DD !important;
 }
-.uploadifyQueueItem .cancel {
-	float: right;
-}
+
 .uploadifyProgress {
-	background-color: #FFFFFF;
-	border-top: 1px solid #808080;
-	border-left: 1px solid #808080;
-	border-right: 1px solid #C5C5C5;
-	border-bottom: 1px solid #C5C5C5;
+	background-color: #eee;
+	border: 1px solid #C5C5C5;
 	margin-top: 10px;
 	width: 100%;
 }
 .uploadifyProgressBar {
 	background-color: #0099FF;
 	width: 1px;
-	height: 3px;
+	height: 15px;
 }
+
+table.upload-report{
+  margin-bottom:8px;
+}
+table.upload-report td,
+table.upload-report th {
+  padding:2px 7px;
+  border:3px solid #eee;
+  font-weight:bold;
+}
+table.upload-report th {background:#ccc;}
+table.upload-report td.good{background:lightgreen;}
+table.upload-report td.bad{background:lightpink;}
+
+
+

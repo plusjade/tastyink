@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Online portfolio service for tattoo shops and artists</title>
   <%= stylesheet_link_tag "global", "admin" %>
-  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min", "addon", "facebox/facebox", "uploadify/swfobject", "uploadify/jquery.uploadify.v2.1.0.js", "admin/init" %>   
+  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min", "addon", "jquery.json-2.1", "facebox/facebox", "uploadify/swfobject", "uploadify/jquery.uploadify.v2.1.0.js", "admin/init" %>   
 </head>
 <body>
   <div id="wrapper">
@@ -33,7 +33,6 @@
       <li><a href="#artists" rel="tab-artists">Artist Profiles</a></li>
       <li><a href="#shop" rel="tab-shop">Shop Profile</a></li>
       <li><a href="#help" rel="tab-help">[help]</a></li>
-      <!--<li class="super-trash">Trashcan<br/>Drop profiles here to delete them.</li>-->
     </ul> 
 
     <div id="top-container"></div>  
@@ -108,34 +107,58 @@
       $(document).trigger('draggableProfiles');
       $(document).trigger('superTrash');
       $('a[rel*=facebox]').facebox();
-      toggleImagePane('close');
+      toggleImagePane('open');
       $(document).trigger('ajaxify.form');
       
-      // uploadify
-      $('#asset_data').click(function(event){
-        event.preventDefault();
-        return false;
-      });
+      // uploadify      
       $('#asset_data').uploadify({
-        'uploader'            : '/javascripts/uploadify/uploadify.swf',
-        'script'              : '/assets/create',
-        'multi'               : true,
-        'cancelImg'           : '/images/cancel.png',
-        //'method'              : 'POST',
-		    'scriptData': {
+        'uploader'    : '/javascripts/uploadify/uploadify.swf',
+        'script'      : '/assets/create',
+        'multi'       : true,
+        'cancelImg'   : '/images/cancel.png',
+        'buttonText'  : 'Select Images',
+        'queueID'     : 'queue-container',
+        'fileExt'     : '*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.JPG;*.JPEG;*.PNG;*.GIF;*.BMP',
+        'fileDesc'    : '*.jpg;*.jpeg;*.png;*.gif;*.bmp;',
+		    'scriptData'  : {
 		      '<%= session_key_name %>' : encodeURIComponent('<%= u cookies[session_key_name] %>'),
 		      'authenticity_token'      : encodeURIComponent('<%= u form_authenticity_token if protect_against_forgery? %>')
 		    },
+		    onSelectOnce : function(e, data){
+		      if(0 < data.fileCount)
+		        $('#upload_submit').show();
+		    },
       	onComplete : function(event, queueID, fileObj, rsp, data){
-      	  console.log(rsp);
-      	},	   
-        onError : function(event, queueID, fileObj, errorObj) { 
-          console.log(errorObj);
+      	  rsp = $.evalJSON(rsp);
+      	  if('good' == rsp.status)
+      	    $('table.upload-report td.good').html(++qtyGood).effect("highlight", {}, 1000);
+      	  else
+      	    $('table.upload-report td.bad').html(++qtyBad).effect("highlight", {}, 1000);
+      	},
+      	onAllComplete : function(e, data){
+      	  $('div.upload-info h5 span').html('[Finished!]').effect("highlight", {}, 1000);
+      	  $('#upload_submit').hide();
+      	  $('div.upload-info').effect("highlight", {}, 5000);
+      	  $('a.refresh-assets').click();
+      	},      	
+        onError : function(event, queueID, fileObj, errorObj){ 
+          //console.log(errorObj);
         },
       });
-      $('#upload_submit').click(function(event){
-        event.preventDefault();
+      
+      $('#upload_submit').click(function(e){
+        if(0 == $('#queue-container .uploadifyQueueItem:first').length){
+          alert('add images to queue');
+          return false;
+        }
+        qtyGood = 0;
+        qtyBad  = 0;
         $('#asset_data').uploadifyUpload();
+        $(e.target).hide();
+        $('div.upload-info h5 span').html('[Uploading...]').effect("highlight", {}, 1000);
+        return false;
+      });
+      $('#asset_data').click(function(){
         return false;
       });      
     });
