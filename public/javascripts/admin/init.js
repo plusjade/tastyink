@@ -167,20 +167,23 @@
       items: 'img',
       forceHelperSize: true,
       forcePlaceholderSize: true,
-      placeholder: 'sortable-placeholder'
+      placeholder: 'sortable-placeholder',
+      receive: function(event, ui) {
+        $('img', $wAssets).addClass('is-working');
+      }
     })
   });  
 
   // make super-trashcan droppable
   $(document).bind('superTrash', function(){
     $('td.super-trash').droppable({
-      accept: '.drag-profile, #facebox .drag-asset', //.drag-asset cannot delete images yet 
+      accept: '.drag-profile, .drag-asset',
       activeClass: 'ui-state-highlight',
       hoverClass: 'drophover',
       tolerance: 'touch',
       drop: function(e, ui){
         // if working images
-        if( $(ui.draggable).hasClass('drag-asset') ){        
+        if( $(ui.draggable).hasClass('drag-asset') && $(ui.draggable).hasClass('is-working') ){
           if($(ui.draggable).hasClass('is-new')){
             $(ui.draggable).remove();
             return;
@@ -194,8 +197,9 @@
               $(ui.draggable).remove();
           });
           return;
-        }     
-        // if profiles
+        } 
+            
+        // if DELETE profiles or assets
         if($(ui.draggable).hasClass('drag-profile')){
           var profile = $('img:first',$(ui.draggable)).attr('id');
         }else if($(ui.draggable).hasClass('drag-asset')){
@@ -216,11 +220,12 @@
             $(ui.draggable).remove();
             $(ui.helper).remove();
           }
-        })
+        }) 
+        return;
       }
     })
   });  
-  
+
   // make asset resources draggable
   $(document).bind('draggableAssets', function(){
     $("ul.assets-wrapper li img").draggable({
