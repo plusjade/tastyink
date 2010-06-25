@@ -335,7 +335,7 @@ function toggleImagePane(force){
     $('div.asset-panel a.toggle').hide();
     return;
   }
-}
+};
 
 /* return the resource type and id or false
  * @return Array or false 
@@ -352,7 +352,7 @@ function getFirstImage(assets){
   return (assets.length <= 0)
     ? '/images/no-image.gif'
     : '/system/datas/' + assets[0].id +'/thumb/'+ assets[0].data_file_name;    
-} 
+}; 
   
 /* collect and save any new working assets
  * @param profile = Array [type, id]
@@ -376,29 +376,4 @@ function saveAssets(profile){
         $("img.is-new", $wAssets).removeClass('is-new');
   })
 };
-  
 
-// Adapted from getPageSize() by quirksmode.com
-jQuery.getPageHeight = function() {
-	var windowHeight;
-	if (self.innerHeight) { windowHeight = self.innerHeight; }
-	else if (document.documentElement && document.documentElement.clientHeight) {windowHeight = document.documentElement.clientHeight;}
-	else if (document.body) { windowHeight = document.body.clientHeight;}	
-	return windowHeight
-};
-
-// getPageScroll() by quirksmode.com
-jQuery.getPageScroll = function() {
-  var xScroll, yScroll;
-  if (self.pageYOffset) {
-    yScroll = self.pageYOffset;
-    xScroll = self.pageXOffset;
-  } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
-    yScroll = document.documentElement.scrollTop;
-    xScroll = document.documentElement.scrollLeft;
-  } else if (document.body) {// all other Explorers
-    yScroll = document.body.scrollTop;
-    xScroll = document.body.scrollLeft;
-  }
-  return new Array(xScroll,yScroll)
-};

@@ -4,7 +4,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Online portfolio service for tattoo shops and artists</title>
   <%= stylesheet_link_tag "global", "admin" %>
-  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min", "addon", "jquery.json-2.1", "facebox/facebox", "uploadify/swfobject", "uploadify/jquery.uploadify.v2.1.0.js", "admin/init" %>   
+  <%= javascript_include_tag "jquery-1.4.2.min", "admin/jquery-ui.min" %>   
+  <%= javascript_include_tag "uploadify/swfobject", "uploadify/jquery.uploadify.v2.1.0.js", :cache => "uploadify" %>   
+  <%= javascript_include_tag "admin/addon", "facebox/facebox", "jquery.json-2.1", "admin/init", :cache => "admin" %>   
+  
 </head>
 <body>
   <div id="wrapper">
