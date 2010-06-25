@@ -258,8 +258,10 @@
       },
       success: function(rsp) {
         if(undefined != rsp.created){      
+          $('#facebox form').clearForm();
           saveAssets([rsp.created.resource, rsp.created.id]);
           $('a.refresh-' + rsp.created.resource).click();
+          $wAssets.empty();
         }
         $(document).trigger('responding', rsp);
         $('form button').removeAttr('disabled').addClass('positive');
