@@ -102,18 +102,11 @@
     function artistsTemplate(a){return '<%= admin_artists_template %>'};
     function assetsWorkTemplate(a){return '<%= admin_working_template %>'};
     function assetsReTemplate(a){return '<%= admin_resource_template %>'};
-    $(document).ready(function(){  
-      $('ul.main-tabs li a:first').click();
-      $('a.refresh-tattoos').click();
-      $('a.refresh-assets').click();
+    $(document).ready(function(){
+      $('a[rel*=facebox]').facebox();  
       $(document).trigger('draggableAssets');
       $(document).trigger('draggableProfiles');
       $(document).trigger('superTrash');
-      $('a[rel*=facebox]').facebox();
-      toggleImagePane('open');
-      $(document).trigger('ajaxify.form');
-      
-      // uploadify      
       $('#asset_data').uploadify({
         'uploader'    : '/javascripts/uploadify/uploadify.swf',
         'script'      : '/assets/create',
@@ -163,7 +156,12 @@
       });
       $('#asset_data').click(function(){
         return false;
-      });      
+      });
+      
+      $('ul.main-tabs li a:first').click();
+      $('a.refresh-tattoos').click();
+      toggleImagePane('open');
+      $('a.refresh-assets').click();      
     });
   </script>
 </body>
