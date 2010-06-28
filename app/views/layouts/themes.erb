@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Online portfolio service for tattoo shops and artists.</title>
+  <%= stylesheet_link_tag "themes" %>
+  <%= javascript_include_tag "jquery-1.4.2.min" %>   
+</head>
+<body>
+
+  <div id="wrapper">
+    <div id="content">
+      <%= yield %>
+    </div>
+  </div> 
+  
+  
+
+<script type="text/javascript">
+// setup assets
+  assetUrl = '/system/datas/';
+  function shopTemplate(s){return '<%= js_shop_template %>'};
+  function artistTemplate(a){return '<%= js_artist_template %>'};
+  function tattooTemplate(t, a){return '<%= js_tattoo_template %>'};
+  function tattoosTemplate(t){return '<%= js_tattoos_template %>'};
+  function artistLinks(a){return '<a href="/artists/'+ a.id +'/tattoos.json">'+ a.name +'</a>'};
+  var loading = '<div class="loading">Loading...</div>';
+/* Event delegation*/
+  jQuery.delegate = function(rules) {return function(e) { var target = $(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, $.makeArray(arguments));}}
+
+/* return the correct first image of a profile's album
+ */ 
+function getFirstImage(assets){
+  return (assets.length <= 0)
+    ? '/images/no-image.gif'
+    : '/system/datas/' + assets[0].id +'/gallery/'+ assets[0].data_file_name;    
+}; 
+
+  $(document).ready(function(){
+  // load artists
+    $.getJSON('/shops/1/artists.json', function(rsp){
+      $.each(rsp, function(){
+        $('ul.artists-list').append('<li>' + artistLinks(this.artist) + '</li>');
+      })
+    })
+    // load tattoos 
+    $('ul.artists-list a:first').click();
+  
+    
+  });
+
+// delegate gallery environment
+  $('body').click($.delegate({
+  
+   // load tattoos into displayer
+    'ul.artists-list a' : function(e){
+      $('div.artist-tattoos').html(loading);
+      $.getJSON(e.target.href, function(rsp){
+         $('div.artist-tattoos').empty();
+        $.each(rsp, function(){
+          $('div.artist-tattoos').append('<img src="' + getFirstImage(this.tattoo.assets) + '" >');
+        })
+      })
+      return false;       
+    }
+
+  }));
+
+// populate the main window
+  function tastyMain(type, url){
+    $('div.gallery-full').html('<div class="loading">Loading...</div>');
+    $.get(url +'.json', function(rsp){
+      switch(type){
+        case 'shops':
+          var data = shopTemplate(rsp.shop);
+          var assets = rsp.shop.assets;
+        break;
+        case 'artists':
+          var data = artistTemplate(rsp.artist);
+          var assets = rsp.artist.assets;
+        break;        
+        case 'tattoos':
+          var data = tattooTemplate(rsp.tattoo, rsp.tattoo.artist);
+          var assets = rsp.tattoo.assets;
+        break;        
+      }
+      $('div.gallery-full').html(data);
+      
+      // load thumb assets.
+      var tinys = '';
+      for (var i = 0; i < assets.length; i++){
+        tinys += '<img src="/system/datas/' + assets[i].id +'/thumb/'+ assets[i].data_file_name +'" >';
+      }
+      $('div.gallery-full span#assets').html(tinys);
+    });
+  }
+   
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------
+
+
+
+// delegate gallery environment
+  $('body').click($.delegate({
+
+   // iterate through tattoo pics.
+    'span#assets img' : function(e){
+       var src = $(e.target).attr('src').replace('/thumb/','/gallery/');
+       $('div.gallery-images').html('<img src="' + src + '" >');
+       return false;
+    }, 
+      
+   // display shop profile
+    'a.do-shop' : function(e){
+      tastyMain('shops', e.target.href);
+      return false;    
+    },
+ 
+   // display artist profile
+    'a.do-artist' : function(e){
+      tastyMain('artists', e.target.href);
+      return false;    
+    },
+    
+   // display tattoo profile (for gallery)
+    'div.gallery-scroller a' : function(e){
+      $('div.gallery-scroller a').removeClass('active');
+      $(e.target).addClass('active');
+      tastyMain('tattoos', e.target.href);
+      return false;
+    },
+    // helper so tattoo thumb images can delegate.
+      'div.gallery-scroller a img' : function(e){
+        $(e.target).parent('a').click();
+        return false;
+      },
+    
+    
+   // display artist tattoos gallery
+    'a.do-artist-tattoos' : function(e){
+      $('ul#mycarousel').html('<div class="loading white">Loading...</div>');
+      $('ul.artists-list li a').removeClass('active');
+      var rel = $(e.target).attr('rel');
+      $('ul.artists-list li a[rel='+ rel +']').addClass('active');
+      
+      $.get(e.target.href +'.json', function(rsp){
+        var gallery = $('#mycarousel').data('jcarousel');
+        gallery.reset();
+        gallery.size(rsp.length);
+        for (var i = 1; i <= rsp.length; i++) {
+          if (rsp[i-1].tattoo.assets.length <= 0) continue;
+          gallery.add(i, tattoosTemplate(rsp[i-1].tattoo));
+        }
+      });
+       
+      // load artist or shop profile
+      if(rel)
+        $('span.hooks a.do-artist').attr('href', '<%= artists_path %>/' + rel).click();
+      else
+        $('span.hooks a.do-shop').click();
+      return false;    
+    },
+ 
+   // toggle details box
+    'a.toggle-details' : function(e){
+      $('div.gallery-body').toggle();
+      return false;
+    }
+         
+   }));
+   
+  // overload artist tab links to load gallery
+  $('#tab-artists .artist-each a.do-artist').click(function(){
+    $('ul.main-tabs li a:first').click();
+  });
+
+
+
+
+</script>
+
+</body>
+</html>

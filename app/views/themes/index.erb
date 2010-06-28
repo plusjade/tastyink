@@ -1,0 +1,22 @@
+
+<!--
+<ul class="artists-list">
+  <li>Show Tattoos From: </li>
+  <li><%= link_to 'All Artists', shop_tattoos_path(@shop), :class => 'do-artist-tattoos active' %></li>
+  <% for artist in @shop.artists %>
+    <li><%= link_to "#{artist.name}", artist_tattoos_path(artist), { :class => 'do-artist-tattoos', :rel => artist.id } %></li>
+  <% end %>
+</ul>  
+-->
+<style type="text/css">
+  .artist-tattoos img {margin:2px;border:1px solid #555; height:100px; width:100px;}
+</style>
+
+Show Tattoos From:
+<ul class="artists-list">
+  <li><a href="/shops/1/tattoos.json">All Artists</a>
+</ul>
+
+<div class="artist-profile"></div>
+
+<div class="artist-tattoos"></div>
